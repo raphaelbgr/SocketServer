@@ -91,30 +91,31 @@ public class SocketDao implements DAO {
 			if (m.getType().equalsIgnoreCase("normal")) {	
 				m = (Message) receiveNormalMessage(m);
 				ObjectOutputStream oos = new ObjectOutputStream(link.getOutputStream());
-				Message m2 = new Message();
-				m2.setServresponse("Delivered.");
+				m.setServresponse("Delivered to server.");
 				Broadcaster b = new Broadcaster();								//BROADCASTS THE MESSAGE!!!!
 				b.broadCastMessage(m);
 				try {
-					oos.writeObject(m2);
+					m.setType("");
+					oos.writeObject(m);
 				} catch (IOException e) {
 					System.err.println("Could not deliver response to client:" + m.getOwner());
 				}
-			} else if (m.getType().equalsIgnoreCase("connect")) {
+			} else if (m.getType().equalsIgnoreCase("connectreq")) {
 				System.out.println("[" + m.getTimestamp() + "]" + "[" + m.getNetwork() + "] " + m.getOwner() + " connected from "+this.link.getInetAddress()+":"+this.link.getPort());
 				ClientCenter.getInstance().addClient(link, m);
 				ObjectOutputStream oos = new ObjectOutputStream(link.getOutputStream());
-				Message m2 = new Message();
-				m2.setServresponse("Connected.");
+				m.setServresponse("Connected");
+				m.setType("connectok");
 				try {
-					oos.writeObject(m2);
+					oos.writeObject(m);
+					oos.flush();
 				} catch (IOException e) {
 					System.err.println("Could not deliver response to client:" + m.getOwner());
 				}
 			} else if (m.getType().equalsIgnoreCase("disconnect")) {
 				System.err.println("[" + m.getTimestamp() + "]" + "[Origin: " + m.getIp() + "] " + m.getOwner() + " Disconnected." );
 				ClientCenter.getInstance().removeClientByName(m.getOwner());
-				
+
 			}
 		} else {
 			return null;

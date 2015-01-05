@@ -19,6 +19,7 @@ public class Broadcaster {
 				m.setType("broadcast");
 				m.setServresponse("Broadcast message.");
 				oos.writeObject(m);
+				oos.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
