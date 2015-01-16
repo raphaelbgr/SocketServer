@@ -8,7 +8,7 @@ import threads.ReceiveFromClientThread;
 import threads.SendToClientThread;
 
 
-public class LinkHandler {
+public class LinkBuilder {
 
 	private Socket link = null;
 
@@ -32,6 +32,6 @@ public class LinkHandler {
 
 	}
 
-	public LinkHandler() {
+	public LinkBuilder() {
 	}
 }

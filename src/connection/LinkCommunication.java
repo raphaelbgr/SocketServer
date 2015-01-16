@@ -1,4 +1,4 @@
-package dao;
+package connection;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,15 +12,15 @@ import servermain.ServerMain;
 import sync.Broadcaster;
 import sync.ClientCenter;
 
-public class SocketDao implements DAO {
+public class LinkCommunication implements ConnectionSpecification {
 
 	private ObjectInputStream iis = null;
-	private static SocketDao dao = null;
+	private static LinkCommunication dao = null;
 	private InputStream is = null;
 	private Socket link;
 
 
-	private SocketDao() {
+	private LinkCommunication() {
 	}
 
 	public ObjectInputStream assembleObjectInputStream(InputStream is) throws IOException {
@@ -147,9 +147,9 @@ public class SocketDao implements DAO {
 		return m;
 	}
 
-	public static SocketDao getInstance() {
+	public static LinkCommunication getInstance() {
 		if (dao == null) {
-			dao = new SocketDao();
+			dao = new LinkCommunication();
 		}
 		return dao;
 	}

@@ -1,20 +1,20 @@
 package threads;
 
-import connection.LinkHandler;
-import connection.SocketHandler;
+import connection.LinkBuilder;
+import connection.ServerSocketBuilder;
 
 public class ConnectionHandlerThread extends Thread {
 
 	private int port;
-	SocketHandler sh = null;
-	LinkHandler lh = null;
+	ServerSocketBuilder sh = null;
+	LinkBuilder lh = null;
 	
 	public void run() {	
 				
 		System.out.println("Connection Handler Thread Started.");
 
-		sh = new SocketHandler(port);
-		lh = new LinkHandler();
+		sh = new ServerSocketBuilder(port);
+		lh = new LinkBuilder();
 		lh.buildLink(sh.createSocket());
 		
 		while(true) {

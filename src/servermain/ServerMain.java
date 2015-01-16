@@ -3,9 +3,10 @@ package servermain;
 import java.util.ArrayList;
 import java.util.List;
 
+import connection.ConnectionSpecification;
+import connection.LinkCommunication;
+
 import clientserverside.Client;
-import dao.DAO;
-import dao.SocketDao;
 import sync.MessageCenter;
 import threads.ConnectionHandlerThread;
 
@@ -18,7 +19,7 @@ public class ServerMain {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
-		DAO dao = SocketDao.getInstance();
+		ConnectionSpecification dao = LinkCommunication.getInstance();
 
 		ConnectionHandlerThread ch = new ConnectionHandlerThread(PORT);
 		

@@ -3,7 +3,7 @@ package connection;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class SocketHandler {
+public class ServerSocketBuilder {
 
 	private ServerSocket jsock = null;
 	private int p; 
@@ -27,7 +27,7 @@ public class SocketHandler {
 		}
 	}
 
-	public SocketHandler(int p) {
+	public ServerSocketBuilder(int p) {
 		this.p = p;
 	}
 

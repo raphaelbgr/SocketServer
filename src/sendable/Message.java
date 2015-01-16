@@ -67,7 +67,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setTimestamp() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para método na Mensagem
+		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para mï¿½todo na Mensagem
 		this.timestamp = dateFormatted;
 	}
 	public String getDate() {
@@ -75,7 +75,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setDate() {
 		DateFormat formatter = new SimpleDateFormat("dd/M/yyyy");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para método na Mensagem
+		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para mï¿½todo na Mensagem
 		this.date = dateFormatted;
 	}
 	public String getIp() {
@@ -150,7 +150,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 
 	/**
-	 * Sugestão do Daniel Oliveira, de comparação de objeto mensagem, excelente.
+	 * Sugestï¿½o do Daniel Oliveira, de comparaï¿½ï¿½o de objeto mensagem, excelente.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -185,7 +185,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 
 	/**
-	 * Sugestão do Daniel Olivera (Muito boa) de impressão direta do objeto via toString();
+	 * Sugestï¿½o do Daniel Olivera (Muito boa) de impressï¿½o direta do objeto via toString();
 	 */
 	/*	@Override
 	public String toString() {

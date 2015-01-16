@@ -8,15 +8,16 @@ import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.net.SocketException;
 
+import connection.LinkCommunication;
+
 import sendable.Message;
 import sync.ClientCenter;
 import clientserverside.Client;
-import dao.SocketDao;
 import exceptions.ServerException;
 
 public class ReceiveFromClientThread implements Runnable {
 
-	SocketDao dao = SocketDao.getInstance();
+	LinkCommunication dao = LinkCommunication.getInstance();
 	ObjectInputStream inFromClient = null;
 	Socket link = null;
 	Message m = null;
