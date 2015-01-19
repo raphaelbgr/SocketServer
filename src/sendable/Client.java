@@ -1,36 +1,41 @@
-package clientserverside;
+package sendable;
 
+import java.io.Serializable;
 import java.net.Socket;
 
-import sendable.Message;
 
-public class Client {
+public class Client implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 296589332172289191L;
 	Long id;
 	Long msgCount;
 	
-	String text = null;
-	String name = null;
-	String middlename = null;
-	String lastname = null;
-	String membertype = null;
-	String membersince = null;
-	String onlinetime = null;
+	String text 				= null;
+	String name 				= null;
+	String middlename 			= null;
+	String lastname 			= null;
+	String membertype 			= null;
+	String membersince 			= null;
+	String onlinetime 			= null;
 	
-	Message lastMessage = null;
+	Message lastMessage 		= null;
 	
-	long lastconnected = 0L;
-	long lastMessageTime = 0L;
+	long lastconnected 			= 0L;
+	long lastMessageTime 		= 0L;
+	long messagesSent 			= 0L;
 	
-	Socket sock = null;
+	Socket sock 				= null;
 	
-	String ip = null;
-	Integer port = null;
+	String ip 					= null;
+	Integer port 				= null;
 	
-	String aux1 = null;
-	String aux2 = null;
-	String aux3 = null;
-	String aux4 = null;
+	String aux1 				= null;
+	String aux2 				= null;
+	String aux3 				= null;
+	String aux4 				= null;
 	
 	public Client(Socket sock) {
 		this.sock = sock;
@@ -39,13 +44,13 @@ public class Client {
 		
 	}
 	public Client (Socket sock, Message m) {
-		this.sock = sock;
-		this.text = m.getText();
-		this.name = m.getOwner();
-		this.membertype = m.getType();
-		this.lastconnected = m.getCreationtime();
-		this.lastMessage = m;
-		this.lastconnected = m.getCreationtime();
+		this.sock 				= sock;
+		this.text 				= m.getText();
+		this.name 				= m.getOwner();
+		this.membertype 		= m.getType();
+		this.lastconnected 		= m.getCreationtime();
+		this.lastMessage 		= m;
+		this.lastconnected 		= m.getCreationtime();
 	}
 	public Long getId() {
 		return id;

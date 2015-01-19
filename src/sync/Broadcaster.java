@@ -3,8 +3,8 @@ package sync;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import sendable.Client;
 import sendable.Message;
-import clientserverside.Client;
 
 
 public class Broadcaster {

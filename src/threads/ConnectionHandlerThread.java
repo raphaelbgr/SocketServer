@@ -10,8 +10,6 @@ public class ConnectionHandlerThread extends Thread {
 	LinkBuilder lh = null;
 	
 	public void run() {	
-				
-		System.out.println("Connection Handler Thread Started.");
 
 		sh = new ServerSocketBuilder(port);
 		lh = new LinkBuilder();

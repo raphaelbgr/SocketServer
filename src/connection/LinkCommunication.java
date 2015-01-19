@@ -81,13 +81,7 @@ public class LinkCommunication implements ConnectionSpecification {
 		if (this.link != null && this.link.isConnected()) {
 			m = (Message) this.getObjectInputStream().readObject();
 			m.setIp(link.getInetAddress().getHostAddress());
-			if((this.link.getInetAddress().isLinkLocalAddress())) {
-				m.setNetwork(1);
-			} else if (this.link.getInetAddress().isLoopbackAddress()) {
-				m.setNetwork(0);
-			} else {
-				m.setNetwork(2);
-			}
+
 			if (m.getType().equalsIgnoreCase("normal")) {	
 				m = (Message) receiveNormalMessage(m);
 				ObjectOutputStream oos = new ObjectOutputStream(link.getOutputStream());
@@ -110,7 +104,7 @@ public class LinkCommunication implements ConnectionSpecification {
 					oos.writeObject(m);
 					oos.flush();
 				} catch (IOException e) {
-					System.err.println("Could not deliver response to client:" + m.getOwner());
+					System.err.println("Could not deliver connect response to the following client:" + m.getOwner());
 				}
 			} else if (m.getType().equalsIgnoreCase("disconnect")) {
 				System.err.println("[" + m.getTimestamp() + "]" + "[Origin: " + m.getIp() + "] " + m.getOwner() + " Disconnected." );

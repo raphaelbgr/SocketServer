@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-public class Message implements Serializable, Comparable<Message> {
+public abstract class Message implements Serializable, Comparable<Message> {
 
 	/**
 	 * Object Serial Version to send via TCP and WriteFile
@@ -22,7 +22,9 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private Date msg_Date;
 
-	private long creationtime;
+	private long creationTime;
+	private long serverReceivedtime;
+	private ClientSeenTime [] cst;
 
 	private boolean disconnect = false;
 
@@ -67,7 +69,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setTimestamp() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para m�todo na Mensagem
+		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para metodo na Mensagem
 		this.timestamp = dateFormatted;
 	}
 	public String getDate() {
@@ -75,7 +77,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setDate() {
 		DateFormat formatter = new SimpleDateFormat("dd/M/yyyy");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para m�todo na Mensagem
+		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para metodo na Mensagem
 		this.date = dateFormatted;
 	}
 	public String getIp() {
@@ -133,10 +135,10 @@ public class Message implements Serializable, Comparable<Message> {
 		this.servresponse = servresponse;
 	}
 	public long getCreationtime() {
-		return creationtime;
+		return creationTime;
 	}
 	public void setCreationtime(long creationtime) {
-		this.creationtime = creationtime;
+		this.creationTime = creationtime;
 	}
 	@Override
 	public int hashCode() {
@@ -150,7 +152,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 
 	/**
-	 * Sugest�o do Daniel Oliveira, de compara��o de objeto mensagem, excelente.
+	 * Sugestao do Daniel Oliveira, de comparacao de objeto mensagem, excelente.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -185,13 +187,13 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 
 	/**
-	 * Sugest�o do Daniel Olivera (Muito boa) de impress�o direta do objeto via toString();
+	 * Sugestao do Daniel Olivera (Muito boa) de impressao direta do objeto via toString();
 	 */
-	/*	@Override
+	@Override
 	public String toString() {
-		return "Message [timestamp=" + timestamp + ", ip=" + ip + ", port="
-				+ port + "]";
+		return "[" + this.getTimestamp() + "] " + this.getOwner();
 	}
+	/*
 	@Override
 	public int compare(Message o1, Message o2) {
 		return o1.getType().compareTo(o2.getType());
@@ -207,7 +209,7 @@ public class Message implements Serializable, Comparable<Message> {
 			return 0;
 		}
 	}
-	//AUTOMATICALLY SENTS ITS CREATION TIME
+	//AUTOMATICALLY SETS ITS CREATION TIME
 	public Message () {
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
 	}

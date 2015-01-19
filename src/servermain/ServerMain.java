@@ -6,7 +6,7 @@ import java.util.List;
 import connection.ConnectionSpecification;
 import connection.LinkCommunication;
 
-import clientserverside.Client;
+import sendable.Client;
 import sync.MessageCenter;
 import threads.ConnectionHandlerThread;
 
@@ -23,11 +23,8 @@ public class ServerMain {
 
 		ConnectionHandlerThread ch = new ConnectionHandlerThread(PORT);
 		
-		//DisplayMessageListServer dys = new DisplayMessageListServer();
-		//dys.start();
-		
 		Thread t1 = new Thread(ch);
 		t1.start();
-		System.out.println("Waiting for connection...");
+		System.out.println("SERVER> Listening on port " + PORT);
 	}
 }

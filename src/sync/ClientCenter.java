@@ -2,61 +2,69 @@ package sync;
 
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.HashSet;
 
+import sendable.Client;
 import sendable.Message;
-import clientserverside.Client;
 import exceptions.ServerException;
 
 
 
 public class ClientCenter {
-	
-	private static ClientCenter cc = null;
-	private HashMap<String,Client> chash = new HashMap<String,Client>();
-	
-	private ClientCenter(){		
-	}
-	
-	public static ClientCenter getInstance() {
-		if (cc == null) {
-			cc = new ClientCenter();
+
+	private static ClientCenter cc 			= null;
+	private HashMap<String,Client> userNames 	= new HashMap<String,Client>();
+	private HashSet<Client> users 				= new HashSet<Client>();
+
+
+	public synchronized void addUser(Client c) throws ServerException {
+		if (!users.add(c)) {
+			throw new ServerException("Client name already in use: " + c.getName());
 		}
-		return cc;
 	}
-	
+
 	public synchronized void addClient(Socket sock, Message m) throws Throwable {
-		if (!chash.containsKey(m.getOwner())) {
-			chash.put(m.getOwner(),new Client(sock, m));
+		if (!userNames.containsKey(m.getOwner())) {
+			userNames.put(m.getOwner(),new Client(sock, m));
 		} else {
 			throw new ServerException("Client name already in use.");
 		}
 	}
-	
-	public synchronized void revoveClientByClass(Client c) throws Throwable {
-		if(chash.containsKey(c.getName())) {
-			chash.remove(c.getName());
+
+	public synchronized void removeClientByClass(Client c) throws Throwable {
+		if(userNames.containsKey(c.getName())) {
+			userNames.remove(c.getName());
 		} else {
 			throw new ServerException("Client is not on the list.");
 		}
 	}
-	
+
 	public synchronized void removeClientByName(String s) throws Throwable {
-		if(chash.containsKey(s)) {
-			chash.remove(s);
+		if(userNames.containsKey(s)) {
+			userNames.remove(s);
 		} else {
 			throw new ServerException("Client is not on the list.");
 		}
 	}
 
 	public HashMap<String, Client> getChash() {
-		return chash;
+		return userNames;
 	}
 
 	public void setChash(HashMap<String, Client> chash) {
-		this.chash = chash;
+		this.userNames = chash;
 	}
-	
-/*	public synchronized void killIddleClients() {
+
+	//SINGLETON BLOCK
+	private ClientCenter(){	}
+	public static ClientCenter getInstance() {
+		if (cc == null) {
+			cc = new ClientCenter();
+		}
+		return cc;
+	}
+
+	/*	public synchronized void killIddleClients() {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

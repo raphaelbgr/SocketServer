@@ -16,4 +16,9 @@ public class ServerException extends Throwable {
 		return this.s;
 	}
 	
+	@Override
+	public String toString() {
+		return this.s;
+	}
+	
 }
