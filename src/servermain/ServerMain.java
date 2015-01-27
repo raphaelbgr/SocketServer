@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionSpecification;
-import connection.LinkCommunication;
+//import connection.LinkCommunication;
 
-//just to commit
 import sendable.Client;
 import sync.MessageCenter;
 import threads.ConnectionHandlerThread;
@@ -20,7 +19,7 @@ public class ServerMain {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
-		ConnectionSpecification dao = LinkCommunication.getInstance();
+//		ConnectionSpecification dao = LinkCommunication.getInstance();
 
 		ConnectionHandlerThread ch = new ConnectionHandlerThread(PORT);
 		

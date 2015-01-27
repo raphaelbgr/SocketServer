@@ -10,7 +10,7 @@ import communication.SendObject;
 import exceptions.ServerException;
 
 public class ClientReceiverThread implements Runnable {
-	Socket sock;
+	Socket sock			= null;
 	ReceiveObject ro 	= new ReceiveObject();
 	SendObject so		= new SendObject();
 

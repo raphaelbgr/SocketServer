@@ -39,7 +39,7 @@ public class ObjectHandler {
 	}
 
 	private void handleConnectionMessage(ConnectionMessage m) {
-		System.err.println(m.toString());
+		System.out.println(m.toString());
 	}
 	
 	private void handleClient(Client c) throws ServerException {

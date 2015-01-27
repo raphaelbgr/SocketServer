@@ -13,13 +13,13 @@ public class ReceiveObject {
 	public Object receive(Socket sock, ObjectInputStream ois) throws ClassNotFoundException, IOException, ServerException {
 		ObjectHandler oh = new ObjectHandler();
 		Object o = ois.readObject();
-		isMessageClass(o, sock);
+		isMessageConfigureClass(o, sock);
 		oh.handleObject(o);
 //		ois.close();
 		return o;
 	}
 
-	private Object isMessageClass(Object o, Socket sock) {
+	private Object isMessageConfigureClass(Object o, Socket sock) {
 		if (o instanceof Message) {
 			Message m = (Message) o;
 			((Message)o).setIp(sock.getInetAddress().getHostAddress());
