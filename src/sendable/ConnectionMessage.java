@@ -9,7 +9,7 @@ public class ConnectionMessage extends Message {
 
 	@Override
 	public String toString() {
-		return "[" + this.getTimestamp() + "] " + this.getOwner() + " -> " + "Conected.";
+		return "[" + this.getTimestamp() + "]" + " " + this.getOwner() + " -> " + "Connected";
 	}
 
 }

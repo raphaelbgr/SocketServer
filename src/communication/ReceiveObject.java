@@ -10,12 +10,12 @@ import sendable.Message;
 
 public class ReceiveObject {
 
-	public Object receive(Socket sock, ObjectInputStream ois) throws ClassNotFoundException, IOException, ServerException {
+	public Object receive(Socket sock) throws ClassNotFoundException, IOException, ServerException {
 		ObjectHandler oh = new ObjectHandler();
+		ObjectInputStream ois = new ObjectInputStream(sock.getInputStream());
 		Object o = ois.readObject();
 		isMessageConfigureClass(o, sock);
 		oh.handleObject(o);
-//		ois.close();
 		return o;
 	}
 

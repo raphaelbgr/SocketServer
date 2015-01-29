@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import threads.ClientReceiverThread;
+import threads.ReceiveFromClientThread;
 import threads.Sender;
 
 
@@ -22,7 +22,7 @@ public class LinkBuilder {
 		}
 
 		//			RECEIVER SERVERSIDE THREAD
-		ClientReceiverThread rc = new ClientReceiverThread(sock);
+		ReceiveFromClientThread rc = new ReceiveFromClientThread(sock);
 		Thread t2 = new Thread(rc);
 		t2.start();
 		

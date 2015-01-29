@@ -8,17 +8,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-public abstract class Message implements Serializable, Comparable<Message> {
+public class Message implements Serializable, Comparable<Message> {
 
 	/**
 	 * Object Serial Version to send via TCP and WriteFile
 	 */
 	private static final long serialVersionUID = -8905875007093416665L;
 
-	private Set<String> receivedby = null;
+	private Set<String> receivedby = new HashSet<String>();
 
 	private Date msg_Date;
 
@@ -189,9 +190,9 @@ public abstract class Message implements Serializable, Comparable<Message> {
 	/**
 	 * Sugestao do Daniel Olivera (Muito boa) de impressao direta do objeto via toString();
 	 */
-	@Override
+		@Override
 	public String toString() {
-		return "[" + this.getTimestamp() + "] " + this.getOwner();
+		return "[" + this.getTimestamp() + "] " + this.getOwner() + " -> " + this.getText();
 	}
 	/*
 	@Override

@@ -35,7 +35,7 @@ public class ObjectHandler {
 	}
 
 	private void handleDisconnectionMessage(DisconnectionMessage m) {
-		System.err.println(m.toString());
+//		System.err.println(m.toString());
 	}
 
 	private void handleConnectionMessage(ConnectionMessage m) {
