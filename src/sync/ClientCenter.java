@@ -6,13 +6,14 @@ import java.util.HashSet;
 
 import sendable.Client;
 import sendable.Message;
+import servermain.ServerMain;
 import exceptions.ServerException;
 
 
 
 public class ClientCenter {
 
-	private static ClientCenter cc 			= null;
+	private static ClientCenter cc 				= null;
 	private HashMap<String,Client> userNames 	= new HashMap<String,Client>();
 	private HashSet<Client> users 				= new HashSet<Client>();
 
@@ -25,9 +26,17 @@ public class ClientCenter {
 
 	public synchronized void addClient(Socket sock, Message m) throws Throwable {
 		if (!userNames.containsKey(m.getOwner())) {
-			userNames.put(m.getOwner(),new Client(sock, m));
+			userNames.put(m.getOwner(),new Client(sock));
 		} else {
 			throw new ServerException("Client name already in use.");
+		}
+	}
+	
+	public synchronized void addClient(Socket sock, Client c) throws Throwable {
+		if (!userNames.containsKey(c.getName())) {
+			userNames.put(c.getName(), c);
+		} else {
+			throw new ServerException(ServerMain.getTimestamp() + " The name " + c.getName() + " is already in use.");
 		}
 	}
 

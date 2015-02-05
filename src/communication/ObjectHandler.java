@@ -35,19 +35,16 @@ public class ObjectHandler {
 	}
 
 	private void handleDisconnectionMessage(DisconnectionMessage m) {
-//		System.err.println(m.toString());
+		//		System.err.println(m.toString());
 	}
 
 	private void handleConnectionMessage(ConnectionMessage m) {
 		System.out.println(m.toString());
 	}
-	
+
 	private void handleClient(Client c) throws ServerException {
-		try {
-			cc.addUser(c);
-		} catch (ServerException e) {
-			e.toString();
-		}
+		cc.addUser(c);
+		System.out.println(c.toString() + " connected");
 	}
 
 }

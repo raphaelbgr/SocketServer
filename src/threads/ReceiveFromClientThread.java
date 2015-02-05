@@ -12,6 +12,7 @@ import sendable.DisconnectionMessage;
 import sendable.Message;
 import sendable.NormalMessage;
 import sendable.ServerMessage;
+import sync.ClientCenter;
 
 import communication.MessageHandler;
 import communication.ReceiveObject;
@@ -24,7 +25,8 @@ public class ReceiveFromClientThread implements Runnable {
 	ReceiveObject ro 	= new ReceiveObject();
 	SendObject so		= new SendObject();
 	MessageHandler mh 	= new MessageHandler();
-	
+	ClientCenter cc		= ClientCenter.getInstance();
+
 	public void run() {
 		while(true) {
 			try {
@@ -41,14 +43,20 @@ public class ReceiveFromClientThread implements Runnable {
 						break;
 					} else if (o instanceof ConnectionMessage) {
 						so.send(sock, new ServerMessage("Online"));
-					} else if (o instanceof Client) {
-						so.send(sock, new ServerMessage("Online"));
-					}
+					} 
+				} else if (o instanceof Client) {
+					Client c = (Client)o;
+					cc.addClient(c.getSock(), c);
+					System.out.println(c.toString() + "-> Connected");
+					so.send(sock, new ServerMessage("Online, welcome " + c.getName()));
 				}
-				
+
 			} catch (ServerException e) {
 				try {
+					System.err.println(e.getMessage());
 					so.send(sock, e);
+//					TODO NEEDS TO FINISH THIS
+//					break;
 				} catch (IOException e1) {
 					System.err.println(getTimestamp() + "Could not deliver this Exception: " + e.toString());
 				}
@@ -57,6 +65,8 @@ public class ReceiveFromClientThread implements Runnable {
 				break;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
+			} catch (Throwable e) {
+				e.getMessage();
 			} finally {
 			}
 		}
@@ -67,7 +77,7 @@ public class ReceiveFromClientThread implements Runnable {
 		String dateFormatted = formatter.format(new Date());
 		return "["+dateFormatted+"]" + " ";
 	}
-	
+
 	public ReceiveFromClientThread(Socket sock) {
 		this.sock = sock;	
 	}

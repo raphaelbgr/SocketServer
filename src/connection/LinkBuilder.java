@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import threads.ReceiveFromClientThread;
-import threads.Sender;
 
 
 public class LinkBuilder {
@@ -26,10 +25,6 @@ public class LinkBuilder {
 		Thread t2 = new Thread(rc);
 		t2.start();
 		
-		//			SENDER SERVERSIDE THREAD		
-		Sender sc = new Sender(sock);
-		sc.start();
-
 	}
 
 }

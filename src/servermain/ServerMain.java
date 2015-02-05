@@ -24,7 +24,7 @@ public class ServerMain {
 		System.out.println(getTimestamp() + " " + "SERVER> Listening on port " + PORT);
 	}
 
-	private static String getTimestamp() {
+	public static String getTimestamp() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		String dateFormatted = formatter.format(new Date());
 		return "[" + dateFormatted + "]";

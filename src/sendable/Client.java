@@ -2,6 +2,9 @@ package sendable;
 
 import java.io.Serializable;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Client implements Serializable {
@@ -141,6 +144,17 @@ public class Client implements Serializable {
 	}
 	public void setLastMessageTime(long lastMessageTime) {
 		this.lastMessageTime = lastMessageTime;
+	}
+	
+	private String getTimestamp() {
+		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		String dateFormatted = formatter.format(new Date());
+		return dateFormatted;
+	}
+	
+	@Override
+	public String toString() {
+		return "[" + this.getTimestamp() + "]" + " " + this.getName();
 	}
 	
 }
