@@ -12,4 +12,12 @@ public class DisconnectionMessage extends Message {
 		return "[" + this.getTimestamp() + "] " + this.getOwner() + " -> " + "Disconnected";
 	}
 	
+	public DisconnectionMessage(boolean toDisconnect) {
+		setDisconnect(toDisconnect);
+	}
+	
+	public DisconnectionMessage() {
+		
+	}
+	
 }

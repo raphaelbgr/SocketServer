@@ -6,18 +6,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import sendable.BroadCastMessage;
 import sendable.Client;
 import sendable.ConnectionMessage;
 import sendable.DisconnectionMessage;
 import sendable.Message;
 import sendable.NormalMessage;
 import sendable.ServerMessage;
+import sync.Broadcaster;
 import sync.ClientCenter;
-
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
-
 import exceptions.ServerException;
 
 public class ReceiveFromClientThread implements Runnable {
@@ -26,6 +26,7 @@ public class ReceiveFromClientThread implements Runnable {
 	SendObject so		= new SendObject();
 	MessageHandler mh 	= new MessageHandler();
 	ClientCenter cc		= ClientCenter.getInstance();
+	Broadcaster bc		= new Broadcaster();
 
 	public void run() {
 		while(true) {
@@ -37,9 +38,11 @@ public class ReceiveFromClientThread implements Runnable {
 					} else if (o instanceof NormalMessage) {
 						((NormalMessage)o).setServresponse("SERVER> Received");
 						so.send(sock, o);
-					} else if (o instanceof DisconnectionMessage) {						
+					} else if (o instanceof DisconnectionMessage) {
+						DisconnectionMessage dm = (DisconnectionMessage)o;
+						cc.removeClientByName(dm.getOwner());
 						System.out.println(((DisconnectionMessage)o).toString());
-						sock.close();
+						sock.close(); 
 						break;
 					} else if (o instanceof ConnectionMessage) {
 						so.send(sock, new ServerMessage("Online"));
@@ -47,16 +50,25 @@ public class ReceiveFromClientThread implements Runnable {
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
 					cc.addClient(c.getSock(), c);
-					System.out.println(c.toString() + "-> Connected");
+					System.out.println(c.toString() + " -> Connected");
 					so.send(sock, new ServerMessage("Online, welcome " + c.getName()));
+					BroadCastMessage bcm = new BroadCastMessage();
+					bcm.setServresponse("Broadcast received");
+					bcm.setText(c.toString() + " -> Connected");
+					bc.broadCastMessage(bcm);
+					//TODO FINISH BROADCAST NOT WORKING
 				}
 
 			} catch (ServerException e) {
 				try {
 					System.err.println(e.getMessage());
 					so.send(sock, e);
-//					TODO NEEDS TO FINISH THIS
-//					break;
+					if (e.isToDisconnect()) {
+						so.send(sock, new DisconnectionMessage(true));
+//						TODO SOCKET NEEDS TO CLOSE
+//						sock.close();
+						break;
+					}
 				} catch (IOException e1) {
 					System.err.println(getTimestamp() + "Could not deliver this Exception: " + e.toString());
 				}

@@ -36,7 +36,7 @@ public class ClientCenter {
 		if (!userNames.containsKey(c.getName())) {
 			userNames.put(c.getName(), c);
 		} else {
-			throw new ServerException(ServerMain.getTimestamp() + " The name " + c.getName() + " is already in use.");
+			throw new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
 		}
 	}
 
