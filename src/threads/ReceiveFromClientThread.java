@@ -37,12 +37,14 @@ public class ReceiveFromClientThread implements Runnable {
 						// No use for this yet.
 					} else if (o instanceof NormalMessage) {
 						((NormalMessage)o).setServresponse("SERVER> Received");
-						so.send(sock, o);
+//						so.send(sock, o);
+						bc.broadCastMessage((Message)o);
 					} else if (o instanceof DisconnectionMessage) {
 						DisconnectionMessage dm = (DisconnectionMessage)o;
 						cc.removeClientByName(dm.getOwner());
 						System.out.println(((DisconnectionMessage)o).toString());
-						sock.close(); 
+						sock.close();
+						//TODO BROADCAST THE DISCONNECTION
 						break;
 					} else if (o instanceof ConnectionMessage) {
 						so.send(sock, new ServerMessage("Online"));
@@ -53,8 +55,10 @@ public class ReceiveFromClientThread implements Runnable {
 					System.out.println(c.toString() + " -> Connected");
 					so.send(sock, new ServerMessage("Online, welcome " + c.getName()));
 					BroadCastMessage bcm = new BroadCastMessage();
-					bcm.setServresponse("Broadcast received");
-					bcm.setText(c.toString() + " -> Connected");
+//					bcm.setServresponse("Broadcast received");
+//					bcm.setText(c.toString() + " -> Connected");
+					bcm.setOwner(c.getName());
+					bcm.setText("Connected");
 					bc.broadCastMessage(bcm);
 					//TODO FINISH BROADCAST NOT WORKING
 				}

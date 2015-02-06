@@ -16,7 +16,12 @@ public class ClientCenter {
 	private static ClientCenter cc 				= null;
 	private HashMap<String,Client> userNames 	= new HashMap<String,Client>();
 	private HashSet<Client> users 				= new HashSet<Client>();
+	private HashSet<Socket> sockets				= new HashSet<Socket>();
 
+
+	public HashSet<Socket> getSockets() {
+		return sockets;
+	}
 
 	public synchronized void addUser(Client c) throws ServerException {
 		if (!users.add(c)) {

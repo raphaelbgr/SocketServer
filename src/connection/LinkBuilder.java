@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import sync.ClientCenter;
 import threads.ReceiveFromClientThread;
 
 
@@ -15,7 +16,7 @@ public class LinkBuilder {
 
 		try {
 			this.sock = jsock.accept();
-			
+			ClientCenter.getInstance().getSockets().add(this.sock);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
