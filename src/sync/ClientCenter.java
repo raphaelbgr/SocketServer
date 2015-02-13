@@ -14,8 +14,8 @@ import exceptions.ServerException;
 public class ClientCenter {
 
 	private static ClientCenter cc 				= null;
-	private HashMap<String,Client> userNames 	= new HashMap<String,Client>();
-	private HashSet<Client> users 				= new HashSet<Client>();
+	private HashMap<String,Client> userClasses 	= new HashMap<String,Client>();
+	private HashSet<Client> usersNames 			= new HashSet<Client>();
 	private HashSet<Socket> sockets				= new HashSet<Socket>();
 
 
@@ -24,49 +24,57 @@ public class ClientCenter {
 	}
 
 	public synchronized void addUser(Client c) throws ServerException {
-		if (!users.add(c)) {
+		if (!usersNames.add(c)) {
 			throw new ServerException("Client name already in use: " + c.getName());
 		}
 	}
 
 	public synchronized void addClient(Socket sock, Message m) throws Throwable {
-		if (!userNames.containsKey(m.getOwner())) {
-			userNames.put(m.getOwner(),new Client(sock));
+		if (!userClasses.containsKey(m.getOwner())) {
+			userClasses.put(m.getOwner(),new Client(sock));
+			sockets.add(sock);
 		} else {
 			throw new ServerException("Client name already in use.");
 		}
 	}
 	
 	public synchronized void addClient(Socket sock, Client c) throws Throwable {
-		if (!userNames.containsKey(c.getName())) {
-			userNames.put(c.getName(), c);
+		if (!userClasses.containsKey(c.getName())) {
+			userClasses.put(c.getName(), c);
+			sockets.add(sock);
+			usersNames.add(c);
 		} else {
 			throw new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
 		}
 	}
 
 	public synchronized void removeClientByClass(Client c) throws Throwable {
-		if(userNames.containsKey(c.getName())) {
-			userNames.remove(c.getName());
-		} else {
+		if(userClasses.containsKey(c.getName())) {
+			Client c1 = userClasses.get(c.getName());
+			sockets.remove(c1.getSock());
+			userClasses.remove(c.getName());
+			usersNames.remove(c)
+;		} else {
 			throw new ServerException("Client is not on the list.");
 		}
 	}
 
 	public synchronized void removeClientByName(String s) throws Throwable {
-		if(userNames.containsKey(s)) {
-			userNames.remove(s);
+		if(userClasses.containsKey(s)) {
+			Client c = userClasses.get(s);
+			sockets.remove(c.getSock());
+			userClasses.remove(s);
 		} else {
 			throw new ServerException("Client is not on the list.");
 		}
 	}
 
 	public HashMap<String, Client> getChash() {
-		return userNames;
+		return userClasses;
 	}
 
 	public void setChash(HashMap<String, Client> chash) {
-		this.userNames = chash;
+		this.userClasses = chash;
 	}
 
 	//SINGLETON BLOCK

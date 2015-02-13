@@ -14,12 +14,16 @@ public class Broadcaster {
 	public void broadCastMessage(Message bm) throws IOException {
 		
 		for (Socket sock : ClientCenter.getInstance().getSockets()) {
-			ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
-			bm.setServresponse("SERVER> Broadcast message.");
-			bm.setTimestamp();
-//			bm.setOwner(bm.getOwner());
-			oos.writeObject(bm);
-			oos.flush();
+			if (sock != null) {
+				if (!sock.isClosed()) {
+					ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
+					bm.setServresponse("SERVER> Broadcast message");
+					bm.setTimestamp();
+//					bm.setOwner(bm.getOwner());
+					oos.writeObject(bm);
+					oos.flush();
+				}
+			}
 		}
 		
 //		for (Client c : cc.getChash().values()) {

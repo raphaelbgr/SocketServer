@@ -28,6 +28,7 @@ public class ReceiveFromClientThread implements Runnable {
 	ClientCenter cc		= ClientCenter.getInstance();
 	Broadcaster bc		= new Broadcaster();
 
+	@SuppressWarnings("finally")
 	public void run() {
 		while(true) {
 			try {
@@ -41,9 +42,15 @@ public class ReceiveFromClientThread implements Runnable {
 						bc.broadCastMessage((Message)o);
 					} else if (o instanceof DisconnectionMessage) {
 						DisconnectionMessage dm = (DisconnectionMessage)o;
+						
+						BroadCastMessage bcm = new BroadCastMessage();
+						bcm.setOwner(dm.getOwner());
+						bcm.setText("Diconnected");
+						
+						bc.broadCastMessage(bcm);
 						cc.removeClientByName(dm.getOwner());
 						System.out.println(((DisconnectionMessage)o).toString());
-						sock.close();
+//						sock.close();
 						//TODO BROADCAST THE DISCONNECTION
 						break;
 					} else if (o instanceof ConnectionMessage) {
@@ -51,15 +58,15 @@ public class ReceiveFromClientThread implements Runnable {
 					} 
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
-					cc.addClient(c.getSock(), c);
 					System.out.println(c.toString() + " -> Connected");
-					so.send(sock, new ServerMessage("Online, welcome " + c.getName()));
+//					so.send(sock, new ServerMessage("Online, welcome " + c.getName()));
 					BroadCastMessage bcm = new BroadCastMessage();
 //					bcm.setServresponse("Broadcast received");
 //					bcm.setText(c.toString() + " -> Connected");
 					bcm.setOwner(c.getName());
 					bcm.setText("Connected");
 					bc.broadCastMessage(bcm);
+					cc.addClient(c.getSock(), c);
 					//TODO FINISH BROADCAST NOT WORKING
 				}
 
@@ -68,21 +75,30 @@ public class ReceiveFromClientThread implements Runnable {
 					System.err.println(e.getMessage());
 					so.send(sock, e);
 					if (e.isToDisconnect()) {
-						so.send(sock, new DisconnectionMessage(true));
+//						so.send(sock, new DisconnectionMessage(true));
 //						TODO SOCKET NEEDS TO CLOSE
-//						sock.close();
+						sock.close();
 						break;
 					}
 				} catch (IOException e1) {
 					System.err.println(getTimestamp() + "Could not deliver this Exception: " + e.toString());
 				}
 			} catch (IOException e) {
-				System.err.println(getTimestamp() + "Client disconnected unexpectedly.");
-				break;
+				System.err.println(getTimestamp() + "Client/Server Error disconnected unexpectedly.");
+				try {
+					so.send(sock, new DisconnectionMessage(true));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					//e1.printStackTrace();
+					break;
+				} finally {
+					break;
+				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (Throwable e) {
 				e.getMessage();
+				e.printStackTrace();
 			} finally {
 			}
 		}
