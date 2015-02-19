@@ -50,7 +50,8 @@ public class ReceiveFromClientThread implements Runnable {
 						bc.broadCastMessage(bcm);
 						cc.removeClientByName(dm.getOwner());
 						System.out.println(((DisconnectionMessage)o).toString());
-//						sock.close();
+//						so.send(sock, new DisconnectionMessage(true));
+						sock.close();
 						//TODO BROADCAST THE DISCONNECTION
 						break;
 					} else if (o instanceof ConnectionMessage) {
