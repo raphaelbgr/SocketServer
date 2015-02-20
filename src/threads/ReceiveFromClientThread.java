@@ -15,9 +15,11 @@ import sendable.NormalMessage;
 import sendable.ServerMessage;
 import sync.Broadcaster;
 import sync.ClientCenter;
+
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
+
 import exceptions.ServerException;
 
 public class ReceiveFromClientThread implements Runnable {
@@ -45,7 +47,7 @@ public class ReceiveFromClientThread implements Runnable {
 						
 						BroadCastMessage bcm = new BroadCastMessage();
 						bcm.setOwner(dm.getOwner());
-						bcm.setText("Diconnected");
+						bcm.setText("Disconnected");
 						
 						bc.broadCastMessage(bcm);
 						cc.removeClientByName(dm.getOwner());
@@ -53,6 +55,7 @@ public class ReceiveFromClientThread implements Runnable {
 //						so.send(sock, new DisconnectionMessage(true));
 						sock.close();
 						//TODO BROADCAST THE DISCONNECTION
+//						Thread.currentThread().stop();
 						break;
 					} else if (o instanceof ConnectionMessage) {
 						so.send(sock, new ServerMessage("Online"));
@@ -79,6 +82,7 @@ public class ReceiveFromClientThread implements Runnable {
 //						so.send(sock, new DisconnectionMessage(true));
 //						TODO SOCKET NEEDS TO CLOSE
 						sock.close();
+//						Thread.currentThread().stop();
 						break;
 					}
 				} catch (IOException e1) {
@@ -93,6 +97,7 @@ public class ReceiveFromClientThread implements Runnable {
 					//e1.printStackTrace();
 					break;
 				} finally {
+//					Thread.currentThread().stop();
 					break;
 				}
 			} catch (ClassNotFoundException e) {
