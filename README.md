@@ -3,7 +3,8 @@ SocketServer
 
 A repository for the swing socket chat server.
 
--> (DONE) Build the broadcaster thread.
+Actually on the version 1.0 RC
 
--> (FIXED) The current bug is sinchronization between client and server responses.
+Link for the binary:
+-> https://drive.google.com/file/d/0BxXoGz9K8rOQbGZxZzBIOTVtaDg/view?usp=sharing
 
