@@ -48,7 +48,7 @@ public class ReceiveFromClientThread implements Runnable {
 						BroadCastMessage bcm = new BroadCastMessage();
 						bcm.setOwner(dm.getOwner());
 						bcm.setText("Disconnected");
-						
+						bcm.setServresponse("SERVER> Disconnected");
 						bc.broadCastMessage(bcm);
 						cc.removeClientByName(dm.getOwner());
 						System.out.println(((DisconnectionMessage)o).toString());
@@ -69,6 +69,7 @@ public class ReceiveFromClientThread implements Runnable {
 //					bcm.setText(c.toString() + " -> Connected");
 					bcm.setOwner(c.getName());
 					bcm.setText("Connected");
+					bcm.setServresponse("SERVER> Connected");
 					bc.broadCastMessage(bcm);
 					cc.addClient(c.getSock(), c);
 					//TODO FINISH BROADCAST NOT WORKING

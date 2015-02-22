@@ -17,7 +17,7 @@ public class Broadcaster {
 			if (sock != null) {
 				if (!sock.isClosed()) {
 					ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
-					bm.setServresponse("SERVER> Broadcast message");
+//					bm.setServresponse("SERVER> Broadcast message");
 					bm.setTimestamp();
 //					bm.setOwner(bm.getOwner());
 					oos.writeObject(bm);
