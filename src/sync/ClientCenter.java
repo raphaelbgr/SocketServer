@@ -44,7 +44,9 @@ public class ClientCenter {
 			sockets.add(sock);
 			usersNames.add(c);
 		} else {
-			throw new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
+			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
+			se.setToDisconnect(true);
+			throw se;
 		}
 	}
 
