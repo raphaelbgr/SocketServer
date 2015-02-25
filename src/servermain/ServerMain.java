@@ -13,6 +13,7 @@ import threads.ConnectionHandlerThread;
 
 public class ServerMain {
 	public final static int PORT = 2000;
+	public static final int VERSION = 11;
 	public static MessageCenter mc = new MessageCenter();
 	@SuppressWarnings("unused")
 	private List<Client> clientList = new ArrayList<Client>(); 

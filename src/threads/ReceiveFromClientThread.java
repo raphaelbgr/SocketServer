@@ -38,8 +38,13 @@ public class ReceiveFromClientThread implements Runnable {
 				if (o instanceof Message) {
 					if (o instanceof ServerMessage) {
 					} else if (o instanceof NormalMessage) {
-						((NormalMessage)o).setServresponse("SERVER> Received");
-						bc.broadCastMessage((Message)o);
+						if (((NormalMessage)o).getText().length() < 101) {
+							((NormalMessage)o).setServresponse("SERVER> Received");
+							bc.broadCastMessage((Message)o);
+						} else {
+							throw new ServerException(getTimestamp() + "SERVER> Message greater than 100 characters.");
+						}
+						
 					} else if (o instanceof DisconnectionMessage) {
 						DisconnectionMessage dm = (DisconnectionMessage)o;
 						BroadCastMessage bcm = new BroadCastMessage();
@@ -56,13 +61,17 @@ public class ReceiveFromClientThread implements Runnable {
 					} 
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
-					System.out.println(c.toString() + " -> Connected");
-					BroadCastMessage bcm = new BroadCastMessage();
-					bcm.setOwner(c.getName());
-					bcm.setText("Connected");
-					bcm.setServresponse("SERVER> Connected");
-					bc.broadCastMessage(bcm);
-					cc.addClient(c.getSock(), c);
+					if (c.getName().length() < 20) {
+						System.out.println(c.toString() + " -> Connected");
+						BroadCastMessage bcm = new BroadCastMessage();
+						bcm.setOwner(c.getName());
+						bcm.setText("Connected");
+						bcm.setServresponse("SERVER> Connected");
+						bc.broadCastMessage(bcm);
+						cc.addClient(c.getSock(), c);
+					} else {
+						throw new ServerException(getTimestamp() + "SERVER> Name greater than 20 characters.",true);
+					}
 				}
 
 			} catch (ServerException e) {
