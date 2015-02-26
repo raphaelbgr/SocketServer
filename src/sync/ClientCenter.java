@@ -88,6 +88,10 @@ public class ClientCenter {
 		return cc;
 	}
 
+	public HashSet<Client> getUsersNames() {
+		return usersNames;
+	}
+
 	/*	public synchronized void killIddleClients() {
 		try {
 			Thread.sleep(1000);

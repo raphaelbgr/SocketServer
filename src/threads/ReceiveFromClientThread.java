@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import sendable.BroadCastMessage;
@@ -16,9 +17,11 @@ import sendable.ServerMessage;
 import servermain.ServerMain;
 import sync.Broadcaster;
 import sync.ClientCenter;
+
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
+
 import exceptions.ServerException;
 
 public class ReceiveFromClientThread implements Runnable {
@@ -52,6 +55,8 @@ public class ReceiveFromClientThread implements Runnable {
 						bcm.setServresponse("SERVER> Disconnected");
 						bc.broadCastMessage(bcm);
 						cc.removeClientByName(dm.getOwner());
+						ServerMessage sm = new ServerMessage((ArrayList[])ClientCenter.getInstance().getUsersNames().toArray());
+						bc.broadCastMessage(sm);
 						System.out.println(((DisconnectionMessage)o).toString());
 						sock.close();
 						break;
@@ -69,6 +74,11 @@ public class ReceiveFromClientThread implements Runnable {
 							bcm.setText("Connected");
 							bcm.setServresponse("SERVER> Connected");
 							bc.broadCastMessage(bcm);
+							for (Object client : ClientCenter.getInstance().getUsersNames().toArray()) {
+								System.out.println(((Client)client).getName());
+							}
+							ServerMessage sm = new ServerMessage((ArrayList[])ClientCenter.getInstance().getUsersNames().toArray());
+							bc.broadCastMessage(sm);
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 						}
