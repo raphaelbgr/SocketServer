@@ -2,9 +2,6 @@ package sendable;
 
 import java.io.Serializable;
 import java.net.Socket;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class Client implements Serializable {
@@ -15,6 +12,8 @@ public class Client implements Serializable {
 	private static final long serialVersionUID = 296589332172289191L;
 	Long id;
 	Long msgCount;
+	
+	private int version;
 	
 	String text 				= null;
 	String name 				= null;
@@ -145,16 +144,11 @@ public class Client implements Serializable {
 	public void setLastMessageTime(long lastMessageTime) {
 		this.lastMessageTime = lastMessageTime;
 	}
-	
-	private String getTimestamp() {
-		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(new Date());
-		return dateFormatted;
+	public int getVersion() {
+		return version;
 	}
-	
-	@Override
-	public String toString() {
-		return "[" + this.getTimestamp() + "]" + " " + this.getName();
+	public void setVersion(int version) {
+		this.version = version;
 	}
 	
 }

@@ -13,13 +13,12 @@ import sendable.DisconnectionMessage;
 import sendable.Message;
 import sendable.NormalMessage;
 import sendable.ServerMessage;
+import servermain.ServerMain;
 import sync.Broadcaster;
 import sync.ClientCenter;
-
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
-
 import exceptions.ServerException;
 
 public class ReceiveFromClientThread implements Runnable {
@@ -61,16 +60,22 @@ public class ReceiveFromClientThread implements Runnable {
 					} 
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
-					if (c.getName().length() < 20) {
-						System.out.println(c.toString() + " -> Connected");
-						BroadCastMessage bcm = new BroadCastMessage();
-						bcm.setOwner(c.getName());
-						bcm.setText("Connected");
-						bcm.setServresponse("SERVER> Connected");
-						bc.broadCastMessage(bcm);
-						cc.addClient(c.getSock(), c);
-					} else {
-						throw new ServerException(getTimestamp() + "SERVER> Name greater than 20 characters.",true);
+					if (c.getVersion() == ServerMain.VERSION) {
+						if (c.getName().length() < 20) {
+							System.out.println(c.toString() + " -> Connected");
+							BroadCastMessage bcm = new BroadCastMessage();
+							bcm.setOwner(c.getName());
+							cc.addClient(c.getSock(), c);
+							bcm.setText("Connected");
+							bcm.setServresponse("SERVER> Connected");
+							bc.broadCastMessage(bcm);
+						} else {
+							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
+						}
+					} else if (c.getVersion() < ServerMain.VERSION) {
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + "required.",true);
+					} else if (c.getVersion() > ServerMain.VERSION) {
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + "required.",true);
 					}
 				}
 

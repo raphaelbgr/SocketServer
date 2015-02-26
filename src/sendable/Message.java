@@ -23,6 +23,8 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private Date msg_Date;
 
+	private int version;
+	
 	private long creationTime;
 	private long serverReceivedtime;
 	private ClientSeenTime [] cst;
@@ -80,6 +82,12 @@ public class Message implements Serializable, Comparable<Message> {
 		DateFormat formatter = new SimpleDateFormat("dd/M/yyyy");
 		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para metodo na Mensagem
 		this.date = dateFormatted;
+	}
+	public int getVersion() {
+		return version;
+	}
+	public void setVersion(int version) {
+		this.version = version;
 	}
 	public String getIp() {
 		return ip;
