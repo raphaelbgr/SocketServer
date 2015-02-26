@@ -73,9 +73,9 @@ public class ReceiveFromClientThread implements Runnable {
 							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 						}
 					} else if (c.getVersion() < ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + "required.",true);
+						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
 					} else if (c.getVersion() > ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + "required.",true);
+						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
 					}
 				}
 
