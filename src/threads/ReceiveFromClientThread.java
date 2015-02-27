@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import sendable.BroadCastMessage;
@@ -54,10 +53,11 @@ public class ReceiveFromClientThread implements Runnable {
 						bcm.setText("Disconnected");
 						bcm.setServresponse("SERVER> Disconnected");
 						bc.broadCastMessage(bcm);
-						cc.removeClientByName(dm.getOwner());
-						ServerMessage sm = new ServerMessage((ArrayList[])ClientCenter.getInstance().getUsersNames().toArray());
+
+						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 						bc.broadCastMessage(sm);
 						System.out.println(((DisconnectionMessage)o).toString());
+						ClientCenter.getInstance().removeClientByName(dm.getOwner());
 						sock.close();
 						break;
 					} else if (o instanceof ConnectionMessage) {
@@ -66,26 +66,26 @@ public class ReceiveFromClientThread implements Runnable {
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
 					if (c.getVersion() == ServerMain.VERSION) {
-						if (c.getName().length() < 20) {
-							System.out.println(c.toString() + " -> Connected");
+						if (c.getName().length() < 21) {
+							System.out.println(getTimestamp() + " " + c.toString() + " -> Connected");
 							BroadCastMessage bcm = new BroadCastMessage();
 							bcm.setOwner(c.getName());
 							cc.addClient(c.getSock(), c);
 							bcm.setText("Connected");
 							bcm.setServresponse("SERVER> Connected");
 							bc.broadCastMessage(bcm);
-							for (Object client : ClientCenter.getInstance().getUsersNames().toArray()) {
-								System.out.println(((Client)client).getName());
-							}
-							ServerMessage sm = new ServerMessage((ArrayList[])ClientCenter.getInstance().getUsersNames().toArray());
+//							for (Object client : ClientCenter.getInstance().getUsersNames().toArray()) {
+//								System.out.println(((Client)client).getName());
+//							}
+							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 							bc.broadCastMessage(sm);
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 						}
 					} else if (c.getVersion() < ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
 					} else if (c.getVersion() > ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
 					}
 				}
 
@@ -98,10 +98,10 @@ public class ReceiveFromClientThread implements Runnable {
 						break;
 					}
 				} catch (IOException e1) {
-					System.err.println(getTimestamp() + "Could not deliver this Exception: " + e.toString());
+					System.err.println(getTimestamp() + " SERVER> Could not deliver this Exception: " + e.toString());
 				}
 			} catch (IOException e) {
-				System.err.println(getTimestamp() + "Client/Server Error disconnected unexpectedly.");
+				System.err.println(getTimestamp() + " SERVER> Client/Server Error disconnected unexpectedly.");
 				try {
 					so.send(sock, new DisconnectionMessage(true));
 					sock.close();

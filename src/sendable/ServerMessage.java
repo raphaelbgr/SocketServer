@@ -1,7 +1,7 @@
 package sendable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Set;
 
 public class ServerMessage extends Message implements Serializable {
 
@@ -10,7 +10,7 @@ public class ServerMessage extends Message implements Serializable {
 	 */
 	private static final long serialVersionUID = 3772354662147009097L;
 	
-	private ArrayList [] clist = null;
+	private Set<Client> clist = null;
 
 	public ServerMessage buildMessage(String s) {
 		setServresponse(s);
@@ -33,7 +33,7 @@ public class ServerMessage extends Message implements Serializable {
 		setClist(clist);
 	}*/
 	
-	public ServerMessage(ArrayList[] clist) {
+	public ServerMessage(Set<Client> clist) {
 		super();
 		setClist(clist);
 	}
@@ -43,11 +43,11 @@ public class ServerMessage extends Message implements Serializable {
 		return "[" + this.getTimestamp() + "]" + " " + "SERVER> " + this.getServresponse();
 	}
 
-	public Object[] getClist() {
-		return clist;
+	public Set<Client> getClist() {
+		return this.clist;
 	}
 
-	public void setClist(ArrayList[] clist) {
-		this.clist = (ArrayList []) clist;
+	public void setClist(Set<Client> clist) {
+		this.clist = clist;
 	}
 }

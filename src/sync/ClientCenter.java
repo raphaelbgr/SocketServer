@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import sendable.Client;
-import sendable.Message;
 import servermain.ServerMain;
 import exceptions.ServerException;
 
@@ -29,15 +28,16 @@ public class ClientCenter {
 		}
 	}
 
-	public synchronized void addClient(Socket sock, Message m) throws Throwable {
+/*	public synchronized void addClient(Socket sock, Message m) throws Throwable {
 		if (!userClasses.containsKey(m.getOwner())) {
 			userClasses.put(m.getOwner(),new Client(sock));
 			sockets.add(sock);
+			userClasses.get(key);
 		} else {
 			throw new ServerException("Client name already in use.");
 		}
 	}
-	
+*/	
 	public synchronized void addClient(Socket sock, Client c) throws Throwable {
 		if (!userClasses.containsKey(c.getName())) {
 			userClasses.put(c.getName(), c);
@@ -65,12 +65,13 @@ public class ClientCenter {
 		if(userClasses.containsKey(s)) {
 			Client c = userClasses.get(s);
 			sockets.remove(c.getSock());
+			usersNames.remove(c);
 			userClasses.remove(s);
 		} else {
 			throw new ServerException("Client is not on the list.");
 		}
 	}
-
+	
 	public HashMap<String, Client> getChash() {
 		return userClasses;
 	}
