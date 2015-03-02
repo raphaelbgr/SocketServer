@@ -3,6 +3,7 @@ package sync;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Vector;
 
 import sendable.Client;
 import servermain.ServerMain;
@@ -16,6 +17,7 @@ public class ClientCenter {
 	private HashMap<String,Client> userClasses 	= new HashMap<String,Client>();
 	private HashSet<Client> usersNames 			= new HashSet<Client>();
 	private HashSet<Socket> sockets				= new HashSet<Socket>();
+	private Vector<String> onlineUserList		= new Vector<String>();
 
 
 	public HashSet<Socket> getSockets() {
@@ -26,23 +28,15 @@ public class ClientCenter {
 		if (!usersNames.add(c)) {
 			throw new ServerException("Client name already in use: " + c.getName());
 		}
+		onlineUserList.add(c.toString());
 	}
 
-/*	public synchronized void addClient(Socket sock, Message m) throws Throwable {
-		if (!userClasses.containsKey(m.getOwner())) {
-			userClasses.put(m.getOwner(),new Client(sock));
-			sockets.add(sock);
-			userClasses.get(key);
-		} else {
-			throw new ServerException("Client name already in use.");
-		}
-	}
-*/	
 	public synchronized void addClient(Socket sock, Client c) throws Throwable {
 		if (!userClasses.containsKey(c.getName())) {
 			userClasses.put(c.getName(), c);
 			sockets.add(sock);
 			usersNames.add(c);
+			onlineUserList.add(c.toString());
 		} else {
 			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
 			se.setToDisconnect(true);
@@ -55,10 +49,11 @@ public class ClientCenter {
 			Client c1 = userClasses.get(c.getName());
 			sockets.remove(c1.getSock());
 			userClasses.remove(c.getName());
-			usersNames.remove(c)
-;		} else {
-			throw new ServerException("Client is not on the list.");
-		}
+			usersNames.remove(c);
+			onlineUserList.remove(c.toString());
+			;		} else {
+				throw new ServerException("Client is not on the list.");
+			}
 	}
 
 	public synchronized void removeClientByName(String s) throws Throwable {
@@ -67,11 +62,12 @@ public class ClientCenter {
 			sockets.remove(c.getSock());
 			usersNames.remove(c);
 			userClasses.remove(s);
+			onlineUserList.remove(s);
 		} else {
 			throw new ServerException("Client is not on the list.");
 		}
 	}
-	
+
 	public HashMap<String, Client> getChash() {
 		return userClasses;
 	}
@@ -93,13 +89,11 @@ public class ClientCenter {
 		return usersNames;
 	}
 
-	/*	public synchronized void killIddleClients() {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
-			hash
-		}
-	}*/
+	public Vector<String> getOnlineUserList() {
+		return onlineUserList;
+	}
+
+	public void setOnlineUserList(Vector<String> onlineUserList) {
+		this.onlineUserList = onlineUserList;
+	}
 }
