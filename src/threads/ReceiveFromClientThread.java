@@ -53,17 +53,12 @@ public class ReceiveFromClientThread implements Runnable {
 						bcm.setOwner(dm.getOwner());
 						bcm.setText("Disconnected");
 						bcm.setServresponse("SERVER> Disconnected");
-						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-						bc.broadCastMessage(bcm);
-
 						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 						bc.broadCastMessage(sm);
-						System.out.println(((DisconnectionMessage)o).toString());
-						ClientCenter.getInstance().removeClientByName(dm.getOwner());
-						
+						System.out.println(((DisconnectionMessage)o).toString());					
+						ClientCenter.getInstance().removeClientByName(dm.getOwner());			
 						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-						bc.broadCastMessage(bcm);
-						
+						bc.broadCastMessage(bcm);		
 						sock.close();
 						break;
 					} else if (o instanceof ConnectionMessage) {
