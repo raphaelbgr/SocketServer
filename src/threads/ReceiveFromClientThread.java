@@ -16,9 +16,11 @@ import sendable.ServerMessage;
 import servermain.ServerMain;
 import sync.Broadcaster;
 import sync.ClientCenter;
+
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
+
 import exceptions.ServerException;
 
 public class ReceiveFromClientThread implements Runnable {
@@ -39,9 +41,10 @@ public class ReceiveFromClientThread implements Runnable {
 					} else if (o instanceof NormalMessage) {
 						if (((NormalMessage)o).getText().length() < 101) {
 							((NormalMessage)o).setServresponse("SERVER> Received");
+							((NormalMessage)o).setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 							bc.broadCastMessage((Message)o);
 						} else {
-							throw new ServerException(getTimestamp() + "SERVER> Message greater than 100 characters.");
+							throw new ServerException(getTimestamp() + " SERVER> Message greater than 100 characters.");
 						}
 						
 					} else if (o instanceof DisconnectionMessage) {
@@ -50,32 +53,41 @@ public class ReceiveFromClientThread implements Runnable {
 						bcm.setOwner(dm.getOwner());
 						bcm.setText("Disconnected");
 						bcm.setServresponse("SERVER> Disconnected");
-						bc.broadCastMessage(bcm);
-						cc.removeClientByName(dm.getOwner());
-						System.out.println(((DisconnectionMessage)o).toString());
+						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
+						bc.broadCastMessage(sm);
+						System.out.println(((DisconnectionMessage)o).toString());					
+						ClientCenter.getInstance().removeClientByName(dm.getOwner());			
+						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+						bc.broadCastMessage(bcm);		
 						sock.close();
 						break;
 					} else if (o instanceof ConnectionMessage) {
+						((ConnectionMessage)o).setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 						so.send(sock, new ServerMessage("Online"));
 					} 
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
 					if (c.getVersion() == ServerMain.VERSION) {
-						if (c.getName().length() < 20) {
-							System.out.println(c.toString() + " -> Connected");
+						if (c.getName().length() < 21) {
+							System.out.println(getTimestamp() + c.toString() + " -> Connected");
 							BroadCastMessage bcm = new BroadCastMessage();
 							bcm.setOwner(c.getName());
 							cc.addClient(c.getSock(), c);
 							bcm.setText("Connected");
 							bcm.setServresponse("SERVER> Connected");
+							bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 							bc.broadCastMessage(bcm);
+							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
+							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+//							sm.setAddUser(c.getName());
+							bc.broadCastMessage(sm);
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 						}
 					} else if (c.getVersion() < ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
 					} else if (c.getVersion() > ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
 					}
 				}
 
@@ -88,10 +100,10 @@ public class ReceiveFromClientThread implements Runnable {
 						break;
 					}
 				} catch (IOException e1) {
-					System.err.println(getTimestamp() + "Could not deliver this Exception: " + e.toString());
+					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
 				}
 			} catch (IOException e) {
-				System.err.println(getTimestamp() + "Client/Server Error disconnected unexpectedly.");
+				System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				try {
 					so.send(sock, new DisconnectionMessage(true));
 					sock.close();

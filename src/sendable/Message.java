@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 @SuppressWarnings("unused")
 public class Message implements Serializable, Comparable<Message> {
@@ -28,9 +29,12 @@ public class Message implements Serializable, Comparable<Message> {
 	private long creationTime;
 	private long serverReceivedtime;
 	private ClientSeenTime [] cst;
+	private Vector<String> onlineUserList;
 
 	private boolean disconnect = false;
 
+	private String addUser;
+	private String delUser;
 	private String owner;
 	private String text;
 	private String timestamp;
@@ -86,11 +90,29 @@ public class Message implements Serializable, Comparable<Message> {
 	public int getVersion() {
 		return version;
 	}
+	public Vector<String> getOnlineUserList() {
+		return onlineUserList;
+	}
+	public void setOnlineUserList(Vector<String> listData) {
+		this.onlineUserList = listData;
+	}
 	public void setVersion(int version) {
 		this.version = version;
 	}
 	public String getIp() {
 		return ip;
+	}
+	public void setAddUser(String addUser) {
+		this.addUser = addUser;
+	}
+	public void setDelUser(String s) {
+		this.delUser = s;
+	}
+	public String getAddUser() {
+		return this.addUser;
+	}
+	public String getDelUser() {
+		return this.delUser;
 	}
 	public void setIp(String ip) {
 		this.ip = ip;

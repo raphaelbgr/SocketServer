@@ -54,6 +54,9 @@ public class Client implements Serializable {
 		this.lastMessage 		= m;
 		this.lastconnected 		= m.getCreationtime();
 	}
+	public Client(String string) {
+		this.name = string;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -149,6 +152,11 @@ public class Client implements Serializable {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	@Override
+	public String toString() {
+		return this.name;
 	}
 	
 }
