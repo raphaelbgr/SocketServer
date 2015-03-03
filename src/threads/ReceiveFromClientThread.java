@@ -16,11 +16,9 @@ import sendable.ServerMessage;
 import servermain.ServerMain;
 import sync.Broadcaster;
 import sync.ClientCenter;
-
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
-
 import exceptions.ServerException;
 
 public class ReceiveFromClientThread implements Runnable {
@@ -69,7 +67,6 @@ public class ReceiveFromClientThread implements Runnable {
 					Client c = (Client)o;
 					if (c.getVersion() == ServerMain.VERSION) {
 						if (c.getName().length() < 21) {
-							System.out.println(getTimestamp() + c.toString() + " -> Connected");
 							BroadCastMessage bcm = new BroadCastMessage();
 							bcm.setOwner(c.getName());
 							cc.addClient(c.getSock(), c);
@@ -81,6 +78,7 @@ public class ReceiveFromClientThread implements Runnable {
 							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 //							sm.setAddUser(c.getName());
 							bc.broadCastMessage(sm);
+							System.out.println(getTimestamp() + c.toString() + " -> Connected");
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 						}
@@ -95,24 +93,75 @@ public class ReceiveFromClientThread implements Runnable {
 				try {
 					System.err.println(e.getMessage());
 					so.send(sock, e);
+					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+					try {
+						ClientCenter.getInstance().removeClientByName(c.getName());
+					} catch (Throwable e1) {
+						System.err.println(e1.getMessage());
+					}
 					if (e.isToDisconnect()) {
 						sock.close();
 						break;
 					}
 				} catch (IOException e1) {
+					
 					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
 				}
 			} catch (IOException e) {
 				System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				try {
 					so.send(sock, new DisconnectionMessage(true));
-					sock.close();
-				} catch (IOException e1) {
-					break;
-				} finally {
 					try {
 						sock.close();
 					} catch (IOException e1) {
+						Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+						try {
+							ClientCenter.getInstance().removeClientByName(c.getName());
+						} catch (Throwable e4) {
+							System.err.println(e1.getMessage());
+						}
+					}
+					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+					try {
+						ClientCenter.getInstance().removeClientByName(c.getName());
+					} catch (Throwable e1) {
+						System.err.println(e1.getMessage());
+					}
+					sock.close();
+				} catch (IOException e1) {
+					try {
+						Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+						try {
+							ClientCenter.getInstance().removeClientByName(c.getName());
+						} catch (Throwable e6) {
+							System.err.println(e1.getMessage());
+						}
+						sock.close();
+					} catch (IOException e2) {
+					}
+					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+					try {
+						ClientCenter.getInstance().removeClientByName(c.getName());
+					} catch (Throwable e3) {
+						System.err.println(e1.getMessage());
+					}
+					break;
+				} finally {
+					try {
+						Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+						try {
+							ClientCenter.getInstance().removeClientByName(c.getName());
+						} catch (Throwable e1) {
+							System.err.println(e1.getMessage());
+						}
+						sock.close();
+					} catch (IOException e1) {
+					}
+					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+					try {
+						ClientCenter.getInstance().removeClientByName(c.getName());
+					} catch (Throwable e1) {
+//						System.err.println(e1.getMessage());
 					}
 					sock = null;
 					break;
