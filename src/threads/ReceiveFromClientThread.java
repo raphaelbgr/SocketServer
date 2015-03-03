@@ -28,6 +28,7 @@ public class ReceiveFromClientThread implements Runnable {
 	MessageHandler mh 	= new MessageHandler();
 	ClientCenter cc		= ClientCenter.getInstance();
 	Broadcaster bc		= new Broadcaster();
+	private Integer port;
 
 	@SuppressWarnings("finally")
 	public void run() {
@@ -44,7 +45,7 @@ public class ReceiveFromClientThread implements Runnable {
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Message greater than 100 characters.");
 						}
-						
+
 					} else if (o instanceof DisconnectionMessage) {
 						DisconnectionMessage dm = (DisconnectionMessage)o;
 						BroadCastMessage bcm = new BroadCastMessage();
@@ -65,6 +66,7 @@ public class ReceiveFromClientThread implements Runnable {
 					} 
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
+					c.setLocalPort(port);
 					if (c.getVersion() == ServerMain.VERSION) {
 						if (c.getName().length() < 21) {
 							BroadCastMessage bcm = new BroadCastMessage();
@@ -76,7 +78,7 @@ public class ReceiveFromClientThread implements Runnable {
 							bc.broadCastMessage(bcm);
 							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-//							sm.setAddUser(c.getName());
+							//							sm.setAddUser(c.getName());
 							bc.broadCastMessage(sm);
 							System.out.println(getTimestamp() + c.toString() + " -> Connected");
 						} else {
@@ -104,12 +106,29 @@ public class ReceiveFromClientThread implements Runnable {
 						break;
 					}
 				} catch (IOException e1) {
-					
+
 					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
 				}
 			} catch (IOException e) {
 				System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
+				Client c = ClientCenter.getInstance().getClientByPort(port);
 				try {
+					ClientCenter.getInstance().removeClientByPort(port);
+				} catch (Throwable e2) {
+					System.err.println(e2.getMessage());
+				}
+
+				BroadCastMessage bcm = new BroadCastMessage();
+				bcm.setOwner(c.getName());
+				bcm.setText("SERVER> " + c.getName() +  " had a connection error.");
+				bcm.setServresponse("SERVER> " + c.getName() +  " had a connection error.");
+				bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+				try {
+					bc.broadCastMessage(bcm);
+				} catch (IOException e1) {
+					System.err.println(e1.getMessage());
+				}
+				/*try {
 					so.send(sock, new DisconnectionMessage(true));
 					try {
 						sock.close();
@@ -127,8 +146,8 @@ public class ReceiveFromClientThread implements Runnable {
 					} catch (Throwable e1) {
 						System.err.println(e1.getMessage());
 					}
-					sock.close();
-				} catch (IOException e1) {
+					sock.close();*/
+				/*} catch (IOException e1) {
 					try {
 						Client c = ClientCenter.getInstance().getClientSockets().get(sock);
 						try {
@@ -143,7 +162,7 @@ public class ReceiveFromClientThread implements Runnable {
 					try {
 						ClientCenter.getInstance().removeClientByName(c.getName());
 					} catch (Throwable e3) {
-						System.err.println(e1.getMessage());
+//						System.err.println(e1.getMessage());
 					}
 					break;
 				} finally {
@@ -164,14 +183,14 @@ public class ReceiveFromClientThread implements Runnable {
 //						System.err.println(e1.getMessage());
 					}
 					sock = null;
-					break;
-				}
+					break;*/
+	
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (Throwable e) {
-				e.getMessage();
-				e.printStackTrace();
+				System.err.println(e.getMessage());
 			} finally {
+
 			}
 		}
 	}
@@ -183,6 +202,7 @@ public class ReceiveFromClientThread implements Runnable {
 	}
 
 	public ReceiveFromClientThread(Socket sock) {
-		this.sock = sock;	
+		this.sock = sock;
+		this.port = sock.getPort();
 	}
 }
