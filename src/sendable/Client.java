@@ -13,6 +13,7 @@ public class Client implements Serializable {
 	Long id;
 	Long msgCount;
 	
+	private int localPort;
 	private int version;
 	
 	String text 				= null;
@@ -157,6 +158,12 @@ public class Client implements Serializable {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+	public int getLocalPort() {
+		return localPort;
+	}
+	public void setLocalPort(int localPort) {
+		this.localPort = localPort;
 	}
 	
 }
