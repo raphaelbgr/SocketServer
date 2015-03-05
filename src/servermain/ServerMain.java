@@ -9,7 +9,6 @@ import java.util.List;
 import sendable.Client;
 import sync.MessageCenter;
 import threads.ConnectionHandlerThread;
-//import connection.LinkCommunication;
 
 public class ServerMain {
 	public final static int PORT = 2000;
