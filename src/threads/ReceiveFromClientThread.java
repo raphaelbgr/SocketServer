@@ -30,7 +30,6 @@ public class ReceiveFromClientThread implements Runnable {
 	Broadcaster bc		= new Broadcaster();
 	private Integer port;
 
-	@SuppressWarnings("finally")
 	public void run() {
 		while(true) {
 			try {
@@ -78,16 +77,15 @@ public class ReceiveFromClientThread implements Runnable {
 							bc.broadCastMessage(bcm);
 							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-							//							sm.setAddUser(c.getName());
 							bc.broadCastMessage(sm);
 							System.out.println(getTimestamp() + c.toString() + " -> Connected");
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 						}
 					} else if (c.getVersion() < ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. DL at https://ibm.biz/BdE5ww",true);
 					} else if (c.getVersion() > ServerMain.VERSION) {
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://ibm.biz/BdE5ww",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. DL at https://ibm.biz/BdE5ww",true);
 					}
 				}
 
@@ -106,91 +104,30 @@ public class ReceiveFromClientThread implements Runnable {
 						break;
 					}
 				} catch (IOException e1) {
-
 					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
 				}
-			} catch (IOException e) {
+			} catch (Throwable e) {
 				System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				Client c = ClientCenter.getInstance().getClientByPort(port);
+
 				try {
 					ClientCenter.getInstance().removeClientByPort(port);
+					this.sock.close();
 				} catch (Throwable e2) {
-					System.err.println(e2.getMessage());
-				}
-
-				BroadCastMessage bcm = new BroadCastMessage();
-				bcm.setOwner(c.getName());
-				bcm.setText("SERVER> " + c.getName() +  " had a connection error.");
-				bcm.setServresponse("SERVER> " + c.getName() +  " had a connection error.");
-				bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-				try {
-					bc.broadCastMessage(bcm);
-				} catch (IOException e1) {
-					System.err.println(e1.getMessage());
-				}
-				/*try {
-					so.send(sock, new DisconnectionMessage(true));
-					try {
-						sock.close();
-					} catch (IOException e1) {
-						Client c = ClientCenter.getInstance().getClientSockets().get(sock);
-						try {
-							ClientCenter.getInstance().removeClientByName(c.getName());
-						} catch (Throwable e4) {
-							System.err.println(e1.getMessage());
-						}
-					}
-					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
-					try {
-						ClientCenter.getInstance().removeClientByName(c.getName());
-					} catch (Throwable e1) {
-						System.err.println(e1.getMessage());
-					}
-					sock.close();*/
-				/*} catch (IOException e1) {
-					try {
-						Client c = ClientCenter.getInstance().getClientSockets().get(sock);
-						try {
-							ClientCenter.getInstance().removeClientByName(c.getName());
-						} catch (Throwable e6) {
-							System.err.println(e1.getMessage());
-						}
-						sock.close();
-					} catch (IOException e2) {
-					}
-					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
-					try {
-						ClientCenter.getInstance().removeClientByName(c.getName());
-					} catch (Throwable e3) {
-//						System.err.println(e1.getMessage());
-					}
-					break;
+					System.err.println("throwable e2");
 				} finally {
+					this.sock = null;
+					BroadCastMessage bcm = new BroadCastMessage();
+					bcm.setOwner(c.getName());
+					bcm.setText("SERVER> " + c.getName() +  " had a connection error.");
+					bcm.setServresponse("SERVER> " + c.getName() +  " had a connection error.");
+					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 					try {
-						Client c = ClientCenter.getInstance().getClientSockets().get(sock);
-						try {
-							ClientCenter.getInstance().removeClientByName(c.getName());
-						} catch (Throwable e1) {
-							System.err.println(e1.getMessage());
-						}
-						sock.close();
+						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
+						System.err.println("Broadcast error.");
 					}
-					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
-					try {
-						ClientCenter.getInstance().removeClientByName(c.getName());
-					} catch (Throwable e1) {
-//						System.err.println(e1.getMessage());
-					}
-					sock = null;
-					break;*/
-	
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (Throwable e) {
-				System.err.println(e.getMessage());
-			} finally {
-
+				}
 			}
 		}
 	}
