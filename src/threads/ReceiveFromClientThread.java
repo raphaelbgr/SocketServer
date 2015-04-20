@@ -53,7 +53,7 @@ public class ReceiveFromClientThread implements Runnable {
 						bcm.setServresponse("SERVER> Disconnected");
 						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 						bc.broadCastMessage(sm);
-						System.out.println(((DisconnectionMessage)o).toString());					
+//						System.out.println(((DisconnectionMessage)o).toString());					
 						ClientCenter.getInstance().removeClientByName(dm.getOwner());			
 						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 						bc.broadCastMessage(bcm);		
@@ -107,27 +107,36 @@ public class ReceiveFromClientThread implements Runnable {
 					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
 				}
 			} catch (Throwable e) {
-				System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				Client c = ClientCenter.getInstance().getClientByPort(port);
+				if (c != null) {
+					System.err.println(getTimestamp() + "SERVER> " + c.getName() + " disconnected unexpectedly.");
+				} else {
+					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
+				}
+				try {
+					ClientCenter.getInstance().removeClientByName(c.getName());} catch (Throwable e3) {}
 
 				try {
 					ClientCenter.getInstance().removeClientByPort(port);
 					this.sock.close();
-				} catch (Throwable e2) {
-					System.err.println("throwable e2");
-				} finally {
+				} catch (Throwable e2) {	
+				} 
+				finally {
 					this.sock = null;
 					BroadCastMessage bcm = new BroadCastMessage();
-					bcm.setOwner(c.getName());
-					bcm.setText("SERVER> " + c.getName() +  " had a connection error.");
-					bcm.setServresponse("SERVER> " + c.getName() +  " had a connection error.");
+					if (c != null) {
+						bcm.setOwner(c.getName());
+						bcm.setText("SERVER> " + c.getName() +  " had a connection error.");
+						bcm.setServresponse("SERVER> " + c.getName() +  " had a connection error.");
+					}
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
-						System.err.println("Broadcast error.");
+//						System.err.println("Broadcast error.");
 					}
 				}
+				break;
 			}
 		}
 	}

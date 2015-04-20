@@ -84,9 +84,9 @@ public class ClientCenter {
 			return clientPorts.get(i);
 		} else {
 			try {
-				if (c.getName() != null) {
-					throw new ServerException(c.getName() + " is already offline.");
-				}
+//				if (c != null || c.getName() != null) {
+//					throw new ServerException(c.getName() + " not found on connected list.");
+//				}
 				throw new ServerException("Client is already offline.");
 			} catch (ServerException e) {
 			}
