@@ -17,7 +17,7 @@ public class ClientCenter {
 	private HashMap<String,Client> namesToClients 	= new HashMap<String,Client>();
 	private HashMap<Socket,Client> socketToClient	= new HashMap<Socket,Client>();
 	private HashMap<String,Socket> namestToSocket	= new HashMap<String,Socket>();
-	private HashMap<Integer,Client> clientPorts 	= new HashMap<Integer,Client>();
+	private HashMap<Integer,Client> portToClients 	= new HashMap<Integer,Client>();
 
 	private HashSet<Client> usersNames 				= new HashSet<Client>();
 	private HashSet<Socket> sockets					= new HashSet<Socket>();
@@ -43,7 +43,7 @@ public class ClientCenter {
 			usersNames.add(c);
 			onlineUserList.add(c.toString());
 			socketToClient.put(sock, c);
-			clientPorts.put(c.getLocalPort(), c);
+			portToClients.put(c.getLocalPort(), c);
 			namestToSocket.put(c.getName(), sock);
 		} else {
 			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
@@ -73,7 +73,7 @@ public class ClientCenter {
 			usersNames.remove(c);
 			namesToClients.remove(s);
 			onlineUserList.remove(s);
-			clientPorts.remove(c.getLocalPort());
+			portToClients.remove(c.getLocalPort());
 			
 		} else {
 			throw new ServerException(c.getName() + " is already offline.");
@@ -82,8 +82,8 @@ public class ClientCenter {
 
 	public synchronized Client getClientByPort(Integer i) {
 		Client c = null;
-		if(clientPorts.containsKey(i)) {
-			return clientPorts.get(i);
+		if(portToClients.containsKey(i)) {
+			return portToClients.get(i);
 		} else {
 			try {
 //				if (c != null || c.getName() != null) {
@@ -98,15 +98,15 @@ public class ClientCenter {
 	
 	public synchronized void removeClientByPort(Integer i) throws Throwable {
 		c = null;
-		if(clientPorts.containsKey(i)) {
-			c = clientPorts.get(i);
+		if(portToClients.containsKey(i)) {
+			c = portToClients.get(i);
 			socketToClient.remove(c);
 			sockets.remove(namestToSocket.get(c.getName()));
 			namestToSocket.remove(c.getName());
 			usersNames.remove(c);
 			namesToClients.remove(c.getName());
 			onlineUserList.remove(c.getName());
-			clientPorts.remove(i);
+			portToClients.remove(i);
 		} else {
 			throw new ServerException(c.getName() + " is already offline.");
 		}

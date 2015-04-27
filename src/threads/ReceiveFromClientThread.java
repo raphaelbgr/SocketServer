@@ -30,6 +30,7 @@ public class ReceiveFromClientThread implements Runnable {
 	ClientCenter cc		= ClientCenter.getInstance();
 	Broadcaster bc		= new Broadcaster();
 	private Integer port;
+	Client localClient 	= null;
 
 	public void run() {
 		while(true) {
@@ -68,6 +69,7 @@ public class ReceiveFromClientThread implements Runnable {
 					} 
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
+					localClient = c;
 					c.setLocalPort(port);
 					if (c.getVersion() == ServerMain.VERSION) {
 						if (c.getName().length() < 21) {
@@ -98,7 +100,7 @@ public class ReceiveFromClientThread implements Runnable {
 				try {
 					sock.close();
 					sock = null;
-					ClientCenter.getInstance().removeClientByPort(port);
+					ClientCenter.getInstance().removeClientByName(localClient.getName());
 				} catch (Throwable e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -111,7 +113,7 @@ public class ReceiveFromClientThread implements Runnable {
 					so.send(sock, e);
 					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
 					try {
-						ClientCenter.getInstance().removeClientByName(c.getName());
+						ClientCenter.getInstance().removeClientByName(localClient.getName());
 					} catch (Throwable e1) {
 						System.err.println(e1.getMessage());
 					}
@@ -124,7 +126,7 @@ public class ReceiveFromClientThread implements Runnable {
 				}
 			} catch (Throwable e) {
 				e.printStackTrace();
-				Client c = ClientCenter.getInstance().getClientByPort(port);
+				Client c = localClient;
 				if (c != null) {
 					System.out.println(getTimestamp() + "SERVER> " + c.getName() + " disconnected.");
 				} else {
