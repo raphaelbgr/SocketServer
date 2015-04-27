@@ -2,6 +2,7 @@ package threads;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,7 +56,7 @@ public class ReceiveFromClientThread implements Runnable {
 						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 						bc.broadCastMessage(sm);
 						System.out.println(((DisconnectionMessage)o).toString());				
-									
+
 						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 						bc.broadCastMessage(bcm);		
 						sock.close();
@@ -91,7 +92,20 @@ public class ReceiveFromClientThread implements Runnable {
 					}
 				}
 
-			} catch (ServerException e) {
+			} catch (SocketException e) {
+//				e.printStackTrace();
+				System.err.println(getTimestamp() + "SERVER> " + ClientCenter.getInstance().getClientByPort(port).getName() + " had a connection problem.");
+				try {
+					sock.close();
+					sock = null;
+					ClientCenter.getInstance().removeClientByPort(port);
+				} catch (Throwable e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			}
+			catch (ServerException e) {
 				try {
 					System.err.println(e.getMessage());
 					so.send(sock, e);
@@ -114,15 +128,15 @@ public class ReceiveFromClientThread implements Runnable {
 				if (c != null) {
 					System.out.println(getTimestamp() + "SERVER> " + c.getName() + " disconnected.");
 				} else {
-//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
+					//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				}
 				try {
-						ClientCenter.getInstance().removeClientByName(c.getName());
-					} catch (Throwable e3) {	
-					}
+					ClientCenter.getInstance().removeClientByName(c.getName());
+				} catch (Throwable e3) {	
+				}
 				try {
-						ClientCenter.getInstance().removeClientByPort(port);
-						this.sock.close();
+					ClientCenter.getInstance().removeClientByPort(port);
+					this.sock.close();
 				} catch (Throwable e2) {	
 				} 
 				finally {
@@ -137,7 +151,7 @@ public class ReceiveFromClientThread implements Runnable {
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
-//						System.err.println("Broadcast error.");
+						//						System.err.println("Broadcast error.");
 					}
 				}
 				break;

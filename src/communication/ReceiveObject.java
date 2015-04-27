@@ -5,18 +5,21 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import exceptions.ServerException;
-
 import sendable.Message;
 
 public class ReceiveObject {
 
+	@SuppressWarnings("unused")
 	public Object receive(Socket sock) throws ClassNotFoundException, IOException, ServerException {
 		ObjectHandler oh = new ObjectHandler();
 		ObjectInputStream ois = new ObjectInputStream(sock.getInputStream());
-		Object o = ois.readObject();
-		isMessageConfigureClass(o, sock);
-		oh.handleObject(o);
-		return o;
+		if (ois != null) {
+			Object o = ois.readObject();
+			isMessageConfigureClass(o, sock);
+			oh.handleObject(o);
+			return o;
+		}
+		return null;
 	}
 
 	private Object isMessageConfigureClass(Object o, Socket sock) {
