@@ -2,16 +2,18 @@ package sendable;
 
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 public class Client implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 296589332172289191L;
-	Long id;
-	Long msgCount;
+	
+	Date registrationDate 		= null;
+	Date lastOnline 			= null;
+	Date lastMessageSent		= null;
 	
 	private int localPort;
 	private int version;
@@ -21,14 +23,19 @@ public class Client implements Serializable {
 	String middlename 			= null;
 	String lastname 			= null;
 	String membertype 			= null;
-	String membersince 			= null;
-	String onlinetime 			= null;
+
+	String login				= null;
+	String password				= null;
+	String cryptoPassword		= null;
+	String email				= null;
 	
 	Message lastMessage 		= null;
+	List<Message> unSentMsgs	= null;
 	
-	long lastconnected 			= 0L;
-	long lastMessageTime 		= 0L;
-	long messagesSent 			= 0L;
+	Long id						= null;
+	Long msgCount				= null;
+	Long onlinetime 			= null;
+	Long messagesSent 			= null;
 	
 	Socket sock 				= null;
 	
@@ -51,9 +58,7 @@ public class Client implements Serializable {
 		this.text 				= m.getText();
 		this.name 				= m.getOwner();
 		this.membertype 		= m.getType();
-		this.lastconnected 		= m.getCreationtime();
 		this.lastMessage 		= m;
-		this.lastconnected 		= m.getCreationtime();
 	}
 	public Client(String string) {
 		this.name = string;
@@ -66,6 +71,30 @@ public class Client implements Serializable {
 	}
 	public Long getMsgCount() {
 		return msgCount;
+	}
+	public String getLogin() {
+		return login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getCryptoPassword() {
+		return cryptoPassword;
+	}
+	public void setCryptoPassword(String cryptoPassword) {
+		this.cryptoPassword = cryptoPassword;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public void setMsgCount(Long msgCount) {
 		this.msgCount = msgCount + 1L;
@@ -100,11 +129,11 @@ public class Client implements Serializable {
 	public void setMembertype(String membertype) {
 		this.membertype = membertype;
 	}
-	public String getMembersince() {
-		return membersince;
+	public Date getRegistrationDate() {
+		return registrationDate;
 	}
-	public void setMembersince(String membersince) {
-		this.membersince = membersince;
+	public void setRegistrationDate(Date membersince) {
+		this.registrationDate = membersince;
 	}
 	public String getIp() {
 		return ip;
@@ -118,17 +147,17 @@ public class Client implements Serializable {
 	public void setPort(Integer port) {
 		this.port = port;
 	}
-	public String getOnlinetime() {
+	public Long getOnlinetime() {
 		return onlinetime;
 	}
-	public void setOnlinetime(String onlinetime) {
+	public void setOnlinetime(Long onlinetime) {
 		this.onlinetime = onlinetime;
 	}
-	public long getLastconnected() {
-		return lastconnected;
+	public Date getLastOnline() {
+		return lastOnline;
 	}
-	public void setLastconnected(long lastconnected) {
-		this.lastconnected = lastconnected;
+	public void setLastOnline() {
+		this.lastOnline = Calendar.getInstance().getTime();
 	}
 	public Socket getSock() {
 		return sock;
@@ -142,11 +171,11 @@ public class Client implements Serializable {
 	public void setLastMessage(Message lastMessage) {
 		this.lastMessage = lastMessage;
 	}
-	public long getLastMessageTime() {
-		return lastMessageTime;
+	public Date getLastMessageSent() {
+		return lastMessageSent;
 	}
-	public void setLastMessageTime(long lastMessageTime) {
-		this.lastMessageTime = lastMessageTime;
+	public void setLastMessageTime(Date lastMessageTime) {
+		this.lastMessageSent = lastMessageTime;
 	}
 	public int getVersion() {
 		return version;

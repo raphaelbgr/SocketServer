@@ -3,6 +3,11 @@ package sendable;
 
 public class ClientSeenTime extends Client {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1931296166164777661L;
+	
 	private Message message;
 	private long seenTime;
 	private boolean received = false;
