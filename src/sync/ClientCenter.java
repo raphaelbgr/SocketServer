@@ -13,15 +13,16 @@ import exceptions.ServerException;
 
 public class ClientCenter {
 
-	private static ClientCenter cc 				= null;
-	private HashMap<String,Client> userClasses 	= new HashMap<String,Client>();
-	private HashMap<Socket,Client> clientSockets= new HashMap<Socket,Client>();
-	private HashMap<Integer,Client> clientPorts = new HashMap<Integer,Client>();
+	private static ClientCenter cc 					= null;
+	private HashMap<String,Client> namesToClients 	= new HashMap<String,Client>();
+	private HashMap<Socket,Client> socketToClient	= new HashMap<Socket,Client>();
+	private HashMap<String,Socket> namestToSocket	= new HashMap<String,Socket>();
+	private HashMap<Integer,Client> clientPorts 	= new HashMap<Integer,Client>();
 
-	private HashSet<Client> usersNames 			= new HashSet<Client>();
-	private HashSet<Socket> sockets				= new HashSet<Socket>();
-	private Vector<String> onlineUserList		= new Vector<String>();
-	private Client c							= null;
+	private HashSet<Client> usersNames 				= new HashSet<Client>();
+	private HashSet<Socket> sockets					= new HashSet<Socket>();
+	private Vector<String> onlineUserList			= new Vector<String>();
+	private Client c								= null;
 
 
 	public HashSet<Socket> getSockets() {
@@ -36,13 +37,14 @@ public class ClientCenter {
 	}
 
 	public synchronized void addClient(Socket sock, Client c) throws Throwable {
-		if (!userClasses.containsKey(c.getName())) {
-			userClasses.put(c.getName(), c);
+		if (!namesToClients.containsKey(c.getName())) {
+			namesToClients.put(c.getName(), c);
 			sockets.add(sock);
 			usersNames.add(c);
 			onlineUserList.add(c.toString());
-			clientSockets.put(sock, c);
+			socketToClient.put(sock, c);
 			clientPorts.put(c.getLocalPort(), c);
+			namestToSocket.put(c.getName(), sock);
 		} else {
 			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
 			se.setToDisconnect(true);
@@ -64,20 +66,20 @@ public class ClientCenter {
 
 	public synchronized void removeClientByName(String s) throws Throwable {
 		c = null;
-		if(userClasses.containsKey(s)) {
-			c = userClasses.get(s);
-			clientSockets.remove(c);
-			sockets.remove(c.getSock());
+		if(namesToClients.containsKey(s)) {
+			c = namesToClients.get(s);
+			socketToClient.remove(c);
+			sockets.remove(namestToSocket.get(s));
 			usersNames.remove(c);
-			userClasses.remove(s);
+			namesToClients.remove(s);
 			onlineUserList.remove(s);
 			clientPorts.remove(c.getLocalPort());
+			
 		} else {
 			throw new ServerException(c.getName() + " is already offline.");
 		}
 	}
 
-	@SuppressWarnings("null")
 	public synchronized Client getClientByPort(Integer i) {
 		Client c = null;
 		if(clientPorts.containsKey(i)) {
@@ -98,10 +100,11 @@ public class ClientCenter {
 		c = null;
 		if(clientPorts.containsKey(i)) {
 			c = clientPorts.get(i);
-			clientSockets.remove(c);
-			sockets.remove(c.getSock());
+			socketToClient.remove(c);
+			sockets.remove(namestToSocket.get(c.getName()));
+			namestToSocket.remove(c.getName());
 			usersNames.remove(c);
-			userClasses.remove(c.getName());
+			namesToClients.remove(c.getName());
 			onlineUserList.remove(c.getName());
 			clientPorts.remove(i);
 		} else {
@@ -110,11 +113,11 @@ public class ClientCenter {
 	}
 
 	public HashMap<String, Client> getChash() {
-		return userClasses;
+		return namesToClients;
 	}
 
 	public void setChash(HashMap<String, Client> chash) {
-		this.userClasses = chash;
+		this.namesToClients = chash;
 	}
 
 	//SINGLETON BLOCK
@@ -139,6 +142,6 @@ public class ClientCenter {
 	}
 
 	public HashMap<Socket, Client> getClientSockets() {
-		return clientSockets;
+		return socketToClient;
 	}
 }

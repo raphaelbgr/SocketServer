@@ -15,7 +15,7 @@ public class Broadcaster {
 		
 		for (Socket sock : ClientCenter.getInstance().getSockets()) {
 			if (sock != null) {
-				if (!sock.isClosed()) {
+				if (!sock.isClosed() && sock.getOutputStream() != null) {
 					ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
 //					bm.setServresponse("SERVER> Broadcast message");
 					bm.setTimestamp();
