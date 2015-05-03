@@ -3,6 +3,7 @@ package sync;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import sendable.Client;
@@ -23,12 +24,17 @@ public class ClientCenter {
 	private HashSet<Socket> sockets					= new HashSet<Socket>();
 	private Vector<String> onlineUserList			= new Vector<String>();
 	private Client c								= null;
+//	private Set<String> usedNames					= new HashSet<String>();
 
 
 	public HashSet<Socket> getSockets() {
 		return sockets;
 	}
 
+	public synchronized boolean checkNameAvaliability(String s) throws ServerException {
+		return onlineUserList.contains(s);
+	}
+	
 	public synchronized void addUser(Client c) throws ServerException {
 		if (!usersNames.add(c)) {
 			throw new ServerException("Client name already in use: " + c.getName());

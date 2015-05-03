@@ -9,6 +9,13 @@ public class ServerException extends Throwable {
 	private boolean toDisconnect = false;
 	
 	String s = null;
+	private boolean doubleName;
+	
+	public ServerException(String s, boolean toDisconnect, boolean isDoubleName) {
+		this.s = s;
+		this.toDisconnect = toDisconnect;
+		this.doubleName = isDoubleName;
+	}
 	
 	public ServerException(String s, boolean toDisconnect) {
 		this.s = s;
@@ -34,6 +41,14 @@ public class ServerException extends Throwable {
 
 	public void setToDisconnect(boolean toDisconnect) {
 		this.toDisconnect = toDisconnect;
+	}
+	
+	public boolean isDoubleName() {
+		return doubleName;
+	}
+	
+	public void setDoubleName(boolean set) {
+		this.doubleName = set;
 	}
 	
 }

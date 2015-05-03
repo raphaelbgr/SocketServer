@@ -33,6 +33,7 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private boolean disconnect = false;
 	private boolean error = false;
+	private boolean connect = false;
 
 	private String addUser;
 	private String delUser;
@@ -93,6 +94,12 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public Vector<String> getOnlineUserList() {
 		return onlineUserList;
+	}
+	public boolean isConnect() {
+		return connect;
+	}
+	public void setConnect(boolean connect) {
+		this.connect = connect;
 	}
 	public boolean isError() {
 		return error;
@@ -250,6 +257,7 @@ public class Message implements Serializable, Comparable<Message> {
 	//AUTOMATICALLY SETS ITS CREATION TIME
 	public Message () {
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
+		setTimestamp();
 	}
 	public Date getMsg_Date() {
 		return new Date();

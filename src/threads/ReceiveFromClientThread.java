@@ -53,14 +53,14 @@ public class ReceiveFromClientThread implements Runnable {
 					} else if (o instanceof DisconnectionMessage) {
 						DisconnectionMessage dm = (DisconnectionMessage)o;
 						BroadCastMessage bcm = new BroadCastMessage();
-						bcm.setOwner(dm.getOwner());
+						bcm.setOwner(cName);
 						bcm.setText("Disconnected");
 						bcm.setServresponse("SERVER> Disconnected");
 //						ClientCenter.getInstance().removeClientByName(dm.getOwner());
 						ClientCenter.getInstance().removeClientByClass(localClient);
 						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 						bc.broadCastMessage(sm);
-						bc.broadCastMessage(dm);
+//						bc.broadCastMessage(dm);
 						System.out.println(this.getTimestamp()+ cName + " -> " + "Disconnected");				
 
 						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
@@ -79,17 +79,26 @@ public class ReceiveFromClientThread implements Runnable {
 					c.setLocalPort(port);
 					if (c.getVersion() == ServerMain.VERSION) {
 						if (cName.length() < 21) {
-							BroadCastMessage bcm = new BroadCastMessage();
-							bcm.setOwner(cName);
-							cc.addClient(c.getSock(), c);
-							bcm.setText("Connected");
-							bcm.setServresponse("SERVER> Connected");
-							bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-							bc.broadCastMessage(bcm);
-							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
-							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-							bc.broadCastMessage(sm);
-							System.out.println(getTimestamp() + c.toString() + " -> Connected");
+							if (!ClientCenter.getInstance().checkNameAvaliability(cName)) {
+								BroadCastMessage bcm = new BroadCastMessage();
+								bcm.setOwner(cName);
+								cc.addClient(c.getSock(), c);
+								bcm.setText("Connected");
+								bcm.setServresponse("SERVER> Connected");
+								bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+								bc.broadCastMessage(bcm);
+								ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
+								sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+								bc.broadCastMessage(sm);
+								System.out.println(getTimestamp() + c.toString() + " -> Connected");
+								
+								ServerMessage smConnect = new ServerMessage();
+								smConnect.setConnect(true);
+								smConnect.setServresponse("Welcome " + cName);
+								so.send(sock, smConnect);
+							} else {
+								throw new ServerException(getTimestamp() + "SERVER> The name " + cName + " is already in use.",true, true);
+							}			
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 						}
@@ -137,11 +146,13 @@ public class ReceiveFromClientThread implements Runnable {
 				try {
 					System.err.println(e.getMessage());
 					so.send(sock, e);
-					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
-					try {
-						ClientCenter.getInstance().removeClientByName(cName);
-					} catch (Throwable e1) {
-						System.err.println(e1.getMessage());
+//					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+					if (!e.isDoubleName()) {
+						try {
+							ClientCenter.getInstance().removeClientByName(cName);
+						} catch (Throwable e1) {
+							System.err.println(e1.getMessage());
+						}
 					}
 					if (e.isToDisconnect()) {
 						sock.close();
