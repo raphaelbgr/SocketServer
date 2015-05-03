@@ -52,17 +52,14 @@ public class ClientCenter {
 		}
 	}
 
-	/*	public synchronized void removeClientByClass(Client c) throws Throwable {
-		if(userClasses.containsKey(c.getName())) {
-			Client c1 = userClasses.get(c.getName());
-			sockets.remove(c1.getSock());
-			userClasses.remove(c.getName());
-			usersNames.remove(c);
-			onlineUserList.remove(c.toString());
-			;		} else {
-				throw new ServerException("Client is not on the list.");
-			}
-	}*/
+	public synchronized void removeClientByClass(Client c) throws Throwable {
+		socketToClient.remove(c);
+		sockets.remove(namestToSocket.get(c.getName()));
+		usersNames.remove(c);
+		namesToClients.remove(c.getName());
+		onlineUserList.remove(c.getName());
+		portToClients.remove(c.getLocalPort());
+	}
 
 	public synchronized void removeClientByName(String s) throws Throwable {
 		c = null;
@@ -73,8 +70,7 @@ public class ClientCenter {
 			usersNames.remove(c);
 			namesToClients.remove(s);
 			onlineUserList.remove(s);
-			portToClients.remove(c.getLocalPort());
-			
+			portToClients.remove(c.getLocalPort());	
 		} else {
 			throw new ServerException(c.getName() + " is already offline.");
 		}

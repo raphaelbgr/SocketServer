@@ -32,6 +32,7 @@ public class Message implements Serializable, Comparable<Message> {
 	private Vector<String> onlineUserList;
 
 	private boolean disconnect = false;
+	private boolean error = false;
 
 	private String addUser;
 	private String delUser;
@@ -92,6 +93,12 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public Vector<String> getOnlineUserList() {
 		return onlineUserList;
+	}
+	public boolean isError() {
+		return error;
+	}
+	public void setError(boolean error) {
+		this.error = error;
 	}
 	public void setOnlineUserList(Vector<String> listData) {
 		this.onlineUserList = listData;
