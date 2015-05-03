@@ -26,6 +26,7 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private int version;
 	
+	private long ownerID;
 	private long creationTime;
 	private long serverReceivedtime;
 	private ClientSeenTime [] cst;
@@ -69,6 +70,12 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public String getText() {
 		return text;
+	}
+	public long getOwnerID() {
+		return ownerID;
+	}
+	public void setOwnerID(long ownerID) {
+		this.ownerID = ownerID;
 	}
 	public void setText(String text) {
 		this.text = text;
