@@ -9,7 +9,7 @@ import threads.ConnectionHandlerThread;
 
 public class ServerMain {
 	public static int PORT = 2000;
-	public static final int VERSION = 13;
+	public static final int VERSION = 14;
 	public static MessageCenter mc = new MessageCenter();
 
 	public static void main(String[] args) {
