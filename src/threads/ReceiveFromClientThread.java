@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -128,6 +129,19 @@ public class ReceiveFromClientThread implements Runnable {
 						break;
 					}
 					
+			}
+			catch (SocketTimeoutException e) {
+				e.printStackTrace();
+				System.err.println(getTimestamp() + "SERVER> " + cName + " had a timeout.");
+				try {
+					sock.close();
+					sock = null;
+					ClientCenter.getInstance().removeClientByName(cName);
+				} catch (Throwable e1) {
+					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+				}
+				break;
 			}
 			catch (SocketException e) {
 //				e.printStackTrace();
