@@ -15,7 +15,7 @@ import exceptions.ServerException;
 public class ClientCenter {
 
 	private static ClientCenter cc 					= null;
-	private HashMap<String,Client> namesToClients 	= new HashMap<String,Client>();
+	private HashMap<String,Client> loginsToClients 	= new HashMap<String,Client>();
 	private HashMap<Socket,Client> socketToClient	= new HashMap<Socket,Client>();
 	private HashMap<String,Socket> namestToSocket	= new HashMap<String,Socket>();
 	private HashMap<Integer,Client> portToClients 	= new HashMap<Integer,Client>();
@@ -37,22 +37,22 @@ public class ClientCenter {
 	
 	public synchronized void addUser(Client c) throws ServerException {
 		if (!usersNames.add(c)) {
-			throw new ServerException("Client name already in use: " + c.getName());
+			throw new ServerException("Client login already in use: " + c.getLogin());
 		}
 		onlineUserList.add(c.toString());
 	}
 
 	public synchronized void addClient(Socket sock, Client c) throws Throwable {
-		if (!namesToClients.containsKey(c.getName())) {
-			namesToClients.put(c.getName(), c);
+		if (!loginsToClients.containsKey(c.getLogin())) {
+			loginsToClients.put(c.getLogin(), c);
 			sockets.add(sock);
 			usersNames.add(c);
 			onlineUserList.add(c.toString());
 			socketToClient.put(sock, c);
 			portToClients.put(c.getLocalPort(), c);
-			namestToSocket.put(c.getName(), sock);
+			namestToSocket.put(c.getLogin(), sock);
 		} else {
-			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getName() + " is already in use.", true);
+			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getLogin() + " is already in use.", true);
 			se.setToDisconnect(true);
 			throw se;
 		}
@@ -60,25 +60,25 @@ public class ClientCenter {
 
 	public synchronized void removeClientByClass(Client c) throws Throwable {
 		socketToClient.remove(c);
-		sockets.remove(namestToSocket.get(c.getName()));
+		sockets.remove(namestToSocket.get(c.getLogin()));
 		usersNames.remove(c);
-		namesToClients.remove(c.getName());
-		onlineUserList.remove(c.getName());
+		loginsToClients.remove(c.getLogin());
+		onlineUserList.remove(c.toString());
 		portToClients.remove(c.getLocalPort());
 	}
 
-	public synchronized void removeClientByName(String s) throws Throwable {
+	public synchronized void removeClientByLogin(String s) throws Throwable {
 		c = null;
-		if(namesToClients.containsKey(s)) {
-			c = namesToClients.get(s);
+		if(loginsToClients.containsKey(s)) {
+			c = loginsToClients.get(s);
 			socketToClient.remove(c);
 			sockets.remove(namestToSocket.get(s));
 			usersNames.remove(c);
-			namesToClients.remove(s);
+			loginsToClients.remove(s);
 			onlineUserList.remove(s);
 			portToClients.remove(c.getLocalPort());	
 		} else {
-			throw new ServerException(c.getName() + " is already offline.");
+			throw new ServerException(c.getLogin() + " is already offline.");
 		}
 	}
 
@@ -88,8 +88,8 @@ public class ClientCenter {
 			return portToClients.get(i);
 		} else {
 			try {
-//				if (c != null || c.getName() != null) {
-//					throw new ServerException(c.getName() + " not found on connected list.");
+//				if (c != null || c.getLogin() != null) {
+//					throw new ServerException(c.getLogin() + " not found on connected list.");
 //				}
 				throw new ServerException("Client is already offline.");
 			} catch (ServerException e) {
@@ -103,23 +103,23 @@ public class ClientCenter {
 		if(portToClients.containsKey(i)) {
 			c = portToClients.get(i);
 			socketToClient.remove(c);
-			sockets.remove(namestToSocket.get(c.getName()));
-			namestToSocket.remove(c.getName());
+			sockets.remove(namestToSocket.get(c.getLogin()));
+			namestToSocket.remove(c.getLogin());
 			usersNames.remove(c);
-			namesToClients.remove(c.getName());
-			onlineUserList.remove(c.getName());
+			loginsToClients.remove(c.getLogin());
+			onlineUserList.remove(c.getLogin());
 			portToClients.remove(i);
 		} else {
-			throw new ServerException(c.getName() + " is already offline.");
+			throw new ServerException(c.getLogin() + " is already offline.");
 		}
 	}
 
 	public HashMap<String, Client> getChash() {
-		return namesToClients;
+		return loginsToClients;
 	}
 
 	public void setChash(HashMap<String, Client> chash) {
-		this.namesToClients = chash;
+		this.loginsToClients = chash;
 	}
 
 	//SINGLETON BLOCK

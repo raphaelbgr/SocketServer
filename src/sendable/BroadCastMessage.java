@@ -10,7 +10,7 @@ public class BroadCastMessage extends Message {
 
 	@Override
 	public String toString() {
-		return "[" + this.getTimestamp() + "] " + this.getOwner() + " -> " + "Connected";
+		return "[" + this.getTimestamp() + "] " + this.getOwnerLogin() + " -> " + "Connected";
 	}
 	
 }

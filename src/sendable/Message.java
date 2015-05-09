@@ -38,10 +38,11 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private String addUser;
 	private String delUser;
-	private String owner;
+	private String ownerLogin;
 	private String text;
 	private String timestamp;
 	private String date;
+	private String ownerName;
 
 	private String ip;
 	private String port;
@@ -62,11 +63,11 @@ public class Message implements Serializable, Comparable<Message> {
 	public void addSeen(String name) {
 		this.receivedby.add(name);
 	}
-	public String getOwner() {
-		return owner;
+	public String getOwnerLogin() {
+		return ownerLogin;
 	}
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setOwnerLogin(String owner) {
+		this.ownerLogin = owner;
 	}
 	public String getText() {
 		return text;
@@ -113,6 +114,12 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setError(boolean error) {
 		this.error = error;
+	}
+	public String getOwnerName() {
+		return ownerName;
+	}
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 	public void setOnlineUserList(Vector<String> listData) {
 		this.onlineUserList = listData;
@@ -198,7 +205,7 @@ public class Message implements Serializable, Comparable<Message> {
 		int result = 1;
 		result = prime * result + ((ip == null) ? 0 		: ip.hashCode());
 		result = prime * result + ((network == null) ? 0 	: network.hashCode());
-		result = prime * result + ((owner == null) ? 0 		: owner.hashCode());
+		result = prime * result + ((ownerLogin == null) ? 0 		: ownerLogin.hashCode());
 		result = prime * result + ((pcname == null) ? 0 	: pcname.hashCode());
 		return result;
 	}
@@ -225,10 +232,10 @@ public class Message implements Serializable, Comparable<Message> {
 				return false;
 		} else if (!network.equals(other.network))
 			return false;
-		if (owner == null) {
-			if (other.owner != null)
+		if (ownerLogin == null) {
+			if (other.ownerLogin != null)
 				return false;
-		} else if (!owner.equals(other.owner))
+		} else if (!ownerLogin.equals(other.ownerLogin))
 			return false;
 		if (pcname == null) {
 			if (other.pcname != null)
@@ -243,7 +250,7 @@ public class Message implements Serializable, Comparable<Message> {
 	 */
 		@Override
 	public String toString() {
-		return "[" + this.getTimestamp() + "] " + this.getOwner() + " -> " + this.getText();
+		return "[" + this.getTimestamp() + "] " + this.getOwnerLogin() + " -> " + this.getText();
 	}
 	/*
 	@Override
@@ -275,7 +282,7 @@ public class Message implements Serializable, Comparable<Message> {
 
 	public Message buildDisconnectMessage() {
 		this.setDisconnect(true);
-		this.setOwner(getOwner());
+		this.setOwnerLogin(getOwnerLogin());
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
 		this.setIp(getIp());
 		this.setType("disconnect");
@@ -286,7 +293,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	
 	public Message buildConnectMessage() {
-		this.setOwner(getOwner());
+		this.setOwnerLogin(getOwnerLogin());
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
 		this.setType("connectreq");
 		this.setPcname(getPcname());
@@ -296,7 +303,7 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 
 	public Message (String owner, String ip, String Message) {
-		setOwner(owner);
+		setOwnerLogin(owner);
 		setText(Message);
 		setIp(ip);
 		setCreationtime(Calendar.getInstance().getTimeInMillis());
@@ -304,13 +311,13 @@ public class Message implements Serializable, Comparable<Message> {
 	
 	public Message (String owner, String Message) {
 		setText(Message);
-		setOwner(owner);
+		setOwnerLogin(owner);
 		setIp("No IP");
 		setCreationtime(Calendar.getInstance().getTimeInMillis());
 	}
 
 	public Message (String Message) {
-		setOwner("Anonymous Owner");
+		setOwnerLogin("Anonymous Owner");
 		setIp("No IP");
 		setText(Message);
 		setCreationtime(Calendar.getInstance().getTimeInMillis());

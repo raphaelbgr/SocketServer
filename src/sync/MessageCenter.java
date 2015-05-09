@@ -32,7 +32,7 @@ public class MessageCenter {
 		System.out.println("======= Message List =======");
 		for (Message messageObj : messageList) {
 			String dateFormatted = this.formatter.format(messageObj.getMsg_Date());
-			System.out.println("[" + dateFormatted + "] " + messageObj.getOwner() + "-> " + messageObj.getText());
+			System.out.println("[" + dateFormatted + "] " + messageObj.getOwnerLogin() + "-> " + messageObj.getText());
 		}
 	}
 	

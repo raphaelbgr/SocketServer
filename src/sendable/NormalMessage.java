@@ -9,7 +9,7 @@ public class NormalMessage extends Message {
 
 	@Override
 	public String toString() {
-		return "[" + this.getTimestamp() + "] " + this.getOwner() + " -> " + this.getText();
+		return "[" + this.getTimestamp() + "] " + this.getOwnerName() + " -> " + this.getText();
 	}
 	
 }
