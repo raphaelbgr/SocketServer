@@ -111,24 +111,28 @@ public class ReceiveFromClientThread implements Runnable {
 				}
 
 			} catch (EOFException e){ 
+				e.printStackTrace();
+				BroadCastMessage bcm = new BroadCastMessage();
+				bcm.setOwner(cName);
+				bcm.setText("Disconnected");
+				bcm.setServresponse("SERVER> SocketTimeoutException error");
+				try {
+					ClientCenter.getInstance().removeClientByClass(localClient);
+					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+					bc.broadCastMessage(bcm);
+				} catch (Throwable e2) {
 					try {
-						sock.close();
+						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
-						
-						e1.printStackTrace();
-					} finally {
-						sock = null;
-						
-						try {
-							ClientCenter.getInstance().removeClientByName(cName);
-						} catch (Throwable e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-							break;
-						}
-						break;
 					}
-					
+				}
+				System.err.println(getTimestamp() + "SERVER> " + cName + " had a EOFException.");
+				try {
+					sock.close();
+					sock = null;
+				} catch (Throwable e1) {
+				}
+				break;
 			}
 			catch (SocketTimeoutException e) {
 				e.printStackTrace();
@@ -137,26 +141,20 @@ public class ReceiveFromClientThread implements Runnable {
 				bcm.setText("Disconnected");
 				bcm.setServresponse("SERVER> SocketTimeoutException error");
 				try {
-					bc.broadCastMessage(bcm);
-				} catch (IOException e3) {
-					// TODO Auto-generated catch block
-					e3.printStackTrace();
-				}
-				try {
 					ClientCenter.getInstance().removeClientByClass(localClient);
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+					bc.broadCastMessage(bcm);
 				} catch (Throwable e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
+					try {
+						bc.broadCastMessage(bcm);
+					} catch (IOException e1) {
+					}
 				}
-				System.err.println(getTimestamp() + "SERVER> " + cName + " had a timeout.");
+				System.err.println(getTimestamp() + "SERVER> " + cName + " had a SocketTimeoutException.");
 				try {
 					sock.close();
 					sock = null;
-					ClientCenter.getInstance().removeClientByName(cName);
 				} catch (Throwable e1) {
-					// TODO Auto-generated catch block
-//					e1.printStackTrace();
 				}
 				break;
 			}
@@ -167,26 +165,20 @@ public class ReceiveFromClientThread implements Runnable {
 				bcm.setText("Disconnected");
 				bcm.setServresponse("SERVER> SocketTimeoutException error");
 				try {
-					bc.broadCastMessage(bcm);
-				} catch (IOException e3) {
-					// TODO Auto-generated catch block
-					e3.printStackTrace();
-				}
-				try {
 					ClientCenter.getInstance().removeClientByClass(localClient);
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+					bc.broadCastMessage(bcm);
 				} catch (Throwable e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
+					try {
+						bc.broadCastMessage(bcm);
+					} catch (IOException e1) {
+					}
 				}
 				System.err.println(getTimestamp() + "SERVER> " + cName + " had a SocketException.");
 				try {
 					sock.close();
 					sock = null;
-					ClientCenter.getInstance().removeClientByName(cName);
 				} catch (Throwable e1) {
-					// TODO Auto-generated catch block
-//					e1.printStackTrace();
 				}
 				break;
 			}
@@ -215,7 +207,7 @@ public class ReceiveFromClientThread implements Runnable {
 				if (c != null) {
 					System.out.println(getTimestamp() + "SERVER> " + cName + " Disconnected.");
 				} else {
-					//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
+//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				}
 				try {
 					ClientCenter.getInstance().removeClientByName(cName);
