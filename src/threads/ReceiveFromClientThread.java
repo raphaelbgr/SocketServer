@@ -39,7 +39,6 @@ public class ReceiveFromClientThread implements Runnable {
 	Client localClient 	= null;
 	String cLogin 		= null;
 
-	@SuppressWarnings("finally")
 	public void run() {
 		while(true) {
 			try {
@@ -52,8 +51,24 @@ public class ReceiveFromClientThread implements Runnable {
 							((NormalMessage)o).setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 							((Message)o).setOwnerName(localClient.getName());
 							((Message)o).setOwnerLogin(localClient.getLogin());
+							((Message)o).setServerReceivedtime();
 							System.out.println(getTimestamp() + localClient.toString() + " -> " + ((Message)o).getText());
 							bc.broadCastMessage((Message)o);
+							try {
+								DAO.connect();
+								DAO.storeMessage((NormalMessage)o);
+								DAO.updateSentMsgs(((Message)o));
+								DAO.disconnect();
+							} catch (SQLException e) {
+								System.err.println(getTimestamp() + "SERVER> Could not store this message on the database.");
+								e.printStackTrace();
+							} finally {
+								try {
+									DAO.disconnect();
+								} catch (SQLException e) {							
+								}
+							}
+
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Message greater than 100 characters.");
 						}
@@ -65,11 +80,11 @@ public class ReceiveFromClientThread implements Runnable {
 						bcm.setOwnerName(localClient.getName());
 						bcm.setText("Disconnected");
 						bcm.setServresponse("SERVER> Disconnected");
-//						ClientCenter.getInstance().removeClientByName(dm.getOwner());
+						//						ClientCenter.getInstance().removeClientByName(dm.getOwner());
 						ClientCenter.getInstance().removeClientByClass(localClient);
 						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 						bc.broadCastMessage(sm);
-//						bc.broadCastMessage(dm);
+						//						bc.broadCastMessage(dm);
 						System.out.println(this.getTimestamp()+ localClient.getName() + " -> " + "Disconnected");				
 
 						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
@@ -93,30 +108,31 @@ public class ReceiveFromClientThread implements Runnable {
 								if (!ClientCenter.getInstance().checkNameAvaliability(cLogin)) {
 									//Gets the client data on the database
 									localClient = DAO.loadClientData(c);
-									
+
 									BroadCastMessage bcm = new BroadCastMessage();
 									bcm.setOwnerLogin(cLogin);
 									bcm.setOwnerName(localClient.getName());
-									
+
 									cc.addClient(c.getSock(), localClient);
 									bcm.setText("Connected");
 									bcm.setServresponse("SERVER> Connected");
 									bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 									bc.broadCastMessage(bcm);
-									
+
 									//Sends the list of conencted people
 									ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 									sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 									bc.broadCastMessage(sm);
 									System.out.println(getTimestamp() + localClient.toString() + " -> Connected");
-									
+
 									//Tells the client to enter local online mode
 									ServerMessage smConnect = new ServerMessage();
 									smConnect.setConnect(true);
 									smConnect.setServresponse("Welcome " + localClient.getName());
-									
+
 									//Sends the login confirmation to client
-									so.send(sock, smConnect);	
+									so.send(sock, smConnect);
+									
 								} else {
 									DAO.disconnect();
 									throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
@@ -153,7 +169,7 @@ public class ReceiveFromClientThread implements Runnable {
 					} catch (IOException e1) {
 					}
 				}
-				System.err.println(getTimestamp() + "SERVER> " + cLogin + " had a EOFException.");
+				System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a EOFException.");
 				try {
 					sock.close();
 					sock = null;
@@ -215,7 +231,7 @@ public class ReceiveFromClientThread implements Runnable {
 				try {
 					System.err.println(e.getMessage());
 					so.send(sock, e);
-//					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
+					//					Client c = ClientCenter.getInstance().getClientSockets().get(sock);
 					if (!e.isDoubleName()) {
 						try {
 							ClientCenter.getInstance().removeClientByLogin(cLogin);
@@ -236,7 +252,7 @@ public class ReceiveFromClientThread implements Runnable {
 				if (c != null) {
 					System.out.println(getTimestamp() + "SERVER> " + cLogin + " Disconnected.");
 				} else {
-//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
+					//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				}
 				try {
 					ClientCenter.getInstance().removeClientByLogin(cLogin);
@@ -250,7 +266,7 @@ public class ReceiveFromClientThread implements Runnable {
 				} catch (Throwable e2) {	
 				} 
 				finally {
-//					this.sock = null;
+					//					this.sock = null;
 					BroadCastMessage bcm = new BroadCastMessage();
 					if (c != null) {
 						bcm.setOwnerLogin(cLogin);
@@ -262,7 +278,7 @@ public class ReceiveFromClientThread implements Runnable {
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
-						//						System.err.println("Broadcast error.");
+//						System.err.println("Broadcast error.");
 					}
 				}
 				try {
@@ -279,7 +295,7 @@ public class ReceiveFromClientThread implements Runnable {
 							throw new ServerException(getTimestamp() + " SERVER> Database server is offline.");
 						} catch (ServerException e2) {
 							// TODO Auto-generated catch block
-//							e2.printStackTrace();
+							//							e2.printStackTrace();
 						}
 					}
 				}

@@ -1,12 +1,10 @@
 package sendable;
 
-import java.awt.Color;
-import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,13 +20,19 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private Set<String> receivedby = new HashSet<String>();
 
-	private Date msg_Date;
+	private Date msg_DateCreated;
+	private Timestamp serverReceivedTimeSQLDate;
 
 	private int version;
+	private int messageServerCount;
+	private int messageOwnerCount;
 	
 	private long ownerID;
 	private long creationTime;
-	private long serverReceivedtime;
+	
+	private Date serverReceivedTimeDate;
+	private String serverReceivedTimeString;
+	
 	private ClientSeenTime [] cst;
 	private Vector<String> onlineUserList;
 
@@ -57,6 +61,10 @@ public class Message implements Serializable, Comparable<Message> {
 	private String aux3;
 	private String aux4;
 
+	private Object msg_DateCreatedSQL;
+
+	private Long serverReceivedTimeLong;
+
 	public Set<String> getSeen() {
 		return receivedby;
 	}
@@ -66,8 +74,8 @@ public class Message implements Serializable, Comparable<Message> {
 	public String getOwnerLogin() {
 		return ownerLogin;
 	}
-	public void setOwnerLogin(String owner) {
-		this.ownerLogin = owner;
+	public void setOwnerLogin(String ownerLogin) {
+		this.ownerLogin = ownerLogin;
 	}
 	public String getText() {
 		return text;
@@ -86,15 +94,17 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setTimestamp() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para metodo na Mensagem
+		setMsgCreationDate(Calendar.getInstance().getTime());
+		String dateFormatted = formatter.format(getMsgCreationDate()); //Extrair para metodo na Mensagem
 		this.timestamp = dateFormatted;
 	}
-	public String getDate() {
+	public String getDateString() {
 		return date;
 	}
-	public void setDate() {
+	public void setDateString() {
 		DateFormat formatter = new SimpleDateFormat("dd/M/yyyy");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para metodo na Mensagem
+		setMsgCreationDate(Calendar.getInstance().getTime());
+		String dateFormatted = formatter.format(getMsgCreationDate()); //Extrair para metodo na Mensagem
 		this.date = dateFormatted;
 	}
 	public int getVersion() {
@@ -205,7 +215,7 @@ public class Message implements Serializable, Comparable<Message> {
 		int result = 1;
 		result = prime * result + ((ip == null) ? 0 		: ip.hashCode());
 		result = prime * result + ((network == null) ? 0 	: network.hashCode());
-		result = prime * result + ((ownerLogin == null) ? 0 		: ownerLogin.hashCode());
+		result = prime * result + ((ownerLogin == null) ? 0 : ownerLogin.hashCode());
 		result = prime * result + ((pcname == null) ? 0 	: pcname.hashCode());
 		return result;
 	}
@@ -273,11 +283,12 @@ public class Message implements Serializable, Comparable<Message> {
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
 		setTimestamp();
 	}
-	public Date getMsg_Date() {
-		return new Date();
+	public Date getMsgCreationDate() {
+		return this.msg_DateCreated;
 	}
-	public void setMsg_Date(Date msg_Date) {
-		this.msg_Date = msg_Date;
+	public void setMsgCreationDate(Date msg_Date) {
+		this.msg_DateCreated = msg_Date;
+		this.msg_DateCreatedSQL = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
 	}
 
 	public Message buildDisconnectMessage() {
@@ -288,7 +299,7 @@ public class Message implements Serializable, Comparable<Message> {
 		this.setType("disconnect");
 		this.setPcname(getPcname());
 		this.setTimestamp();
-		this.setDate();
+		this.setDateString();
 		return this;
 	}
 	
@@ -298,7 +309,7 @@ public class Message implements Serializable, Comparable<Message> {
 		this.setType("connectreq");
 		this.setPcname(getPcname());
 		this.setTimestamp();
-		this.setDate();
+		this.setDateString();
 		return this;
 	}
 
@@ -317,9 +328,55 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 
 	public Message (String Message) {
-		setOwnerLogin("Anonymous Owner");
+		setOwnerLogin("anonymous");
+		setOwnerName("Anonymous Owner");
 		setIp("No IP");
 		setText(Message);
 		setCreationtime(Calendar.getInstance().getTimeInMillis());
+	}
+	public String getServerReceivedtimeString() {
+		return serverReceivedTimeString;
+	}
+	public Date getServerReceivedtimeDate() {
+		return serverReceivedTimeDate;
+	}
+	public void setServerReceivedtime() {
+		this.serverReceivedTimeSQLDate = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+		this.serverReceivedTimeDate = Calendar.getInstance().getTime();
+		this.serverReceivedTimeString = Calendar.getInstance().getTime().toString();
+		this.serverReceivedTimeLong = Calendar.getInstance().getTimeInMillis();
+	}
+	public Long getServerReceivedTimeLong() {
+		return serverReceivedTimeLong;
+	}
+	public int getMessageServerCount() {
+		return messageServerCount;
+	}
+	public void setMessageServerCount(int messageServerCount) {
+		this.messageServerCount = messageServerCount;
+	}
+	public int getMessageOwnerCount() {
+		return messageOwnerCount;
+	}
+	public void setMessageOwnerCount(int messageOwnerCount) {
+		this.messageOwnerCount = messageOwnerCount;
+	}
+	public void setNetwork(String network) {
+		this.network = network;
+	}
+	public Date getServerReceivedTimeDate() {
+		return serverReceivedTimeDate;
+	}
+	public void setServerReceivedTimeDate(Date serverReceivedTimeDate) {
+		this.serverReceivedTimeDate = serverReceivedTimeDate;
+	}
+	public java.sql.Timestamp getServerReceivedTimeSQLDate() {
+		return serverReceivedTimeSQLDate;
+	}
+	public void setServerReceivedTimeSQLDate(java.sql.Timestamp serverReceivedTimeSQLDate) {
+		this.serverReceivedTimeSQLDate = serverReceivedTimeSQLDate;
+	}
+	public Object getMsg_DateCreatedSQL() {
+		return msg_DateCreatedSQL;
 	}
 }
