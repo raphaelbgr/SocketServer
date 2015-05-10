@@ -11,12 +11,12 @@ import sendable.Message;
 
 public class DAO {
 
-	final private static String DATABASE_URL = "jdbc:mysql://surfael.sytes.net:3307/chatdb";
+	final private static String DATABASE_URL = "jdbc:mysql://yourdbaddress:port";
 	
 	static Connection c = null;
 	
 	public static synchronized void connect() throws SQLException {
-		c = DriverManager.getConnection(DATABASE_URL, "chatclient", "nopass");
+		c = DriverManager.getConnection(DATABASE_URL, "yourlogin", "yourpass");
 	}
 	
 	public synchronized static void updateSentMsgs(Message m) throws SQLException {
