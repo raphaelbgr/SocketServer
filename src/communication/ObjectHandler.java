@@ -31,11 +31,11 @@ public class ObjectHandler {
 	}
 
 	private void handleNormalMessage(NormalMessage m) {
-		System.out.println(m.toString());
+//		System.out.println(m.toString());
 	}
 
 	private void handleDisconnectionMessage(DisconnectionMessage m) {
-		//		System.err.println(m.toString());
+//		System.err.println(m.toString());
 	}
 
 	private void handleConnectionMessage(ConnectionMessage m) {

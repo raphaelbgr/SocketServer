@@ -12,20 +12,21 @@ public class Broadcaster {
 	ClientCenter cc = ClientCenter.getInstance();
 	
 	public void broadCastMessage(Message bm) throws IOException {
-		
 		for (Socket sock : ClientCenter.getInstance().getSockets()) {
-			if (!ClientCenter.getInstance().getSockets().isEmpty()) {
-				if (sock != null) {
-					if (!sock.isClosed() && sock.getOutputStream() != null) {
-						ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
-//						bm.setServresponse("SERVER> Broadcast message");
-						bm.setTimestamp();
-//						bm.setOwner(bm.getOwner());
-						oos.writeObject(bm);
-						oos.flush();
+			if (sock != null) {
+				if (!ClientCenter.getInstance().getSockets().isEmpty()) {
+					if (sock != null) {
+						if (!sock.isClosed() && sock.getOutputStream() != null) {
+							ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
+//							bm.setServresponse("SERVER> Broadcast message");
+							bm.setTimestamp();
+//							bm.setOwner(bm.getOwner());
+							oos.writeObject(bm);
+							oos.flush();
+						}
 					}
-				}
-			}	
+				}	
+			}
 		}
 		
 //		for (Client c : cc.getChash().values()) {

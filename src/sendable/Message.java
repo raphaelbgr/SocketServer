@@ -1,12 +1,10 @@
 package sendable;
 
-import java.awt.Color;
-import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,13 +20,19 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private Set<String> receivedby = new HashSet<String>();
 
-	private Date msg_Date;
+	private Date msg_DateCreated;
+	private Timestamp serverReceivedTimeSQLDate;
 
 	private int version;
+	private int messageServerCount;
+	private int messageOwnerCount;
 	
 	private long ownerID;
 	private long creationTime;
-	private long serverReceivedtime;
+	
+	private Date serverReceivedTimeDate;
+	private String serverReceivedTimeString;
+	
 	private ClientSeenTime [] cst;
 	private Vector<String> onlineUserList;
 
@@ -38,10 +42,11 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private String addUser;
 	private String delUser;
-	private String owner;
+	private String ownerLogin;
 	private String text;
 	private String timestamp;
 	private String date;
+	private String ownerName;
 
 	private String ip;
 	private String port;
@@ -56,17 +61,21 @@ public class Message implements Serializable, Comparable<Message> {
 	private String aux3;
 	private String aux4;
 
+	private Object msg_DateCreatedSQL;
+
+	private Long serverReceivedTimeLong;
+
 	public Set<String> getSeen() {
 		return receivedby;
 	}
 	public void addSeen(String name) {
 		this.receivedby.add(name);
 	}
-	public String getOwner() {
-		return owner;
+	public String getOwnerLogin() {
+		return ownerLogin;
 	}
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setOwnerLogin(String ownerLogin) {
+		this.ownerLogin = ownerLogin;
 	}
 	public String getText() {
 		return text;
@@ -85,15 +94,17 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setTimestamp() {
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para metodo na Mensagem
+		setMsgCreationDate(Calendar.getInstance().getTime());
+		String dateFormatted = formatter.format(getMsgCreationDate()); //Extrair para metodo na Mensagem
 		this.timestamp = dateFormatted;
 	}
-	public String getDate() {
+	public String getDateString() {
 		return date;
 	}
-	public void setDate() {
+	public void setDateString() {
 		DateFormat formatter = new SimpleDateFormat("dd/M/yyyy");
-		String dateFormatted = formatter.format(getMsg_Date()); //Extrair para metodo na Mensagem
+		setMsgCreationDate(Calendar.getInstance().getTime());
+		String dateFormatted = formatter.format(getMsgCreationDate()); //Extrair para metodo na Mensagem
 		this.date = dateFormatted;
 	}
 	public int getVersion() {
@@ -113,6 +124,12 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setError(boolean error) {
 		this.error = error;
+	}
+	public String getOwnerName() {
+		return ownerName;
+	}
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 	public void setOnlineUserList(Vector<String> listData) {
 		this.onlineUserList = listData;
@@ -198,7 +215,7 @@ public class Message implements Serializable, Comparable<Message> {
 		int result = 1;
 		result = prime * result + ((ip == null) ? 0 		: ip.hashCode());
 		result = prime * result + ((network == null) ? 0 	: network.hashCode());
-		result = prime * result + ((owner == null) ? 0 		: owner.hashCode());
+		result = prime * result + ((ownerLogin == null) ? 0 : ownerLogin.hashCode());
 		result = prime * result + ((pcname == null) ? 0 	: pcname.hashCode());
 		return result;
 	}
@@ -225,10 +242,10 @@ public class Message implements Serializable, Comparable<Message> {
 				return false;
 		} else if (!network.equals(other.network))
 			return false;
-		if (owner == null) {
-			if (other.owner != null)
+		if (ownerLogin == null) {
+			if (other.ownerLogin != null)
 				return false;
-		} else if (!owner.equals(other.owner))
+		} else if (!ownerLogin.equals(other.ownerLogin))
 			return false;
 		if (pcname == null) {
 			if (other.pcname != null)
@@ -243,7 +260,7 @@ public class Message implements Serializable, Comparable<Message> {
 	 */
 		@Override
 	public String toString() {
-		return "[" + this.getTimestamp() + "] " + this.getOwner() + " -> " + this.getText();
+		return "[" + this.getTimestamp() + "] " + this.getOwnerLogin() + " -> " + this.getText();
 	}
 	/*
 	@Override
@@ -266,37 +283,38 @@ public class Message implements Serializable, Comparable<Message> {
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
 		setTimestamp();
 	}
-	public Date getMsg_Date() {
-		return new Date();
+	public Date getMsgCreationDate() {
+		return this.msg_DateCreated;
 	}
-	public void setMsg_Date(Date msg_Date) {
-		this.msg_Date = msg_Date;
+	public void setMsgCreationDate(Date msg_Date) {
+		this.msg_DateCreated = msg_Date;
+		this.msg_DateCreatedSQL = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
 	}
 
 	public Message buildDisconnectMessage() {
 		this.setDisconnect(true);
-		this.setOwner(getOwner());
+		this.setOwnerLogin(getOwnerLogin());
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
 		this.setIp(getIp());
 		this.setType("disconnect");
 		this.setPcname(getPcname());
 		this.setTimestamp();
-		this.setDate();
+		this.setDateString();
 		return this;
 	}
 	
 	public Message buildConnectMessage() {
-		this.setOwner(getOwner());
+		this.setOwnerLogin(getOwnerLogin());
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
 		this.setType("connectreq");
 		this.setPcname(getPcname());
 		this.setTimestamp();
-		this.setDate();
+		this.setDateString();
 		return this;
 	}
 
 	public Message (String owner, String ip, String Message) {
-		setOwner(owner);
+		setOwnerLogin(owner);
 		setText(Message);
 		setIp(ip);
 		setCreationtime(Calendar.getInstance().getTimeInMillis());
@@ -304,15 +322,61 @@ public class Message implements Serializable, Comparable<Message> {
 	
 	public Message (String owner, String Message) {
 		setText(Message);
-		setOwner(owner);
+		setOwnerLogin(owner);
 		setIp("No IP");
 		setCreationtime(Calendar.getInstance().getTimeInMillis());
 	}
 
 	public Message (String Message) {
-		setOwner("Anonymous Owner");
+		setOwnerLogin("anonymous");
+		setOwnerName("Anonymous Owner");
 		setIp("No IP");
 		setText(Message);
 		setCreationtime(Calendar.getInstance().getTimeInMillis());
+	}
+	public String getServerReceivedtimeString() {
+		return serverReceivedTimeString;
+	}
+	public Date getServerReceivedtimeDate() {
+		return serverReceivedTimeDate;
+	}
+	public void setServerReceivedtime() {
+		this.serverReceivedTimeSQLDate = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+		this.serverReceivedTimeDate = Calendar.getInstance().getTime();
+		this.serverReceivedTimeString = Calendar.getInstance().getTime().toString();
+		this.serverReceivedTimeLong = Calendar.getInstance().getTimeInMillis();
+	}
+	public Long getServerReceivedTimeLong() {
+		return serverReceivedTimeLong;
+	}
+	public int getMessageServerCount() {
+		return messageServerCount;
+	}
+	public void setMessageServerCount(int messageServerCount) {
+		this.messageServerCount = messageServerCount;
+	}
+	public int getMessageOwnerCount() {
+		return messageOwnerCount;
+	}
+	public void setMessageOwnerCount(int messageOwnerCount) {
+		this.messageOwnerCount = messageOwnerCount;
+	}
+	public void setNetwork(String network) {
+		this.network = network;
+	}
+	public Date getServerReceivedTimeDate() {
+		return serverReceivedTimeDate;
+	}
+	public void setServerReceivedTimeDate(Date serverReceivedTimeDate) {
+		this.serverReceivedTimeDate = serverReceivedTimeDate;
+	}
+	public java.sql.Timestamp getServerReceivedTimeSQLDate() {
+		return serverReceivedTimeSQLDate;
+	}
+	public void setServerReceivedTimeSQLDate(java.sql.Timestamp serverReceivedTimeSQLDate) {
+		this.serverReceivedTimeSQLDate = serverReceivedTimeSQLDate;
+	}
+	public Object getMsg_DateCreatedSQL() {
+		return msg_DateCreatedSQL;
 	}
 }

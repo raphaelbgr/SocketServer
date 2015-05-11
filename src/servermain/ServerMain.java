@@ -1,32 +1,60 @@
 package servermain;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import dao.DAO;
 import sync.MessageCenter;
 import threads.ConnectionHandlerThread;
 
 public class ServerMain {
 	public static int PORT = 2000;
+<<<<<<< HEAD
 	public static final int VERSION = 14;
+=======
+	public static final int VERSION = 15;
+>>>>>>> origin/database
 	public static MessageCenter mc = new MessageCenter();
 
+	public static String DATABASE_CRYPT_KEY = null;
+	public static String DATABASE_LOGIN = null;
+	public static String DATABASE_PASS = null;
+	public static String DATABASE_ADDR = null;
+	public static String DATABASE_PORT = null;
+	public static String DATABASE_SCHEMA = null;
+	public static String DATABASE_FULL_URL = null;
+
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			ConnectionHandlerThread ch = new ConnectionHandlerThread(PORT);
-			Thread t1 = new Thread(ch);
-			t1.start();
-			System.out.println(getTimestamp() + " " + "SERVER> Listening on port " + PORT);
-		} else if (args[0].equalsIgnoreCase("-p") && Integer.valueOf(args[1]) > 0 && Integer.valueOf(args[1]) <= 65535) {
-			PORT = Integer.valueOf(args[1]);
-			ConnectionHandlerThread ch = new ConnectionHandlerThread(PORT);
-			Thread t1 = new Thread(ch);
-			t1.start();
-			System.out.println(getTimestamp() + " " + "SERVER> Listening on port " + PORT);
-		} else {
-			System.out.println("Invalid argument, usage -p followed by a valid port number.");
+
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].equalsIgnoreCase("-port") && Integer.valueOf(args[i + 1]) > 0 && Integer.valueOf(args[i + 1]) <= 65535) {
+				PORT = Integer.valueOf(args[i+1]);
+			} else if (args[i].equalsIgnoreCase("-dblogin")) {
+				DATABASE_LOGIN = args[i+1];
+			} else if (args[i].equalsIgnoreCase("-dbpass")) {
+				DATABASE_PASS = args[i+1];
+			} else if (args[i].equalsIgnoreCase("-dbkey")) {
+				DATABASE_CRYPT_KEY = args[i+1];
+			} else if (args[i].equalsIgnoreCase("-dbaddr")) {
+				DATABASE_ADDR = args[i+1];
+			} else if (args[i].equalsIgnoreCase("-dbport")) {
+				DATABASE_PORT = args[i+1];
+			} else if (args[i].equalsIgnoreCase("-dbalias")) {
+				DATABASE_SCHEMA = args[i+1];
+			}
 		}
+		if (DATABASE_CRYPT_KEY != null && DATABASE_LOGIN != null && DATABASE_PASS != null && DATABASE_ADDR != null) {
+			ConnectionHandlerThread ch = new ConnectionHandlerThread(PORT);
+			Thread t1 = new Thread(ch);
+			t1.start();
+			System.out.println(getTimestamp() + " " + "SERVER> Listening on port " + PORT);
+			DATABASE_FULL_URL = "jdbc:mysql://"+ ServerMain.DATABASE_ADDR + ":" + ServerMain.DATABASE_PORT + "/" + ServerMain.DATABASE_SCHEMA;
+		} else {
+			System.out.println("Missing or invalid arguments, usage -port, -dblogin, -dbpass, -dbkey, -dbaddr, -dbport and -dbalias to input the correct parameters for reaching the database.");
+		}
+
 	}
 
 	public static String getTimestamp() {
