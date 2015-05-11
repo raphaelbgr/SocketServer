@@ -11,7 +11,11 @@ import threads.ConnectionHandlerThread;
 
 public class ServerMain {
 	public static int PORT = 2000;
+<<<<<<< HEAD
+	public static final int VERSION = 14;
+=======
 	public static final int VERSION = 15;
+>>>>>>> origin/database
 	public static MessageCenter mc = new MessageCenter();
 
 	public static String DATABASE_CRYPT_KEY = null;
