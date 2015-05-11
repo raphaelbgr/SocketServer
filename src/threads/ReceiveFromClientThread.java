@@ -266,7 +266,7 @@ public class ReceiveFromClientThread implements Runnable {
 				if (c != null) {
 					System.out.println(getTimestamp() + "SERVER> " + cLogin + " Disconnected.");
 				} else {
-					//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
+//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				}
 				try {
 					ClientCenter.getInstance().removeClientByLogin(cLogin);

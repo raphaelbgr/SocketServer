@@ -202,7 +202,7 @@ public class Client implements Serializable {
 	
 	@Override
 	public String toString() {
-		return this.name;
+		return this.name + "/" + this.getCourse();
 	}
 	public int getLocalPort() {
 		return localPort;
