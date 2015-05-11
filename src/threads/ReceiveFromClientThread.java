@@ -16,6 +16,7 @@ import sendable.ConnectionMessage;
 import sendable.DisconnectionMessage;
 import sendable.Message;
 import sendable.NormalMessage;
+import sendable.RegistrationMessage;
 import sendable.ServerMessage;
 import servermain.ServerMain;
 import sync.Broadcaster;
@@ -44,6 +45,7 @@ public class ReceiveFromClientThread implements Runnable {
 			try {
 				Object o = ro.receive(sock);
 				if (o instanceof Message) {
+					
 					if (o instanceof ServerMessage) {
 					} else if (o instanceof NormalMessage) {
 						if (((NormalMessage)o).getText().length() < 101) {
@@ -58,7 +60,6 @@ public class ReceiveFromClientThread implements Runnable {
 								DAO.connect();
 								DAO.storeMessage((NormalMessage)o);
 								DAO.updateSentMsgs(((Message)o));
-								DAO.disconnect();
 							} catch (SQLException e) {
 								System.err.println(getTimestamp() + "SERVER> Could not store this message on the database.");
 								e.printStackTrace();
@@ -95,7 +96,20 @@ public class ReceiveFromClientThread implements Runnable {
 					} else if (o instanceof ConnectionMessage) {
 						((ConnectionMessage)o).setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 						so.send(sock, new ServerMessage("Online"));
-					} 
+					} else if (o instanceof RegistrationMessage) {
+						
+						//Sends the DB key to decrypt passwords on DB
+						RegistrationMessage rm = (RegistrationMessage) o;
+						rm.setDbCryptKey(ServerMain.DATABASE_CRYPT_KEY);
+						rm.setDbAddr(ServerMain.DATABASE_FULL_URL);
+						rm.setDbPass(ServerMain.DATABASE_PASS);
+						rm.setDbUser(ServerMain.DATABASE_LOGIN);
+						so.send(sock, rm);
+						System.out.println(this.getTimestamp() + "SERVER -> Sent registration DB key to anonymous client.");
+						sock.close();
+						sock = null;
+						break;
+					}
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
 					localClient = c;
@@ -132,7 +146,7 @@ public class ReceiveFromClientThread implements Runnable {
 
 									//Sends the login confirmation to client
 									so.send(sock, smConnect);
-									
+
 								} else {
 									DAO.disconnect();
 									throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
@@ -278,7 +292,7 @@ public class ReceiveFromClientThread implements Runnable {
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
-//						System.err.println("Broadcast error.");
+						//						System.err.println("Broadcast error.");
 					}
 				}
 				try {
