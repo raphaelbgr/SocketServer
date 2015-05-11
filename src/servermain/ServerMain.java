@@ -1,21 +1,17 @@
 package servermain;
 
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import dao.DAO;
 import sync.MessageCenter;
 import threads.ConnectionHandlerThread;
 
 public class ServerMain {
 	public static int PORT = 2000;
-<<<<<<< HEAD
-	public static final int VERSION = 14;
-=======
+
 	public static final int VERSION = 15;
->>>>>>> origin/database
+
 	public static MessageCenter mc = new MessageCenter();
 
 	public static String DATABASE_CRYPT_KEY = null;
