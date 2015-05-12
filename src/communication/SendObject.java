@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class SendObject {
 
-	public void send(Socket sock, Object o) throws IOException {
+	public synchronized void send(Socket sock, Object o) throws IOException {
 		ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
 		oos.writeObject(o);
 		oos.flush();

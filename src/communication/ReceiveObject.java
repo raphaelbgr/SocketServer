@@ -10,7 +10,7 @@ import sendable.Message;
 public class ReceiveObject {
 
 	@SuppressWarnings("unused")
-	public Object receive(Socket sock) throws ClassNotFoundException, IOException, ServerException {
+	public synchronized Object receive(Socket sock) throws ClassNotFoundException, IOException, ServerException {
 		ObjectHandler oh = new ObjectHandler();
 		ObjectInputStream ois = new ObjectInputStream(sock.getInputStream());
 		if (ois != null) {
@@ -22,7 +22,7 @@ public class ReceiveObject {
 		return null;
 	}
 
-	private Object isMessageConfigureClass(Object o, Socket sock) {
+	private synchronized Object isMessageConfigureClass(Object o, Socket sock) {
 		if (o instanceof Message) {
 			Message m = (Message) o;
 			((Message)o).setIp(sock.getInetAddress().getHostAddress());
@@ -33,7 +33,7 @@ public class ReceiveObject {
 		return o;
 	}
 
-	private Message detectNetwork(Socket sock, Message m) {
+	private synchronized Message detectNetwork(Socket sock, Message m) {
 		if (sock.getInetAddress().isLoopbackAddress()) {
 			m.setNetwork(0);
 		} else if (sock.getInetAddress().isLinkLocalAddress()) {

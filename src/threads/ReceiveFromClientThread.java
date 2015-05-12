@@ -45,7 +45,6 @@ public class ReceiveFromClientThread implements Runnable {
 			try {
 				Object o = ro.receive(sock);
 				if (o instanceof Message) {
-					
 					if (o instanceof ServerMessage) {
 					} else if (o instanceof NormalMessage) {
 						if (((NormalMessage)o).getText().length() < 101) {
