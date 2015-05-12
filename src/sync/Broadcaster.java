@@ -11,7 +11,7 @@ public class Broadcaster {
 
 	ClientCenter cc = ClientCenter.getInstance();
 	
-	public void broadCastMessage(Message bm) throws IOException {
+	public synchronized void broadCastMessage(Message bm) throws IOException {
 		for (Socket sock : ClientCenter.getInstance().getSockets()) {
 			if (sock != null) {
 				if (!ClientCenter.getInstance().getSockets().isEmpty()) {
