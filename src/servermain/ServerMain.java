@@ -10,7 +10,7 @@ import threads.ConnectionHandlerThread;
 public class ServerMain {
 	public static int PORT = 2000;
 
-	public static final int VERSION = 15;
+	public static final int VERSION = 16;
 
 	public static MessageCenter mc = new MessageCenter();
 
@@ -21,6 +21,8 @@ public class ServerMain {
 	public static String DATABASE_PORT = null;
 	public static String DATABASE_SCHEMA = null;
 	public static String DATABASE_FULL_URL = null;
+	
+	public static String COMPILATION_KEY = null;
 
 	public static void main(String[] args) {
 
@@ -39,6 +41,8 @@ public class ServerMain {
 				DATABASE_PORT = args[i+1];
 			} else if (args[i].equalsIgnoreCase("-dbalias")) {
 				DATABASE_SCHEMA = args[i+1];
+			} else if (args[i].equalsIgnoreCase("-compkey")) {
+				COMPILATION_KEY = args[i+1];
 			}
 		}
 		if (DATABASE_CRYPT_KEY != null && DATABASE_LOGIN != null && DATABASE_PASS != null && DATABASE_ADDR != null) {
