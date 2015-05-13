@@ -163,10 +163,10 @@ public class ReceiveFromClientThread implements Runnable {
 						}
 					} else if (c.getVersion() < ServerMain.VERSION) {
 						DAO.disconnect();
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. DL at https://goo.gl/jN2mzM",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 					} else if (c.getVersion() > ServerMain.VERSION) {
 						DAO.disconnect();
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. DL at https://goo.gl/jN2mzM",true);
+						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 					}
 					//					} else {
 					//						throw new ServerException("You cannot connect to this server with your own compilation.",true);
