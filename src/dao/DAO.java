@@ -28,13 +28,15 @@ public class DAO {
 	
 	public synchronized static void updateSentMsgs(Message m) throws SQLException {
 		String query = "UPDATE CLIENTS SET LASTMESSAGE=\""+ m.getText() + "\", LASTMESSAGEDATE='" + m.getMsg_DateCreatedSQL() + "', LASTMESSAGE_TIMESTAMP='" + m.getTimestamp() + "'"
-					 + "WHERE LOGIN='"+ m.getOwnerLogin() + "';";	
+					 + "WHERE LOGIN='"+ m.getOwnerLogin() + "';";
+		System.out.println(query);
 		Statement s = c.prepareStatement(query);
 		s.execute(query);
 	}
 	
 	public synchronized static boolean verifyClientPassword(Client cl) throws SQLException {
 		String query = "SELECT LOGIN, cast(aes_decrypt(cryptpassword,'"+ServerMain.DATABASE_CRYPT_KEY+"') as CHAR) AS CRYPTPASSWORD FROM CLIENTS WHERE LOGIN='"+cl.getLogin()+"'";
+		System.out.println(query);
 		Statement st = c.prepareStatement(query);
 		ResultSet rs = st.executeQuery(query);
 		rs.next();
@@ -48,6 +50,7 @@ public class DAO {
 	public synchronized static void mD5criptifyAllDatabasePasswords() throws SQLException {
 		String query = "SELECT PASSWORD FROM CLIENTS";
 		String queryPassDelete = "DELETE FROM CLIENTS WHERE PASSWORD LIKE '%'";
+		System.out.println(query);
 		Statement st = c.prepareStatement(query);
 		ResultSet rs = st.executeQuery(query);
 		while (rs.next()) {
@@ -60,6 +63,7 @@ public class DAO {
 	
 	public synchronized static Client loadClientData(Client cl) throws SQLException {
 		String query = "SELECT * FROM CLIENTS WHERE LOGIN='"+ cl.getLogin() +"'";
+		System.out.println(query);
 		Statement st = c.prepareStatement(query);
 		ResultSet rs = st.executeQuery(query);
 		rs.next();
@@ -86,6 +90,7 @@ public class DAO {
 	public static int getOwnerMessagesSent(String login) throws SQLException {
 		String query = "SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "'";
 		String queryClient = "UPDATE CLIENTS SET MSGCOUNT=(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "') WHERE LOGIN='" + login + "'";
+		System.out.println(query);
 		Statement st = c.createStatement();
 		ResultSet rs = st.executeQuery(query);
 		int count = 0;
@@ -97,6 +102,7 @@ public class DAO {
 	
 	public static int generateOwnerID(String login) throws SQLException {
 		String query = "SELECT DISTINCT COUNT(LOGIN) FROM CLIENTS AS COUNT";
+		System.out.println(query);
 		Statement st = c.createStatement();
 		ResultSet rs = st.executeQuery(query);
 		int id = 0;
@@ -127,12 +133,13 @@ public class DAO {
 				+ "'" + m.getServerReceivedtimeString() + "',"
 				+ "'" + m.getServerReceivedTimeLong() + "')";
 		Statement s = c.prepareStatement(query);
-//		System.out.println(query);
+		System.out.println(query);
 		s.execute(query);
 		
 		String updateClient = "UPDATE CLIENTS SET MSGCOUNT=(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') WHERE LOGIN='" + m.getOwnerLogin() + "'";
 		Statement s2 = c.prepareStatement(updateClient);
 		s2.execute(updateClient);
+		System.out.println(updateClient);
 	}
 	
 	public static synchronized void disconnect() throws SQLException {
