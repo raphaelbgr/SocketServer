@@ -14,15 +14,15 @@ public class ServerMain {
 
 	public static MessageCenter mc = new MessageCenter();
 
-	public static String DATABASE_CRYPT_KEY = null;
-	public static String DATABASE_LOGIN = null;
-	public static String DATABASE_PASS = null;
-	public static String DATABASE_ADDR = null;
-	public static String DATABASE_PORT = null;
-	public static String DATABASE_SCHEMA = null;
-	public static String DATABASE_FULL_URL = null;
+	public static String DATABASE_CRYPT_KEY 	= null;
+	public static String DATABASE_LOGIN 		= null;
+	public static String DATABASE_PASS 			= null;
+	public static String DATABASE_ADDR 			= null;
+	public static String DATABASE_PORT 			= null;
+	public static String DATABASE_SCHEMA 		= null;
+	public static String DATABASE_FULL_URL		= null;
 	
-	public static String COMPILATION_KEY = null;
+	public static String COMPILATION_KEY 		= null;
 
 	public static void main(String[] args) {
 
