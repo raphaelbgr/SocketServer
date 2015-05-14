@@ -118,7 +118,7 @@ public class DAO {
 				
 				+ "VALUES ('" + m.getOwnerLogin() + "',"
 				+ "'" + m.getOwnerName() + "',"
-				+ "'" + m.getText() + "',"
+				+ "\"" + m.getText() + "\","
 				+ "'" + m.getCreationtime() + "',"
 				+ "'" + m.getServerReceivedTimeSQLDate() + "',"
 				+ "'" + m.getMsg_DateCreatedSQL() + "',"
