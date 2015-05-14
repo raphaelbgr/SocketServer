@@ -87,7 +87,7 @@ public class DAO {
 		return cl;
 	}
 	
-	public static int getOwnerMessagesSent(String login) throws SQLException {
+	public synchronized static int getOwnerMessagesSent(String login) throws SQLException {
 		String query = "SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "'";
 		String queryClient = "UPDATE CLIENTS SET MSGCOUNT=(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "') WHERE LOGIN='" + login + "'";
 		System.out.println(query);
@@ -100,7 +100,7 @@ public class DAO {
 		return count;
 	}
 	
-	public static int generateOwnerID(String login) throws SQLException {
+	public synchronized static int generateOwnerID(String login) throws SQLException {
 		String query = "SELECT DISTINCT COUNT(LOGIN) FROM CLIENTS AS COUNT";
 		System.out.println(query);
 		Statement st = c.createStatement();
@@ -112,7 +112,7 @@ public class DAO {
 		return id + 1;
 	}
 	
-	public static void storeMessage(Message m) throws SQLException {
+	public synchronized static void storeMessage(Message m) throws SQLException {
 		String query = "INSERT INTO MESSAGELOG (OWNERLOGIN,OWNERNAME,TEXT,CREATIONTIME,SERVERRECEIVEDTIME,MSG_DATE,IP,PCNAME,NETWORK,TYPE,SERVRESPONSE,OWNERID,"
 				+ "`MESSAGESERVER#`,`MESSAGEOWNER#`, `SERV_REC_TIMESTAMP`, `SERV_REC_TIME`) "
 				
