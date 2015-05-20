@@ -21,9 +21,11 @@ import sendable.ServerMessage;
 import servermain.ServerMain;
 import sync.Broadcaster;
 import sync.ClientCenter;
+
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
+
 import dao.DAO;
 import exceptions.ServerException;
 
@@ -67,11 +69,9 @@ public class ReceiveFromClientThread implements Runnable {
 								} catch (SQLException e) {							
 								}
 							}
-
 						} else {
 							throw new ServerException(getTimestamp() + " SERVER> Message greater than 100 characters.");
 						}
-
 					} else if (o instanceof DisconnectionMessage) {
 						DisconnectionMessage dm = (DisconnectionMessage)o;
 						BroadCastMessage bcm = new BroadCastMessage();
@@ -79,13 +79,10 @@ public class ReceiveFromClientThread implements Runnable {
 						bcm.setOwnerName(localClient.getName());
 						bcm.setText("Disconnected");
 						bcm.setServresponse("SERVER> Disconnected");
-						//						ClientCenter.getInstance().removeClientByName(dm.getOwner());
 						ClientCenter.getInstance().removeClientByClass(localClient);
 						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 						bc.broadCastMessage(sm);
-						//						bc.broadCastMessage(dm);
 						System.out.println(this.getTimestamp()+ localClient.getName() + " -> " + "Disconnected");				
-
 						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 						bc.broadCastMessage(bcm);		
 						sock.close();
@@ -99,16 +96,19 @@ public class ReceiveFromClientThread implements Runnable {
 						//Sends the DB key to decrypt passwords on DB
 						RegistrationMessage rm = (RegistrationMessage) o;
 						if (rm.getCompilationKey() != null && ((Message) o).getCompilationKey().equalsIgnoreCase(ServerMain.COMPILATION_KEY)) {
-							rm.setDbCryptKey(ServerMain.DATABASE_CRYPT_KEY);
-							rm.setDbAddr(ServerMain.DATABASE_FULL_URL);
-							rm.setDbPass(ServerMain.DATABASE_PASS);
-							rm.setDbUser(ServerMain.DATABASE_LOGIN);
-							//							System.out.println(this.getTimestamp() + "SERVER -> Received registration request from client with PC name: " + rm.getPcname() + ", IP: " + rm.getIp() + "  and DNS hostname:" + rm.getDnsHostName());
-							so.send(sock, rm);
-							System.out.println(this.getTimestamp() + "SERVER -> Sent registration DB key to anonymous client with PC name: " + rm.getPcname() + ", IP: " + rm.getIp() + "  and DNS hostname:" + rm.getDnsHostName());
-							sock.close();
-							sock = null;
-							break;
+							if (rm.getVersion() != 0 && rm.getVersion() == ServerMain.VERSION) {
+								rm.setDbCryptKey(ServerMain.DATABASE_CRYPT_KEY);
+								rm.setDbAddr(ServerMain.DATABASE_FULL_URL);
+								rm.setDbPass(ServerMain.DATABASE_PASS);
+								rm.setDbUser(ServerMain.DATABASE_LOGIN);
+								so.send(sock, rm);
+								System.out.println(this.getTimestamp() + "SERVER -> Sent registration DB key to anonymous client with PC name: " + rm.getPcname() + ", IP: " + rm.getIp() + "  and DNS hostname:" + rm.getDnsHostName());
+								sock.close();
+								sock = null;
+								break;
+							} else {
+								throw new ServerException(this.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
+							}
 						} else {
 							throw new ServerException(this.getTimestamp() + "SERVER -> You cannot connect to this server with your own compilation.",true);
 						}
@@ -118,7 +118,6 @@ public class ReceiveFromClientThread implements Runnable {
 					localClient = c;
 					cLogin = c.getLogin();
 					c.setLocalPort(port);
-					//					if (((Message) o).getCompilationKey().equalsIgnoreCase(ServerMain.COMPILATION_KEY)) {
 					if (c.getVersion() == ServerMain.VERSION) {
 						if (cLogin.length() < 21) {
 							DAO.connect();
@@ -163,16 +162,12 @@ public class ReceiveFromClientThread implements Runnable {
 						}
 					} else if (c.getVersion() < ServerMain.VERSION) {
 						DAO.disconnect();
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
+						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 					} else if (c.getVersion() > ServerMain.VERSION) {
 						DAO.disconnect();
-						throw new ServerException(getTimestamp() + " SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
+						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 					}
-					//					} else {
-					//						throw new ServerException("You cannot connect to this server with your own compilation.",true);
-					//					}
 				}
-
 			} catch (EOFException e){ 
 				e.printStackTrace();
 				BroadCastMessage bcm = new BroadCastMessage();
@@ -264,7 +259,6 @@ public class ReceiveFromClientThread implements Runnable {
 						try {
 							ClientCenter.getInstance().removeClientByLogin(cLogin);
 						} catch (Throwable e1) {
-							//							System.err.println(e1.getMessage());
 						}
 					}
 					if (e.isToDisconnect()) {
@@ -280,7 +274,6 @@ public class ReceiveFromClientThread implements Runnable {
 				if (c != null) {
 					System.out.println(getTimestamp() + "SERVER> " + cLogin + " Disconnected.");
 				} else {
-					//					System.err.println(getTimestamp() + "SERVER> Client/Server Error disconnected unexpectedly.");
 				}
 				try {
 					ClientCenter.getInstance().removeClientByLogin(cLogin);
@@ -294,7 +287,6 @@ public class ReceiveFromClientThread implements Runnable {
 				} catch (Throwable e2) {	
 				} 
 				finally {
-					//					this.sock = null;
 					BroadCastMessage bcm = new BroadCastMessage();
 					if (c != null) {
 						bcm.setOwnerLogin(cLogin);
@@ -306,7 +298,6 @@ public class ReceiveFromClientThread implements Runnable {
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
-						//						System.err.println("Broadcast error.");
 					}
 				}
 				try {
@@ -322,8 +313,6 @@ public class ReceiveFromClientThread implements Runnable {
 						try {
 							throw new ServerException(getTimestamp() + " SERVER> Database server is offline.");
 						} catch (ServerException e2) {
-							// TODO Auto-generated catch block
-							//							e2.printStackTrace();
 						}
 					}
 				}

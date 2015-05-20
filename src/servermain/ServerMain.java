@@ -10,7 +10,7 @@ import threads.ConnectionHandlerThread;
 public class ServerMain {
 	public static int PORT = 2000;
 
-	public static final int VERSION = 18;
+	public static final int VERSION = 19;
 
 	public static MessageCenter mc = new MessageCenter();
 
