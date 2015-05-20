@@ -110,7 +110,7 @@ public class ReceiveFromClientThread implements Runnable {
 								throw new ServerException(this.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 							}
 						} else {
-							throw new ServerException(this.getTimestamp() + "SERVER -> You cannot connect to this server with your own compilation.",true);
+							throw new ServerException(this.getTimestamp() + "SERVER -> You cannot connect to this server with your own compilation. Download at https://goo.gl/jN2mzM",true);
 						}
 					}
 				} else if (o instanceof Client) {
