@@ -136,7 +136,7 @@ public class ReceiveFromClientThread implements Runnable {
 									bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 									bc.broadCastMessage(bcm);
 
-									//Sends the list of conencted people
+									//Sends the list of connected people
 									ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 									sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 									bc.broadCastMessage(sm);
