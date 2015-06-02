@@ -18,9 +18,12 @@ import sendable.Message;
 import sendable.NormalMessage;
 import sendable.RegistrationMessage;
 import sendable.ServerMessage;
+import sendable.WebClient;
 import servermain.ServerMain;
 import sync.Broadcaster;
 import sync.ClientCenter;
+import threads.receiver.Receiver;
+import threads.receiver.types.NormalMessageReceiver;
 
 import communication.MessageHandler;
 import communication.ReceiveObject;
@@ -29,7 +32,7 @@ import communication.SendObject;
 import dao.DAO;
 import exceptions.ServerException;
 
-public class ReceiveFromClientThread implements Runnable {
+public class ReceiverFacade implements Runnable {
 	Socket sock			= null;
 	ReceiveObject ro 	= new ReceiveObject();
 	SendObject so		= new SendObject();
@@ -39,6 +42,8 @@ public class ReceiveFromClientThread implements Runnable {
 	private Integer port;
 	Client localClient 	= null;
 	String cLogin 		= null;
+	
+	Receiver receiver = null;
 
 	@SuppressWarnings("finally")
 	public void run() {
@@ -47,31 +52,12 @@ public class ReceiveFromClientThread implements Runnable {
 				Object o = ro.receive(sock);
 				if (o instanceof Message) {
 					if (o instanceof ServerMessage) {
+						
 					} else if (o instanceof NormalMessage) {
-						if (((NormalMessage)o).getText().length() < 101) {
-							((NormalMessage)o).setServresponse("SERVER> Received");
-							((NormalMessage)o).setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-							((Message)o).setOwnerName(localClient.getName());
-							((Message)o).setOwnerLogin(localClient.getLogin());
-							((Message)o).setServerReceivedtime();
-							System.out.println(getTimestamp() + localClient.toString() + " -> " + ((Message)o).getText());
-							bc.broadCastMessage((Message)o);
-							try {
-								DAO.connect();
-								DAO.storeMessage((NormalMessage)o);
-								DAO.updateSentMsgs(((Message)o));
-							} catch (SQLException e) {
-								System.err.println(getTimestamp() + "SERVER> Could not store this message on the database.");
-								e.printStackTrace();
-							} finally {
-								try {
-									DAO.disconnect();
-								} catch (SQLException e) {							
-								}
-							}
-						} else {
-							throw new ServerException(getTimestamp() + " SERVER> Message greater than 100 characters.");
-						}
+						
+						receiver = new NormalMessageReceiver();
+						receiver.receive(o);
+						
 					} else if (o instanceof DisconnectionMessage) {
 						DisconnectionMessage dm = (DisconnectionMessage)o;
 						BroadCastMessage bcm = new BroadCastMessage();
@@ -114,58 +100,62 @@ public class ReceiveFromClientThread implements Runnable {
 						}
 					}
 				} else if (o instanceof Client) {
-					Client c = (Client)o;
-					localClient = c;
-					cLogin = c.getLogin();
-					c.setLocalPort(port);
-					if (c.getVersion() == ServerMain.VERSION) {
-						if (cLogin.length() < 21) {
-							DAO.connect();
-							if (DAO.verifyClientPassword(localClient)) {
-								if (!ClientCenter.getInstance().checkNameAvaliability(cLogin)) {
-									//Gets the client data on the database
-									localClient = DAO.loadClientData(c);
+					if (o instanceof WebClient) {
+						
+					} else {
+						Client c = (Client)o;
+						localClient = c;
+						cLogin = c.getLogin();
+						c.setLocalPort(port);
+						if (c.getVersion() == ServerMain.VERSION) {
+							if (cLogin.length() < 21) {
+								DAO.connect();
+								if (DAO.verifyClientPassword(localClient)) {
+									if (!ClientCenter.getInstance().checkNameAvaliability(cLogin)) {
+										//Gets the client data on the database
+										localClient = DAO.loadClientData(c);
 
-									BroadCastMessage bcm = new BroadCastMessage();
-									bcm.setOwnerLogin(cLogin);
-									bcm.setOwnerName(localClient.getName());
+										BroadCastMessage bcm = new BroadCastMessage();
+										bcm.setOwnerLogin(cLogin);
+										bcm.setOwnerName(localClient.getName());
 
-									cc.addClient(c.getSock(), localClient);
-									bcm.setText("Connected");
-									bcm.setServresponse("SERVER> Connected");
-									bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-									bc.broadCastMessage(bcm);
+										cc.addClient(c.getSock(), localClient);
+										bcm.setText("Connected");
+										bcm.setServresponse("SERVER> Connected");
+										bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+										bc.broadCastMessage(bcm);
 
-									//Sends the list of connected people
-									ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
-									sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-									bc.broadCastMessage(sm);
-									System.out.println(getTimestamp() + localClient.toString() + " -> Connected");
+										//Sends the list of connected people
+										ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
+										sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+										bc.broadCastMessage(sm);
+										System.out.println(getTimestamp() + localClient.toString() + " -> Connected");
 
-									//Tells the client to enter local online mode
-									ServerMessage smConnect = new ServerMessage();
-									smConnect.setConnect(true);
-									smConnect.setServresponse("Welcome " + localClient.getName());
+										//Tells the client to enter local online mode
+										ServerMessage smConnect = new ServerMessage();
+										smConnect.setConnect(true);
+										smConnect.setServresponse("Welcome " + localClient.getName());
 
-									//Sends the login confirmation to client
-									so.send(sock, smConnect);
+										//Sends the login confirmation to client
+										so.send(sock, smConnect);
 
-								} else {
+									} else {
+										DAO.disconnect();
+										throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
+									}
 									DAO.disconnect();
-									throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
-								}
+								} else throw new ServerException(getTimestamp() + "SERVER> Wrong Password.",true);
+							} else {
 								DAO.disconnect();
-							} else throw new ServerException(getTimestamp() + "SERVER> Wrong Password.",true);
-						} else {
+								throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
+							}
+						} else if (c.getVersion() < ServerMain.VERSION) {
 							DAO.disconnect();
-							throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
+							throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
+						} else if (c.getVersion() > ServerMain.VERSION) {
+							DAO.disconnect();
+							throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 						}
-					} else if (c.getVersion() < ServerMain.VERSION) {
-						DAO.disconnect();
-						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
-					} else if (c.getVersion() > ServerMain.VERSION) {
-						DAO.disconnect();
-						throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 					}
 				}
 			} catch (EOFException e){ 
@@ -327,7 +317,7 @@ public class ReceiveFromClientThread implements Runnable {
 		return "["+dateFormatted+"]" + " ";
 	}
 
-	public ReceiveFromClientThread(Socket sock) {
+	public ReceiverFacade(Socket sock) {
 		this.sock = sock;
 		this.port = sock.getPort();
 	}
