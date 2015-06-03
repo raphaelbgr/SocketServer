@@ -24,11 +24,10 @@ import threads.receiver.types.ClientReceiver;
 import threads.receiver.types.DisconnectionMessageReceiver;
 import threads.receiver.types.NormalMessageReceiver;
 import threads.receiver.types.RegistrationMessageReceiver;
-
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
-
+import connection.ServerSocketBuilder;
 import dao.DAO;
 import exceptions.ServerException;
 
@@ -65,15 +64,16 @@ public class ReceiverManager implements Runnable {
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
 					c.setPort(port);
+					cLogin = c.getLogin();
+					localClient = c;
 					if (o instanceof WebClient) {
 						//TODO WEBCLIENT OBJ
 					} else {
 						receiver = new ClientReceiver();
 						receiver.receive(o,localClient,sock);
-						break;
 					}
 				}
-			} catch (EOFException e){
+			} catch (EOFException e) {
 				e.printStackTrace();
 				BroadCastMessage bcm = new BroadCastMessage();
 				bcm.setOwnerLogin(cLogin);
@@ -88,6 +88,15 @@ public class ReceiverManager implements Runnable {
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
+						
+					}
+				} finally {
+					try {
+						ServerSocketBuilder.dumpSocket();
+						ServerSocketBuilder.createSocket();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 				System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a EOFException.");
@@ -95,10 +104,10 @@ public class ReceiverManager implements Runnable {
 					sock.close();
 					sock = null;
 				} catch (Throwable e1) {
+					
 				}
 				break;
-			}
-			catch (SocketTimeoutException e) {
+			} catch (SocketTimeoutException e) {
 				e.printStackTrace();
 				BroadCastMessage bcm = new BroadCastMessage();
 				bcm.setOwnerLogin(cLogin);
@@ -120,10 +129,18 @@ public class ReceiverManager implements Runnable {
 					sock.close();
 					sock = null;
 				} catch (Throwable e1) {
+					
+				} finally {
+					try {
+						ServerSocketBuilder.dumpSocket();
+						ServerSocketBuilder.createSocket();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				break;
-			}
-			catch (SocketException e) {
+			} catch (SocketException e) {
 				e.printStackTrace();
 				BroadCastMessage bcm = new BroadCastMessage();
 				if (localClient != null && localClient.getName() != null && cLogin != null) {
@@ -146,15 +163,23 @@ public class ReceiverManager implements Runnable {
 					System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a SocketException.");
 				}
 				try {
+					sock.getOutputStream().close();
+					sock.getInputStream().close();
 					sock.close();
 					sock = null;
 				} catch (Throwable e1) {
+					
 				} finally {
-					sock = null;
-					break;
+					try {
+						ServerSocketBuilder.dumpSocket();
+						ServerSocketBuilder.createSocket();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
-			}
-			catch (ServerException e) {
+				break;
+			} catch (ServerException e) {
 				try {
 					if (e.getMessage() != null) {
 						System.err.println(e.getMessage());
@@ -172,6 +197,8 @@ public class ReceiverManager implements Runnable {
 					}
 				} catch (IOException e1) {
 					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
+				} finally {
+					
 				}
 			} catch (Throwable e) {
 				e.printStackTrace();
@@ -189,7 +216,13 @@ public class ReceiverManager implements Runnable {
 					this.sock.close();
 					sock = null;
 					break;
-				} catch (Throwable e2) {	
+				} catch (Throwable e2) {
+					try {
+						sock.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					sock = null;
 				} 
 				finally {
 					BroadCastMessage bcm = new BroadCastMessage();
@@ -203,6 +236,7 @@ public class ReceiverManager implements Runnable {
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
+						
 					}
 				}
 				try {
@@ -218,10 +252,20 @@ public class ReceiverManager implements Runnable {
 						try {
 							throw new ServerException(getTimestamp() + " SERVER> Database server is offline.");
 						} catch (ServerException e2) {
+						} finally {
+							try {
+								ServerSocketBuilder.dumpSocket();
+								ServerSocketBuilder.createSocket();
+							} catch (IOException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
 						}
 					}
 				}
 				break;
+			} finally {
+				
 			}
 		}
 	}

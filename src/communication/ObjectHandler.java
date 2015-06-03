@@ -35,7 +35,7 @@ public class ObjectHandler {
 //		System.err.println(m.toString());
 	}
 
-	private void handleClient(Client c) throws ServerException {
+	private synchronized void handleClient(Client c) throws ServerException {
 		cc.addUser(c);
 		System.out.println(c.toString() + " connected");
 	}

@@ -22,6 +22,8 @@ public class ServerMain {
 	public static String DATABASE_SCHEMA 		= null;
 	public static String DATABASE_FULL_URL		= null;
 	
+	public static boolean RECEIVE_CONN			= true; 
+	
 	public static String COMPILATION_KEY 		= null;
 
 	public static void main(String[] args) {

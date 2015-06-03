@@ -5,23 +5,35 @@ import java.net.ServerSocket;
 
 public class ServerSocketBuilder {
 
-	private ServerSocket jsock = null;
-	private int p; 
+	public static ServerSocket jsock = null;
+	private static int p; 
 
-	public ServerSocket createSocket() {
-		try {
-			this.jsock = new ServerSocket(p);
-		} catch(IOException e){
-			System.err.println("Failed to open port.");
-			e.printStackTrace();
-			System.exit(1);
+	public static ServerSocket createSocket() throws IOException {
+//		try {
+		if (jsock != null) {
+			ServerSocketBuilder.jsock.close();
+			ServerSocketBuilder.jsock = new ServerSocket(p);
+		} else {
+			ServerSocketBuilder.jsock = new ServerSocket(p);
 		}
-		return this.returnSocket();
+//		} catch(IOException e){
+//			System.err.println("Failed to open port.");
+//			e.printStackTrace();
+//			System.exit(1);
+//		}
+		return ServerSocketBuilder.returnSocket();
+	}
+	
+	public static void dumpSocket() throws IOException {
+		if (ServerSocketBuilder.jsock != null) {
+			ServerSocketBuilder.jsock.close();
+		}
+		ServerSocketBuilder.jsock = null;
 	}
 
-	public ServerSocket returnSocket(){
-		if (this.jsock!= null) {
-			return this.jsock;
+	public static ServerSocket returnSocket() {
+		if (ServerSocketBuilder.jsock != null) {
+			return ServerSocketBuilder.jsock;
 		} else {
 			return null;
 		}

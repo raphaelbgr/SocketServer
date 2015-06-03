@@ -22,7 +22,7 @@ import exceptions.ServerException;
 public class ClientReceiver implements ReceiverInterface {
 
 	@Override
-	public void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable {
+	public synchronized void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable {
 		
 		ClientCenter cc	= ClientCenter.getInstance();
 		String cLogin = localClient.getLogin();

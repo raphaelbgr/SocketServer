@@ -53,8 +53,6 @@ public class NormalMessageReceiver implements ReceiverInterface {
 				e.printStackTrace();
 			} finally {
 				try {
-					sock.close();
-					sock = null;
 					DAO.disconnect();
 				} catch (SQLException e) {
 					
