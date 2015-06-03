@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import sendable.Message;
+import sendable.messages.Message;
 
 public class MessageCenter {
 

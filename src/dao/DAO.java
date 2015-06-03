@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import sendable.Client;
-import sendable.Message;
+import sendable.clients.Client;
+import sendable.messages.Message;
 import servermain.ServerMain;
 
 public class DAO {
@@ -144,6 +144,18 @@ public class DAO {
 	
 	public static synchronized void disconnect() throws SQLException {
 		c.close();
+	}
+
+	public static synchronized String getClientNameByLogin(String login) throws SQLException {
+		DAO.connect();
+		String query = "SELECT NAME FROM CLIENTS WHERE LOGIN='"+ login +"'";
+		System.out.println(query);
+		Statement st = c.prepareStatement(query);
+		ResultSet rs = st.executeQuery(query);
+		rs.next();
+		String result = rs.getString("NAME");
+		DAO.disconnect();
+		return result;
 	}
 	
 }

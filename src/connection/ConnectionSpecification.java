@@ -1,6 +1,6 @@
 package connection;
 
-import sendable.Message;
+import sendable.messages.Message;
 
 public interface ConnectionSpecification {
 	public boolean send(Message m) throws Throwable;

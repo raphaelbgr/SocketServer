@@ -10,20 +10,20 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import sendable.BroadCastMessage;
-import sendable.Client;
-import sendable.ConnectionMessage;
-import sendable.DisconnectionMessage;
-import sendable.Message;
-import sendable.NormalMessage;
-import sendable.RegistrationMessage;
-import sendable.ServerMessage;
-import sendable.WebClient;
-import servermain.ServerMain;
+import sendable.clients.Client;
+import sendable.clients.WebClient;
+import sendable.messages.BroadCastMessage;
+import sendable.messages.DisconnectionMessage;
+import sendable.messages.Message;
+import sendable.messages.NormalMessage;
+import sendable.messages.RegistrationMessage;
 import sync.Broadcaster;
 import sync.ClientCenter;
-import threads.receiver.Receiver;
+import threads.receiver.ReceiverInterface;
+import threads.receiver.types.ClientReceiver;
+import threads.receiver.types.DisconnectionMessageReceiver;
 import threads.receiver.types.NormalMessageReceiver;
+import threads.receiver.types.RegistrationMessageReceiver;
 
 import communication.MessageHandler;
 import communication.ReceiveObject;
@@ -32,7 +32,7 @@ import communication.SendObject;
 import dao.DAO;
 import exceptions.ServerException;
 
-public class ReceiverFacade implements Runnable {
+public class ReceiverManager implements Runnable {
 	Socket sock			= null;
 	ReceiveObject ro 	= new ReceiveObject();
 	SendObject so		= new SendObject();
@@ -43,122 +43,37 @@ public class ReceiverFacade implements Runnable {
 	Client localClient 	= null;
 	String cLogin 		= null;
 	
-	Receiver receiver = null;
+	ReceiverInterface receiver = null;
 
-	@SuppressWarnings("finally")
 	public void run() {
 		while(true) {
 			try {
 				Object o = ro.receive(sock);
 				if (o instanceof Message) {
-					if (o instanceof ServerMessage) {
-						
-					} else if (o instanceof NormalMessage) {
-						
+					if (o instanceof NormalMessage) {
 						receiver = new NormalMessageReceiver();
-						receiver.receive(o);
-						
+						receiver.receive(o,localClient,null);
 					} else if (o instanceof DisconnectionMessage) {
-						DisconnectionMessage dm = (DisconnectionMessage)o;
-						BroadCastMessage bcm = new BroadCastMessage();
-						bcm.setOwnerLogin(localClient.getLogin());
-						bcm.setOwnerName(localClient.getName());
-						bcm.setText("Disconnected");
-						bcm.setServresponse("SERVER> Disconnected");
-						ClientCenter.getInstance().removeClientByClass(localClient);
-						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
-						bc.broadCastMessage(sm);
-						System.out.println(this.getTimestamp()+ localClient.getName() + " -> " + "Disconnected");				
-						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-						bc.broadCastMessage(bcm);		
-						sock.close();
-						sock = null;
+						receiver = new DisconnectionMessageReceiver();
+						receiver.receive(o,localClient,sock);
 						break;
-					} else if (o instanceof ConnectionMessage) {
-						((ConnectionMessage)o).setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-						so.send(sock, new ServerMessage("Online"));
 					} else if (o instanceof RegistrationMessage) {
-
-						//Sends the DB key to decrypt passwords on DB
-						RegistrationMessage rm = (RegistrationMessage) o;
-						if (rm.getCompilationKey() != null && ((Message) o).getCompilationKey().equalsIgnoreCase(ServerMain.COMPILATION_KEY)) {
-							if (rm.getVersion() != 0 && rm.getVersion() == ServerMain.VERSION) {
-								rm.setDbCryptKey(ServerMain.DATABASE_CRYPT_KEY);
-								rm.setDbAddr(ServerMain.DATABASE_FULL_URL);
-								rm.setDbPass(ServerMain.DATABASE_PASS);
-								rm.setDbUser(ServerMain.DATABASE_LOGIN);
-								so.send(sock, rm);
-								System.out.println(this.getTimestamp() + "SERVER -> Sent registration DB key to anonymous client with PC name: " + rm.getPcname() + ", IP: " + rm.getIp() + "  and DNS hostname:" + rm.getDnsHostName());
-								sock.close();
-								sock = null;
-								break;
-							} else {
-								throw new ServerException(this.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
-							}
-						} else {
-							throw new ServerException(this.getTimestamp() + "SERVER -> You cannot connect to this server with your own compilation. Download at https://goo.gl/jN2mzM",true);
-						}
+						receiver = new RegistrationMessageReceiver();
+						receiver.receive(o,localClient,sock);
+						break;
 					}
 				} else if (o instanceof Client) {
+					Client c = (Client)o;
+					c.setPort(port);
 					if (o instanceof WebClient) {
-						
+						//TODO WEBCLIENT OBJ
 					} else {
-						Client c = (Client)o;
-						localClient = c;
-						cLogin = c.getLogin();
-						c.setLocalPort(port);
-						if (c.getVersion() == ServerMain.VERSION) {
-							if (cLogin.length() < 21) {
-								DAO.connect();
-								if (DAO.verifyClientPassword(localClient)) {
-									if (!ClientCenter.getInstance().checkNameAvaliability(cLogin)) {
-										//Gets the client data on the database
-										localClient = DAO.loadClientData(c);
-
-										BroadCastMessage bcm = new BroadCastMessage();
-										bcm.setOwnerLogin(cLogin);
-										bcm.setOwnerName(localClient.getName());
-
-										cc.addClient(c.getSock(), localClient);
-										bcm.setText("Connected");
-										bcm.setServresponse("SERVER> Connected");
-										bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-										bc.broadCastMessage(bcm);
-
-										//Sends the list of connected people
-										ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
-										sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-										bc.broadCastMessage(sm);
-										System.out.println(getTimestamp() + localClient.toString() + " -> Connected");
-
-										//Tells the client to enter local online mode
-										ServerMessage smConnect = new ServerMessage();
-										smConnect.setConnect(true);
-										smConnect.setServresponse("Welcome " + localClient.getName());
-
-										//Sends the login confirmation to client
-										so.send(sock, smConnect);
-
-									} else {
-										DAO.disconnect();
-										throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
-									}
-									DAO.disconnect();
-								} else throw new ServerException(getTimestamp() + "SERVER> Wrong Password.",true);
-							} else {
-								DAO.disconnect();
-								throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
-							}
-						} else if (c.getVersion() < ServerMain.VERSION) {
-							DAO.disconnect();
-							throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
-						} else if (c.getVersion() > ServerMain.VERSION) {
-							DAO.disconnect();
-							throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
-						}
+						receiver = new ClientReceiver();
+						receiver.receive(o,localClient,sock);
+						break;
 					}
 				}
-			} catch (EOFException e){ 
+			} catch (EOFException e){
 				e.printStackTrace();
 				BroadCastMessage bcm = new BroadCastMessage();
 				bcm.setOwnerLogin(cLogin);
@@ -317,7 +232,7 @@ public class ReceiverFacade implements Runnable {
 		return "["+dateFormatted+"]" + " ";
 	}
 
-	public ReceiverFacade(Socket sock) {
+	public ReceiverManager(Socket sock) {
 		this.sock = sock;
 		this.port = sock.getPort();
 	}

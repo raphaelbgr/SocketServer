@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import sendable.Client;
+import sendable.clients.Client;
 import servermain.ServerMain;
 import exceptions.ServerException;
 

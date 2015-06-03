@@ -1,4 +1,6 @@
-package sendable;
+package sendable.clients;
+
+import sendable.messages.Message;
 
 
 public class ClientSeenTime extends Client {

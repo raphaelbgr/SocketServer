@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import sync.ClientCenter;
-import threads.ReceiverFacade;
+import threads.ReceiverManager;
 
 
 public class LinkBuilder {
@@ -22,7 +22,7 @@ public class LinkBuilder {
 		}
 
 		//			RECEIVER SERVERSIDE THREAD
-		ReceiverFacade rc = new ReceiverFacade(sock);
+		ReceiverManager rc = new ReceiverManager(sock);
 		Thread t2 = new Thread(rc);
 		t2.start();
 		

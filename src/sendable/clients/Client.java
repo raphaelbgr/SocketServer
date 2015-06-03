@@ -1,10 +1,12 @@
-package sendable;
+package sendable.clients;
 
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import sendable.messages.Message;
 
 
 public class Client implements Serializable {

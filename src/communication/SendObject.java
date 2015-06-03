@@ -10,7 +10,6 @@ public class SendObject {
 		ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
 		oos.writeObject(o);
 		oos.flush();
-//		oos.close();
 	}
 	
 }

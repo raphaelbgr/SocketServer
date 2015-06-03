@@ -1,4 +1,5 @@
-package sendable;
+package sendable.messages;
+
 
 public class RegistrationMessage extends Message {
 

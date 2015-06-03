@@ -1,4 +1,4 @@
-package sendable;
+package sendable.clients;
 
 public class WebClient extends Client {
 

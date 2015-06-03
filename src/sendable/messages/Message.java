@@ -1,4 +1,4 @@
-package sendable;
+package sendable.messages;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+
+import sendable.clients.ClientSeenTime;
 
 @SuppressWarnings("unused")
 public class Message implements Serializable, Comparable<Message> {
@@ -263,7 +265,7 @@ public class Message implements Serializable, Comparable<Message> {
 	 */
 		@Override
 	public String toString() {
-		return "[" + this.getTimestamp() + "] " + this.getOwnerLogin() + " -> " + this.getText();
+		return "[" + this.getTimestamp() + "] " + this.getOwnerName() + " -> " + this.getText();
 	}
 	/*
 	@Override

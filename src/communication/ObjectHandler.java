@@ -1,10 +1,9 @@
 package communication;
 
-import sendable.Client;
-import sendable.ConnectionMessage;
-import sendable.DisconnectionMessage;
-import sendable.Message;
-import sendable.NormalMessage;
+import sendable.clients.Client;
+import sendable.messages.DisconnectionMessage;
+import sendable.messages.Message;
+import sendable.messages.NormalMessage;
 import sync.ClientCenter;
 import exceptions.ServerException;
 
@@ -18,8 +17,6 @@ public class ObjectHandler {
 		if (o instanceof Message) {
 			if (o instanceof NormalMessage) {
 				handleNormalMessage((NormalMessage) o);
-			} else if (o instanceof ConnectionMessage) {
-				handleConnectionMessage((ConnectionMessage) o);
 			} else if (o instanceof DisconnectionMessage) {
 				handleDisconnectionMessage((DisconnectionMessage) o);
 			} else if (o instanceof Client) {
@@ -36,10 +33,6 @@ public class ObjectHandler {
 
 	private void handleDisconnectionMessage(DisconnectionMessage m) {
 //		System.err.println(m.toString());
-	}
-
-	private void handleConnectionMessage(ConnectionMessage m) {
-		System.out.println(m.toString());
 	}
 
 	private void handleClient(Client c) throws ServerException {

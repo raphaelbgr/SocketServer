@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import sendable.Message;
+import sendable.messages.Message;
 
 
 public class Broadcaster {
@@ -18,9 +18,7 @@ public class Broadcaster {
 					if (sock != null) {
 						if (!sock.isClosed() && sock.getOutputStream() != null) {
 							ObjectOutputStream oos = new ObjectOutputStream(sock.getOutputStream());
-//							bm.setServresponse("SERVER> Broadcast message");
 							bm.setTimestamp();
-//							bm.setOwner(bm.getOwner());
 							oos.writeObject(bm);
 							oos.flush();
 						}
@@ -28,17 +26,5 @@ public class Broadcaster {
 				}	
 			}
 		}
-		
-//		for (Client c : cc.getChash().values()) {
-//		    try {
-//				ObjectOutputStream oos = new ObjectOutputStream(c.getSock().getOutputStream());
-//				bm.setType("broadcast");
-//				bm.setServresponse("Broadcast message.");
-//				oos.writeObject(bm);
-//				oos.flush();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
 	}
 }

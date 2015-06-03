@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import exceptions.ServerException;
-import sendable.Message;
+import sendable.messages.Message;
 
 public class ReceiveObject {
 

@@ -1,4 +1,6 @@
-package sendable;
+package sendable.messages;
+
+
 
 public class DisconnectionMessage extends Message {
 

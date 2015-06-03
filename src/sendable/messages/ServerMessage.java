@@ -1,7 +1,9 @@
-package sendable;
+package sendable.messages;
 
 import java.io.Serializable;
 import java.util.Set;
+
+import sendable.clients.Client;
 
 public class ServerMessage extends Message implements Serializable {
 
