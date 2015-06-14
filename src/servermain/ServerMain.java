@@ -54,7 +54,7 @@ public class ServerMain {
 			System.out.println(getTimestamp() + " " + "SERVER> Listening on port " + PORT);
 			DATABASE_FULL_URL = "jdbc:mysql://"+ ServerMain.DATABASE_ADDR + ":" + ServerMain.DATABASE_PORT + "/" + ServerMain.DATABASE_SCHEMA;
 		} else {
-			System.out.println("Missing or invalid arguments, usage -port, -dblogin, -dbpass, -dbkey, -dbaddr, -dbport and -dbalias to input the correct parameters for reaching the database.");
+			System.out.println("Missing or invalid arguments, usage -port, -dblogin, -dbpass, -dbkey, -dbaddr, -dbport, -dbalias and -compkey to input the correct parameters for reaching the database.");
 		}
 
 	}
