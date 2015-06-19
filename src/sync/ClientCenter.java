@@ -58,14 +58,23 @@ public class ClientCenter {
 		}
 	}
 
-	public synchronized void removeClientByClass(Client c) throws Throwable {
+	public synchronized void removeClientByClassAndSocket(Client c,Socket sock) throws Throwable {
+		socketToClient.remove(sock);
+		sockets.remove(sock);
+		usersNames.remove(c);
+		loginsToClients.remove(c.getLogin());
+		onlineUserList.remove(c.toString());
+		portToClients.remove(c.getLocalPort());
+	}
+	
+/*	public synchronized void removeClientByClass(Client c) throws Throwable {
 		socketToClient.remove(c);
 		sockets.remove(namestToSocket.get(c.getLogin()));
 		usersNames.remove(c);
 		loginsToClients.remove(c.getLogin());
 		onlineUserList.remove(c.toString());
 		portToClients.remove(c.getLocalPort());
-	}
+	}*/
 
 	public synchronized void removeClientByLogin(String s) throws Throwable {
 		c = null;

@@ -291,7 +291,7 @@ public class Client implements Serializable {
 	public Integer getPort() {
 		return port;
 	}
-	public void setPort(Integer port) {
+	public void setLocalPort(Integer port) {
 		this.port = port;
 	}
 	public String getAux1() {

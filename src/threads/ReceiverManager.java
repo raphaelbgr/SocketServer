@@ -63,7 +63,7 @@ public class ReceiverManager implements Runnable {
 					}
 				} else if (o instanceof Client) {
 					Client c = (Client)o;
-					c.setPort(port);
+					c.setLocalPort(sock.getPort());
 					cLogin = c.getLogin();
 					localClient = c;
 					if (o instanceof WebClient) {
@@ -81,7 +81,8 @@ public class ReceiverManager implements Runnable {
 				bcm.setText("Disconnected");
 				bcm.setServresponse("SERVER> SocketTimeoutException error");
 				try {
-					ClientCenter.getInstance().removeClientByClass(localClient);
+//					ClientCenter.getInstance().removeClientByClass(localClient);
+					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 					bc.broadCastMessage(bcm);
 				} catch (Throwable e2) {
@@ -115,7 +116,8 @@ public class ReceiverManager implements Runnable {
 				bcm.setText("Disconnected");
 				bcm.setServresponse("SERVER> SocketTimeoutException error");
 				try {
-					ClientCenter.getInstance().removeClientByClass(localClient);
+//					ClientCenter.getInstance().removeClientByClass(localClient);
+					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 					bc.broadCastMessage(bcm);
 				} catch (Throwable e2) {
@@ -150,7 +152,8 @@ public class ReceiverManager implements Runnable {
 				bcm.setText("Disconnected");
 				bcm.setServresponse("SERVER> SocketTimeoutException error");
 				try {
-					ClientCenter.getInstance().removeClientByClass(localClient);
+//					ClientCenter.getInstance().removeClientByClass(localClient);
+					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 					bc.broadCastMessage(bcm);
 				} catch (Throwable e2) {
@@ -186,10 +189,7 @@ public class ReceiverManager implements Runnable {
 					}
 					so.send(sock, e);
 					if (!e.isDoubleName()) {
-						try {
-							ClientCenter.getInstance().removeClientByLogin(cLogin);
-						} catch (Throwable e1) {
-						}
+						
 					}
 					if (e.isToDisconnect()) {
 						sock.close();

@@ -42,7 +42,7 @@ public class ClientReceiver implements ReceiverInterface {
 						bcm.setOwnerLogin(cLogin);
 						bcm.setOwnerName(localClient.getName());
 
-						cc.addClient(localClient.getSock(), localClient);
+						cc.addClient(sock, localClient);
 						bcm.setText("Connected");
 						bcm.setServresponse("SERVER> Connected");
 						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());

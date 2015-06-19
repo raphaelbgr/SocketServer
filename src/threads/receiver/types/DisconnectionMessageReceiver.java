@@ -12,6 +12,8 @@ import sync.Broadcaster;
 import sync.ClientCenter;
 import threads.receiver.ReceiverInterface;
 
+import communication.SendObject;
+
 public class DisconnectionMessageReceiver implements ReceiverInterface {
 
 	@Override
@@ -22,11 +24,16 @@ public class DisconnectionMessageReceiver implements ReceiverInterface {
 		bcm.setOwnerName(localClient.getName());
 		bcm.setText("Disconnected");
 		bcm.setServresponse("SERVER> Disconnected");
-		ClientCenter.getInstance().removeClientByClass(localClient);
 		
+		ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
 		ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
+		sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 		Broadcaster bc = new Broadcaster();
 		bc.broadCastMessage(sm);
+		
+		SendObject so = new SendObject();
+		sm.setDisconnect(true);
+		so.send(sock, sm);
 		
 		System.out.println(this.getTimestamp()+ localClient.getName() + " -> " + "Disconnected");	
 		
