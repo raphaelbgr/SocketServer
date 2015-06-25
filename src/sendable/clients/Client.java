@@ -20,6 +20,9 @@ public class Client implements Serializable {
 	private int localPort;
 	private int version;
 	
+	boolean isConnect			= false;
+	boolean isDisconnect		= false;
+	
 	String text 				= null;
 	String name 				= null;
 	String middlename 			= null;
@@ -291,7 +294,7 @@ public class Client implements Serializable {
 	public Integer getPort() {
 		return port;
 	}
-	public void setLocalPort(Integer port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
 	public String getAux1() {
@@ -365,6 +368,18 @@ public class Client implements Serializable {
 	}
 	public void setMsn(String msn) {
 		this.msn = msn;
+	}
+	public boolean isConnect() {
+		return isConnect;
+	}
+	public void setConnect(boolean isConnect) {
+		this.isConnect = isConnect;
+	}
+	public boolean isDisconnect() {
+		return isDisconnect;
+	}
+	public void setDisconnect(boolean isDisconnect) {
+		this.isDisconnect = isDisconnect;
 	}
 	
 }

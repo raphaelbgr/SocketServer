@@ -33,39 +33,43 @@ public class ClientReceiver implements ReceiverInterface {
 			if (cLogin.length() < 21) {
 				DAO.connect();
 				if (DAO.verifyClientPassword(localClient)) {
-					if (!ClientCenter.getInstance().checkNameAvaliability(cLogin)) {
-						
-						//Gets the client data on the database
-						localClient = DAO.loadClientData(localClient);
+					if (localClient.isConnect()) {
+						if (!ClientCenter.getInstance().checkNameAvaliability(cLogin)) {
+							
+							//Gets the client data on the database
+							localClient = DAO.loadClientData(localClient);
 
-						BroadCastMessage bcm = new BroadCastMessage();
-						bcm.setOwnerLogin(cLogin);
-						bcm.setOwnerName(localClient.getName());
+							BroadCastMessage bcm = new BroadCastMessage();
+							bcm.setOwnerLogin(cLogin);
+							bcm.setOwnerName(localClient.getName());
+							bcm.setConnect(true);
 
-						cc.addClient(sock, localClient);
-						bcm.setText("Connected");
-						bcm.setServresponse("SERVER> Connected");
-						bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-						bc.broadCastMessage(bcm);
+							cc.addClient(sock, localClient);
+							bcm.setText("Connected");
+							bcm.setServresponse("SERVER> Connected");
+							bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+							bc.broadCastMessage(bcm);
 
-						//Sends the list of connected people
-						ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
-						sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-						bc.broadCastMessage(sm);
-						System.out.println(getTimestamp() + localClient.toString() + " -> Connected");
+							//Sends the list of connected people
+							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
+							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+							bc.broadCastMessage(sm);
+							System.out.println(getTimestamp() + localClient.toString() + " -> Connected");
 
-						//Tells the client to enter local online mode
-						ServerMessage smConnect = new ServerMessage();
-						smConnect.setConnect(true);
-						smConnect.setServresponse("Welcome " + localClient.getName());
+							//Tells the client to enter local online mode
+							ServerMessage smConnect = new ServerMessage();
+							smConnect.setConnect(true);
+							smConnect.setServresponse("Welcome " + localClient.getName());
 
-						//Sends the login confirmation to client
-						so.send(sock, smConnect);
+							//Sends the login confirmation to client
+							so.send(sock, smConnect);
 
-					} else {
-						DAO.disconnect();
-						throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
+						} else {
+							DAO.disconnect();
+							throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
+						}
 					}
+					
 					DAO.disconnect();
 				} else throw new ServerException(getTimestamp() + "SERVER> Wrong Password.",true);
 			} else {

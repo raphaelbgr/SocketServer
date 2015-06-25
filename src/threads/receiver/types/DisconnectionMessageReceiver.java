@@ -24,6 +24,7 @@ public class DisconnectionMessageReceiver implements ReceiverInterface {
 		bcm.setOwnerName(localClient.getName());
 		bcm.setText("Disconnected");
 		bcm.setServresponse("SERVER> Disconnected");
+		bcm.setDisconnect(true);
 		
 		ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
 		ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
