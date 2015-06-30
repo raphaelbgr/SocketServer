@@ -12,6 +12,8 @@ public class ServerMain {
 
 	public static final int VERSION = 19;
 
+	public static final boolean DEBUG = false;
+
 	public static MessageCenter mc = new MessageCenter();
 
 	public static String DATABASE_CRYPT_KEY 	= null;

@@ -15,6 +15,7 @@ public class ServerSocketBuilder {
 			ServerSocketBuilder.jsock = new ServerSocket(p);
 		} else {
 			ServerSocketBuilder.jsock = new ServerSocket(p);
+			ServerSocketBuilder.jsock.setSoTimeout(0);
 		}
 //		} catch(IOException e){
 //			System.err.println("Failed to open port.");
