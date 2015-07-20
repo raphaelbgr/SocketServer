@@ -22,7 +22,7 @@ public class RegistrationMessageReceiver implements ReceiverInterface{
 		//Sends the DB key to decrypt passwords on DB
 		RegistrationMessage rm = (RegistrationMessage) o;
 		if (rm.getCompilationKey() != null && ((Message) o).getCompilationKey().equalsIgnoreCase(ServerMain.COMPILATION_KEY)) {
-			if (rm.getVersion() != 0 && rm.getVersion() == ServerMain.VERSION) {
+			if (rm.getVersion().equalsIgnoreCase(ServerMain.VERSION)) {
 				rm.setDbCryptKey(ServerMain.DATABASE_CRYPT_KEY);
 				rm.setDbAddr(ServerMain.DATABASE_FULL_URL);
 				rm.setDbPass(ServerMain.DATABASE_PASS);

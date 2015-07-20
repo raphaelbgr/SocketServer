@@ -29,7 +29,7 @@ public class ClientReceiver implements ReceiverInterface {
 		Broadcaster bc = new Broadcaster();
 		SendObject so = new SendObject();
 		
-		if (localClient.getVersion() == ServerMain.VERSION) {
+		if (localClient.getVersion().equalsIgnoreCase(ServerMain.VERSION)) {
 			if (cLogin.length() < 21) {
 				DAO.connect();
 				if (DAO.verifyClientPassword(localClient)) {
@@ -76,10 +76,7 @@ public class ClientReceiver implements ReceiverInterface {
 				DAO.disconnect();
 				throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 			}
-		} else if (localClient.getVersion() < ServerMain.VERSION) {
-			DAO.disconnect();
-			throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
-		} else if (localClient.getVersion() > ServerMain.VERSION) {
+		} else if (!localClient.getVersion().equalsIgnoreCase(ServerMain.VERSION)) {
 			DAO.disconnect();
 			throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 		}

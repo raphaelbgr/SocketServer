@@ -18,7 +18,7 @@ public class Client implements Serializable {
 	Date lastMessageSent		= null;
 	
 	private int localPort;
-	private int version;
+	private String version;
 	
 	boolean isConnect			= false;
 	boolean isDisconnect		= false;
@@ -198,10 +198,10 @@ public class Client implements Serializable {
 	public void setLastMessageTime(Date lastMessageTime) {
 		this.lastMessageSent = lastMessageTime;
 	}
-	public int getVersion() {
+	public String getVersion() {
 		return version;
 	}
-	public void setVersion(int version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 	

@@ -25,7 +25,7 @@ public class Message implements Serializable, Comparable<Message> {
 	private Date msg_DateCreated;
 	private Timestamp serverReceivedTimeSQLDate;
 
-	private int version;
+	private String version;
 	private int messageServerCount;
 	private int messageOwnerCount;
 	
@@ -112,7 +112,7 @@ public class Message implements Serializable, Comparable<Message> {
 		String dateFormatted = formatter.format(getMsgCreationDate()); //Extrair para metodo na Mensagem
 		this.date = dateFormatted;
 	}
-	public int getVersion() {
+	public String getVersion() {
 		return version;
 	}
 	public Vector<String> getOnlineUserList() {
@@ -139,8 +139,8 @@ public class Message implements Serializable, Comparable<Message> {
 	public void setOnlineUserList(Vector<String> listData) {
 		this.onlineUserList = listData;
 	}
-	public void setVersion(int version) {
-		this.version = version;
+	public void setVersion(String VERSION) {
+		this.version = VERSION;
 	}
 	public String getIp() {
 		return ip;
