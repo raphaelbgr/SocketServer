@@ -3,7 +3,6 @@ package sync;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
 import sendable.clients.Client;
@@ -20,11 +19,11 @@ public class ClientCenter {
 	private HashMap<String,Socket> namestToSocket	= new HashMap<String,Socket>();
 	private HashMap<Integer,Client> portToClients 	= new HashMap<Integer,Client>();
 
-	private HashSet<Client> usersNames 				= new HashSet<Client>();
+	private HashSet<Client> userNames 				= new HashSet<Client>();
 	private HashSet<Socket> sockets					= new HashSet<Socket>();
 	private Vector<String> onlineUserList			= new Vector<String>();
 	private Client c								= null;
-//	private Set<String> usedNames					= new HashSet<String>();
+	//	private Set<String> usedNames					= new HashSet<String>();
 
 
 	public HashSet<Socket> getSockets() {
@@ -34,9 +33,9 @@ public class ClientCenter {
 	public synchronized boolean checkNameAvaliability(String s) throws ServerException {
 		return onlineUserList.contains(s);
 	}
-	
+
 	public synchronized void addUser(Client c) throws ServerException {
-		if (!usersNames.add(c)) {
+		if (!userNames.add(c)) {
 			throw new ServerException("Client login already in use: " + c.getLogin());
 		}
 		onlineUserList.add(c.toString());
@@ -46,7 +45,7 @@ public class ClientCenter {
 		if (!loginsToClients.containsKey(c.getLogin())) {
 			loginsToClients.put(c.getLogin(), c);
 			sockets.add(sock);
-			usersNames.add(c);
+			userNames.add(c);
 			onlineUserList.add(c.toString());
 			socketToClient.put(sock, c);
 			portToClients.put(c.getLocalPort(), c);
@@ -61,13 +60,33 @@ public class ClientCenter {
 	public synchronized void removeClientByClassAndSocket(Client c,Socket sock) throws Throwable {
 		socketToClient.remove(sock);
 		sockets.remove(sock);
-		usersNames.remove(c);
+		userNames.remove(c);
 		loginsToClients.remove(c.getLogin());
 		onlineUserList.remove(c.toString());
 		portToClients.remove(c.getLocalPort());
+		removeDoubleEntries(c);
 	}
 	
-/*	public synchronized void removeClientByClass(Client c) throws Throwable {
+	public synchronized void removeClientBySocket(Socket sock) throws Throwable {
+		Client c = socketToClient.get(sock);
+		socketToClient.remove(sock);
+		sockets.remove(sock);
+		userNames.remove(c);
+		loginsToClients.remove(c.getLogin());
+		onlineUserList.remove(c.toString());
+		portToClients.remove(c.getLocalPort());
+		removeDoubleEntries(c);
+	}
+
+	public synchronized void removeDoubleEntries(Client c) {
+		for (String string : onlineUserList) {
+			if (string.equalsIgnoreCase(c.toString())) {
+				onlineUserList.remove(string);
+			}
+		}
+	}
+
+	/*	public synchronized void removeClientByClass(Client c) throws Throwable {
 		socketToClient.remove(c);
 		sockets.remove(namestToSocket.get(c.getLogin()));
 		usersNames.remove(c);
@@ -82,7 +101,7 @@ public class ClientCenter {
 			c = loginsToClients.get(s);
 			socketToClient.remove(c);
 			sockets.remove(namestToSocket.get(s));
-			usersNames.remove(c);
+			userNames.remove(c);
 			loginsToClients.remove(s);
 			onlineUserList.remove(s);
 			portToClients.remove(c.getLocalPort());	
@@ -97,16 +116,16 @@ public class ClientCenter {
 			return portToClients.get(i);
 		} else {
 			try {
-//				if (c != null || c.getLogin() != null) {
-//					throw new ServerException(c.getLogin() + " not found on connected list.");
-//				}
+				//				if (c != null || c.getLogin() != null) {
+				//					throw new ServerException(c.getLogin() + " not found on connected list.");
+				//				}
 				throw new ServerException("Client is already offline.");
 			} catch (ServerException e) {
 			}
 		}
 		return c;
 	}
-	
+
 	public synchronized void removeClientByPort(Integer i) throws Throwable {
 		c = null;
 		if(portToClients.containsKey(i)) {
@@ -114,7 +133,7 @@ public class ClientCenter {
 			socketToClient.remove(c);
 			sockets.remove(namestToSocket.get(c.getLogin()));
 			namestToSocket.remove(c.getLogin());
-			usersNames.remove(c);
+			userNames.remove(c);
 			loginsToClients.remove(c.getLogin());
 			onlineUserList.remove(c.getLogin());
 			portToClients.remove(i);
@@ -141,7 +160,7 @@ public class ClientCenter {
 	}
 
 	public HashSet<Client> getUsersNames() {
-		return usersNames;
+		return userNames;
 	}
 
 	public Vector<String> getOnlineUserList() {

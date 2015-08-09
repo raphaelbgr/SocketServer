@@ -3,8 +3,8 @@ package threads;
 import java.io.IOException;
 
 import servermain.ServerMain;
-import connection.LinkBuilder;
-import connection.ServerSocketBuilder;
+import socketfactory.LinkBuilder;
+import socketfactory.ServerSocketBuilder;
 
 public class ConnectionHandlerThread extends Thread {
 
@@ -24,16 +24,18 @@ public class ConnectionHandlerThread extends Thread {
 				while(ServerMain.RECEIVE_CONN) {
 					lh.buildLink(sh.returnSocket());
 				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				try {
-					sh.dumpSocket();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			} finally {
+			} 
+//			catch (IOException e1) {
+//				e1.printStackTrace();
+//				try {
+//					sh.dumpSocket();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//
+//			} 
+			finally {
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {

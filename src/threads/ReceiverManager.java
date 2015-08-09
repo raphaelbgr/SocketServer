@@ -2,6 +2,7 @@ package threads;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -17,6 +18,7 @@ import sendable.messages.DisconnectionMessage;
 import sendable.messages.Message;
 import sendable.messages.NormalMessage;
 import sendable.messages.RegistrationMessage;
+import socketfactory.ServerSocketBuilder;
 import sync.Broadcaster;
 import sync.ClientCenter;
 import threads.receiver.ReceiverInterface;
@@ -24,10 +26,11 @@ import threads.receiver.types.ClientReceiver;
 import threads.receiver.types.DisconnectionMessageReceiver;
 import threads.receiver.types.NormalMessageReceiver;
 import threads.receiver.types.RegistrationMessageReceiver;
+
 import communication.MessageHandler;
 import communication.ReceiveObject;
 import communication.SendObject;
-import connection.ServerSocketBuilder;
+
 import dao.DAO;
 import exceptions.ServerException;
 
@@ -44,7 +47,7 @@ public class ReceiverManager implements Runnable {
 	
 	ReceiverInterface receiver = null;
 
-	public void run() {
+	public synchronized void synchedReceive() {
 		while(true) {
 			try {
 				Object o = ro.receive(sock);
@@ -73,6 +76,40 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o,localClient,sock);
 					}
 				}
+			} catch (StreamCorruptedException e) {
+				e.printStackTrace();
+				BroadCastMessage bcm = new BroadCastMessage();
+				bcm.setOwnerLogin(cLogin);
+				bcm.setOwnerName(localClient.getName());
+				bcm.setText("Disconnected");
+				bcm.setServresponse("SERVER> SocketTimeoutException error");
+				try {
+					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
+					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+					bc.broadCastMessage(bcm);
+				} catch (Throwable e2) {
+					try {
+						bc.broadCastMessage(bcm);
+					} catch (IOException e1) {
+						
+					}
+				} finally {
+					try {
+						ServerSocketBuilder.dumpSocket();
+						ServerSocketBuilder.createSocket();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a EOFException.");
+				try {
+					sock.close();
+					sock = null;
+				} catch (Throwable e1) {
+					
+				}
+				break;
 			} catch (EOFException e) {
 				e.printStackTrace();
 				BroadCastMessage bcm = new BroadCastMessage();
@@ -268,6 +305,10 @@ public class ReceiverManager implements Runnable {
 				
 			}
 		}
+	}
+	
+	public void run() {
+		synchedReceive();
 	}
 
 	private String getTimestamp() {

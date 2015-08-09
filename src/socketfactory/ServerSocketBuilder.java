@@ -1,4 +1,4 @@
-package connection;
+package socketfactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,20 +8,25 @@ public class ServerSocketBuilder {
 	public static ServerSocket jsock = null;
 	private static int p; 
 
-	public static ServerSocket createSocket() throws IOException {
-//		try {
-		if (jsock != null) {
-			ServerSocketBuilder.jsock.close();
-			ServerSocketBuilder.jsock = new ServerSocket(p);
-		} else {
-			ServerSocketBuilder.jsock = new ServerSocket(p);
-			ServerSocketBuilder.jsock.setSoTimeout(0);
-		}
-//		} catch(IOException e){
-//			System.err.println("Failed to open port.");
-//			e.printStackTrace();
+	public static ServerSocket createSocket() {
+		try {
+			if (jsock != null) {
+				ServerSocketBuilder.jsock.close();
+				ServerSocketBuilder.jsock = new ServerSocket(p);
+			} else {
+				ServerSocketBuilder.jsock = new ServerSocket(p);
+				ServerSocketBuilder.jsock.setSoTimeout(0);
+			}
+		} catch(IOException e){
+			System.err.println("Failed to open port. Retrying...");
+			try {
+				ServerSocketBuilder.jsock = new ServerSocket(p);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
 //			System.exit(1);
-//		}
+		}
 		return ServerSocketBuilder.returnSocket();
 	}
 	

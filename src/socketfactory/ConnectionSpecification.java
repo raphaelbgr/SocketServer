@@ -1,4 +1,4 @@
-package connection;
+package socketfactory;
 
 import sendable.messages.Message;
 
