@@ -48,6 +48,7 @@ public class LinkBuilder {
 				}
 			}
 		} catch (EOFException e) {
+			System.out.println("EOF Ex! On class LinkBuilder Line 51");
 			if (sock != null) {
 				try {
 					ClientCenter.getInstance().removeClientBySocket(sock);
@@ -65,6 +66,8 @@ public class LinkBuilder {
 							e3.printStackTrace();
 						}
 					}
+				} finally {
+					ServerSocketBuilder.createSocket();
 				}
 			}
 		} catch (IOException e) {
