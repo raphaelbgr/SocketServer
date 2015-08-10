@@ -1,7 +1,5 @@
 package threads;
 
-import java.io.IOException;
-
 import servermain.ServerMain;
 import socketfactory.LinkBuilder;
 import socketfactory.ServerSocketBuilder;
@@ -24,7 +22,14 @@ public class ConnectionHandlerThread extends Thread {
 				while(ServerMain.RECEIVE_CONN) {
 					lh.buildLink(sh.returnSocket());
 				}
-			} 
+			} catch (Exception e) {
+				ConnectionHandlerThread ch = new ConnectionHandlerThread(ServerMain.PORT);
+				Thread t1 = new Thread(ch);
+				t1.start();
+				
+				e.printStackTrace();
+				break;
+			}
 //			catch (IOException e1) {
 //				e1.printStackTrace();
 //				try {
@@ -36,13 +41,13 @@ public class ConnectionHandlerThread extends Thread {
 //
 //			} 
 			finally {
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally {
-					
-				}
+//				try {
+//					Thread.sleep(300);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				} finally {
+//					
+//				}
 			}
 		} while (!ServerMain.RECEIVE_CONN);
 		
