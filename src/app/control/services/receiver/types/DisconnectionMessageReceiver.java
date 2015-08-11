@@ -5,10 +5,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import app.control.communication.SendObject;
 import app.control.services.receiver.ReceiverInterface;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
-import app.controler.communication.SendObject;
 import app.model.clients.Client;
 import app.model.messages.BroadCastMessage;
 import app.model.messages.ServerMessage;

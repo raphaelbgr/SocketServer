@@ -1,4 +1,4 @@
-package app.controler.communication;
+package app.control.communication;
 
 import app.control.sync.ClientCenter;
 import app.model.clients.Client;

@@ -8,11 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import app.ServerMain;
+import app.control.communication.SendObject;
 import app.control.dao.DAO;
 import app.control.services.receiver.ReceiverInterface;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
-import app.controler.communication.SendObject;
 import app.model.clients.Client;
 import app.model.exceptions.ServerException;
 import app.model.messages.BroadCastMessage;

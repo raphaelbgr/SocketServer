@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import app.ServerMain;
+import app.control.communication.SendObject;
 import app.control.services.receiver.ReceiverInterface;
-import app.controler.communication.SendObject;
 import app.model.clients.Client;
 import app.model.exceptions.ServerException;
 import app.model.messages.Message;

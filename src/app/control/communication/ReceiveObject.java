@@ -1,4 +1,4 @@
-package app.controler.communication;
+package app.control.communication;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
