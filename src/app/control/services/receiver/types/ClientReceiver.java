@@ -77,7 +77,7 @@ public class ClientReceiver implements ReceiverInterface {
 			}
 		} else if (!localClient.getVersion().equalsIgnoreCase(ServerMain.VERSION)) {
 			DAO.disconnect();
-			throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
+			throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at " + ServerMain.CLIENT_LNK,true);
 		}
 	}
 

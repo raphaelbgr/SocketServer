@@ -10,7 +10,8 @@ import app.control.sync.MessageCenter;
 public class ServerMain {
 	public static int PORT = 2000;
 
-	public static final String VERSION = "0.9.20";
+	public static final String VERSION = "0.9.21";
+	public static final String CLIENT_LNK = "https://goo.gl/rvLH93";
 
 	public static boolean DEBUG 				= false;
 	public static boolean DB					= true;
