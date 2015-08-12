@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 
 import app.ServerMain;
 import app.model.clients.Client;
@@ -68,21 +67,21 @@ public class DAO {
 		return true;
 	}
 	
-	public synchronized static void mD5criptifyAllDatabasePasswords() throws SQLException {
-		if (ServerMain.DB) {
-			String query = "SELECT PASSWORD FROM CLIENTS";
-			String queryPassDelete = "DELETE FROM CLIENTS WHERE PASSWORD LIKE '%'";
-			System.out.println(query);
-			Statement st = c.prepareStatement(query);
-			ResultSet rs = st.executeQuery(query);
-			while (rs.next()) {
-				String queryUpdate = "UPDATE CLIENTS SET cryptPASSWORD='" + MD5.getMD5(rs.getString("PASSWORD")) + "' WHERE PASSWORD LIKE '%'";
-				Statement st2 = c.prepareStatement(queryUpdate);
-				st2.execute(queryUpdate);
-				System.out.println(queryUpdate);
-			}
-		}
-	}
+//	public synchronized static void mD5criptifyAllDatabasePasswords() throws SQLException {
+//		if (ServerMain.DB) {
+//			String query = "SELECT PASSWORD FROM CLIENTS";
+//			String queryPassDelete = "DELETE FROM CLIENTS WHERE PASSWORD LIKE '%'";
+//			System.out.println(query);
+//			Statement st = c.prepareStatement(query);
+//			ResultSet rs = st.executeQuery(query);
+//			while (rs.next()) {
+//				String queryUpdate = "UPDATE CLIENTS SET cryptPASSWORD='" + MD5.getMD5(rs.getString("PASSWORD")) + "' WHERE PASSWORD LIKE '%'";
+//				Statement st2 = c.prepareStatement(queryUpdate);
+//				st2.execute(queryUpdate);
+//				System.out.println(queryUpdate);
+//			}
+//		}
+//	}
 	
 	public synchronized static Client loadClientData(Client cl) throws SQLException {
 		if (ServerMain.DB) {
@@ -139,7 +138,7 @@ public class DAO {
 	public synchronized static int getOwnerMessagesSent(String login) throws SQLException {
 		if (ServerMain.DB) {
 			String query = "SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "'";
-			String queryClient = "UPDATE CLIENTS SET MSGCOUNT=(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "') WHERE LOGIN='" + login + "'";
+//			String queryClient = "UPDATE CLIENTS SET MSGCOUNT=(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "') WHERE LOGIN='" + login + "'";
 			Statement st = c.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			int count = 0;

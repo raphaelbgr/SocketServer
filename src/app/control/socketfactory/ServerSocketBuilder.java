@@ -46,7 +46,7 @@ public class ServerSocketBuilder {
 	}
 
 	public ServerSocketBuilder(int p) {
-		this.p = p;
+		ServerSocketBuilder.p = p;
 	}
 
 }

@@ -17,10 +17,10 @@ public class ConnectionHandlerThread extends Thread {
 		
 		do {
 			try {
-				lh.buildLink(sh.createSocket());
+				lh.buildLink(ServerSocketBuilder.createSocket());
 				ServerMain.RECEIVE_CONN = true;
 				while(ServerMain.RECEIVE_CONN) {
-					lh.buildLink(sh.returnSocket());
+					lh.buildLink(ServerSocketBuilder.returnSocket());
 				}
 			} catch (Exception e) {
 				ConnectionHandlerThread ch = new ConnectionHandlerThread(ServerMain.PORT);
