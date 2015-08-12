@@ -45,7 +45,7 @@ public class ReceiverManager implements Runnable {
 	
 	ReceiverInterface receiver = null;
 
-	public synchronized void synchedReceive() {
+	public void synchedReceive() {
 		while(true) {
 			try {
 				Object o = ro.receive(sock);
@@ -86,10 +86,11 @@ public class ReceiverManager implements Runnable {
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 					bc.broadCastMessage(bcm);
 				} catch (Throwable e2) {
+					e2.printStackTrace();
 					try {
 						bc.broadCastMessage(bcm);
 					} catch (IOException e1) {
-						
+						e1.printStackTrace();
 					}
 				} finally {
 					try {
@@ -105,7 +106,7 @@ public class ReceiverManager implements Runnable {
 					sock.close();
 					sock = null;
 				} catch (Throwable e1) {
-					
+					e1.printStackTrace();
 				}
 				break;
 			} catch (EOFException e) {
@@ -140,7 +141,7 @@ public class ReceiverManager implements Runnable {
 					sock.close();
 					sock = null;
 				} catch (Throwable e1) {
-					
+					e1.printStackTrace();
 				}
 				break;
 			} catch (SocketTimeoutException e) {
@@ -166,7 +167,7 @@ public class ReceiverManager implements Runnable {
 					sock.close();
 					sock = null;
 				} catch (Throwable e1) {
-					
+					e1.printStackTrace();
 				} finally {
 					try {
 						ServerSocketBuilder.dumpSocket();
@@ -231,6 +232,7 @@ public class ReceiverManager implements Runnable {
 						break;
 					}
 				} catch (IOException e1) {
+					e1.printStackTrace();
 					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
 				} finally {
 					
@@ -252,6 +254,7 @@ public class ReceiverManager implements Runnable {
 					sock = null;
 					break;
 				} catch (Throwable e2) {
+					e2.printStackTrace();
 					try {
 						sock.close();
 					} catch (IOException e1) {
@@ -283,6 +286,7 @@ public class ReceiverManager implements Runnable {
 						sock.close();
 						sock = null;
 					} catch (Throwable r) {
+						r.printStackTrace();
 					} finally {
 						try {
 							throw new ServerException(getTimestamp() + " SERVER> Database server is offline.");
