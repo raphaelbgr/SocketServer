@@ -214,7 +214,9 @@ public class DAO {
 	
 	public static synchronized void disconnect() throws SQLException {
 		if (ServerMain.DB) {
-			c.close();
+			if (c != null) {
+				c.close();
+			}
 		}
 	}
 

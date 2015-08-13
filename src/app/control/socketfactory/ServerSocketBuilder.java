@@ -17,7 +17,16 @@ public class ServerSocketBuilder {
 				ServerSocketBuilder.jsock = new ServerSocket(p);
 				ServerSocketBuilder.jsock.setSoTimeout(0);
 			}
-		} catch(IOException e){
+		} catch (java.net.BindException e) {
+			System.err.println("SERVER> " + e.getLocalizedMessage());
+//			try {
+//				Thread.sleep(5000);
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+			System.exit(1);
+		} catch(IOException e) {
 			System.err.println("Failed to open port. Retrying...");
 			try {
 				ServerSocketBuilder.jsock = new ServerSocket(p);
