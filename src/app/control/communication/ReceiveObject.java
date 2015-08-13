@@ -11,12 +11,10 @@ public class ReceiveObject {
 
 	@SuppressWarnings("unused")
 	public synchronized Object receive(Socket sock) throws ClassNotFoundException, IOException, ServerException {
-		ObjectHandler oh = new ObjectHandler();
 		ObjectInputStream ois = new ObjectInputStream(sock.getInputStream());
 		if (ois != null) {
 			Object o = ois.readObject();
 			isMessageConfigureClass(o, sock);
-			oh.handleObject(o);
 			return o;
 		}
 		return null;
