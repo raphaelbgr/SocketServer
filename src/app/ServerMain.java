@@ -13,12 +13,8 @@ public class ServerMain {
 	public static final String VERSION = "0.9.21";
 	public static final String CLIENT_LNK = "https://goo.gl/rvLH93";
 
-<<<<<<< HEAD:src/app/ServerMain.java
 	public static boolean DEBUG 				= false;
 	public static boolean DB					= true;
-=======
-	public static final boolean DEBUG = false;
->>>>>>> parent of 986828f... GREATLY improved server stability:src/servermain/ServerMain.java
 
 	public static MessageCenter mc = new MessageCenter();
 
@@ -53,7 +49,6 @@ public class ServerMain {
 				DATABASE_SCHEMA = args[i+1];
 			} else if (args[i].equalsIgnoreCase("-compkey")) {
 				COMPILATION_KEY = args[i+1];
-<<<<<<< HEAD:src/app/ServerMain.java
 			} else if (args[i].equalsIgnoreCase("-db")) {			
 				if (args[i+1].equalsIgnoreCase("false") || args[i+1].equalsIgnoreCase("off")) {
 					DB 				= false;
@@ -67,8 +62,6 @@ public class ServerMain {
 				if (args[i+1].equalsIgnoreCase("true") || args[i+1].equalsIgnoreCase("on")) {
 					DEBUG = true;
 				}
-=======
->>>>>>> parent of 986828f... GREATLY improved server stability:src/servermain/ServerMain.java
 			}
 		}
 		if (DATABASE_CRYPT_KEY != null && DATABASE_LOGIN != null && DATABASE_PASS != null && DATABASE_ADDR != null) {

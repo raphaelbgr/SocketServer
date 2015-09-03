@@ -1,16 +1,8 @@
 package app.control.services;
 
-<<<<<<< HEAD:src/app/control/services/ConnectionHandlerThread.java
 import app.ServerMain;
 import app.control.socketfactory.LinkBuilder;
 import app.control.socketfactory.ServerSocketBuilder;
-=======
-import java.io.IOException;
-
-import servermain.ServerMain;
-import socketfactory.LinkBuilder;
-import socketfactory.ServerSocketBuilder;
->>>>>>> parent of 986828f... GREATLY improved server stability:src/threads/ConnectionHandlerThread.java
 
 public class ConnectionHandlerThread extends Thread {
 
