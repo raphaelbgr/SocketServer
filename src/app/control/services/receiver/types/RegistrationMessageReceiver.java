@@ -33,8 +33,8 @@ public class RegistrationMessageReceiver implements ReceiverInterface{
 				
 				System.out.println(this.getTimestamp() + "SERVER -> Sent registration DB key to anonymous client with PC name: " + rm.getPcname() + ", IP: " + rm.getIp() + "  and DNS hostname:" + rm.getDnsHostName());
 				
-				sock.close();
-				sock = null;
+//				sock.close();
+//				sock = null;
 			} else {
 				throw new ServerException(this.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 			}

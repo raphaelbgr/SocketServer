@@ -58,15 +58,15 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o,localClient,sock);
 						break;
 					} else if (o instanceof RegistrationMessage) {
+						localClient = DAO.loadClientDataByLogin(((RegistrationMessage)o).getOwnerLogin());
 						receiver = new RegistrationMessageReceiver();
 						receiver.receive(o,localClient,sock);
-						break;
+//						break;
 					}
 				} else if (o instanceof Client) {
-					Client c = (Client)o;
-					c.setLocalPort(sock.getPort());
-					cLogin = c.getLogin();
-					localClient = c;
+					localClient = DAO.loadClientData((Client)o);
+					localClient.setLocalPort(sock.getPort());
+					cLogin = localClient.getLogin();
 					if (o instanceof WebClient) {
 						//TODO WEBCLIENT OBJ
 					} else {
@@ -74,13 +74,48 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o,localClient,sock);
 					}
 				}
+			} catch (com.mysql.jdbc.exceptions.jdbc4.CommunicationsException e) {
+				e.printStackTrace();
+				BroadCastMessage bcm = new BroadCastMessage();
+				bcm.setOwnerLogin(cLogin);
+				bcm.setOwnerName(localClient.getName());
+				bcm.setText("Disconnected");
+				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
+				try {
+					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
+					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
+					bc.broadCastMessage(bcm);
+				} catch (Throwable e2) {
+					e2.printStackTrace();
+					try {
+						bc.broadCastMessage(bcm);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				} finally {
+					try {
+						ServerSocketBuilder.dumpSocket();
+						ServerSocketBuilder.createSocket();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a EOFException.");
+				try {
+					sock.close();
+					sock = null;
+				} catch (Throwable e1) {
+					e1.printStackTrace();
+				}
+				break;
 			} catch (StreamCorruptedException e) {
 				e.printStackTrace();
 				BroadCastMessage bcm = new BroadCastMessage();
 				bcm.setOwnerLogin(cLogin);
 				bcm.setOwnerName(localClient.getName());
 				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> SocketTimeoutException error");
+				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
 				try {
 					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
 					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
@@ -115,7 +150,7 @@ public class ReceiverManager implements Runnable {
 				bcm.setOwnerLogin(cLogin);
 				bcm.setOwnerName(localClient.getName());
 				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> SocketTimeoutException error");
+				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
 				try {
 //					ClientCenter.getInstance().removeClientByClass(localClient);
 					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
@@ -150,7 +185,7 @@ public class ReceiverManager implements Runnable {
 				bcm.setOwnerLogin(cLogin);
 				bcm.setOwnerName(localClient.getName());
 				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> SocketTimeoutException error");
+				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
 				try {
 //					ClientCenter.getInstance().removeClientByClass(localClient);
 					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
@@ -186,7 +221,7 @@ public class ReceiverManager implements Runnable {
 					bcm.setOwnerName(localClient.getName());
 				}
 				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> SocketTimeoutException error");
+				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
 				try {
 //					ClientCenter.getInstance().removeClientByClass(localClient);
 					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
@@ -281,7 +316,7 @@ public class ReceiverManager implements Runnable {
 					DAO.disconnect();
 				} catch (SQLException e1) {
 					e.printStackTrace();
-					System.err.println(getTimestamp() + "SERVER> SQL Database error.");
+					System.err.println(getTimestamp() + "SERVER> " + e.getLocalizedMessage());
 					try {
 						sock.close();
 						sock = null;

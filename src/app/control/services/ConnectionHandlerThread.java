@@ -1,5 +1,7 @@
 package app.control.services;
 
+import java.io.IOException;
+
 import app.ServerMain;
 import app.control.socketfactory.LinkBuilder;
 import app.control.socketfactory.ServerSocketBuilder;
@@ -23,6 +25,13 @@ public class ConnectionHandlerThread extends Thread {
 					lh.buildLink(ServerSocketBuilder.returnSocket());
 				}
 			} catch (Exception e) {
+				try {
+					ServerSocketBuilder.dumpSocket();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
 				ConnectionHandlerThread ch = new ConnectionHandlerThread(ServerMain.PORT);
 				Thread t1 = new Thread(ch);
 				t1.start();
@@ -38,7 +47,7 @@ public class ConnectionHandlerThread extends Thread {
 //					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
-//
+
 //			} 
 			finally {
 //				try {
