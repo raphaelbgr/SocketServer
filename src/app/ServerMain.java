@@ -16,6 +16,7 @@ public class ServerMain {
 	public static boolean DEBUG 				= false;
 	public static boolean DB					= true;
 
+
 	public static MessageCenter mc = new MessageCenter();
 
 	public static String DATABASE_CRYPT_KEY 	= null;

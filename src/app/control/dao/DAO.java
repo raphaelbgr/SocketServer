@@ -66,12 +66,7 @@ public class DAO {
 				} else return false;
 			} else return false;
 		}
-
-		if (rs.getString("LOGIN").equalsIgnoreCase(cl.getLogin())) {
-			if (rs.getString("CRYPTPASSWORD").equals(cl.getPassword())) {
-				return true;
-			} else return false;
-		} else return false;
+		return false;
 	}
 
 	//	public synchronized static void mD5criptifyAllDatabasePasswords() throws SQLException {
