@@ -13,6 +13,8 @@ public class ServerMessage extends Message implements Serializable {
 	private static final long serialVersionUID = 3772354662147009097L;
 	
 	private Set<Client> clist = null;
+	private String request = null;
+	private int rowLimit;
 
 	public ServerMessage buildMessage(String s) {
 		setServresponse(s);
@@ -51,5 +53,21 @@ public class ServerMessage extends Message implements Serializable {
 
 	public void setClist(Set<Client> clist) {
 		this.clist = clist;
+	}
+
+	public String getRequest() {
+		return request;
+	}
+
+	public void setRequest(String request) {
+		this.request = request;
+	}
+
+	public int getRowLimit() {
+		return rowLimit;
+	}
+
+	public void setRowLimit(int rowLimit) {
+		this.rowLimit = rowLimit;
 	}
 }

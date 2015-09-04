@@ -3,9 +3,6 @@ package app.control.services.receiver.types;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import app.ServerMain;
 import app.control.communication.SendObject;
@@ -53,7 +50,7 @@ public class ClientReceiver implements ReceiverInterface {
 							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 							bc.broadCastMessage(sm);
-							System.out.println(getTimestamp() + localClient.toString() + " -> Connected");
+							System.out.println(ServerMain.getTimestamp() + localClient.toString() + " -> Connected");
 
 							//Tells the client to enter local online mode
 							ServerMessage smConnect = new ServerMessage();
@@ -65,27 +62,19 @@ public class ClientReceiver implements ReceiverInterface {
 
 						} else {
 							DAO.disconnect();
-							throw new ServerException(getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
+							throw new ServerException(ServerMain.getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
 						}
 					}
 					
 					DAO.disconnect();
-				} else throw new ServerException(getTimestamp() + "SERVER> Wrong Password.",true);
+				} else throw new ServerException(ServerMain.getTimestamp() + "SERVER> Wrong Password.",true);
 			} else {
 				DAO.disconnect();
-				throw new ServerException(getTimestamp() + " SERVER> Name greater than 20 characters.",true);
+				throw new ServerException(ServerMain.getTimestamp() + " SERVER> Name greater than 20 characters.",true);
 			}
 		} else if (!localClient.getVersion().equalsIgnoreCase(ServerMain.VERSION)) {
 			DAO.disconnect();
-			throw new ServerException(getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at " + ServerMain.CLIENT_LNK,true);
+			throw new ServerException(ServerMain.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at " + ServerMain.CLIENT_LNK,true);
 		}
 	}
-
-	@Override
-	public String getTimestamp() {
-		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(new Date());
-		return "["+dateFormatted+"]" + " ";
-	}
-
 }

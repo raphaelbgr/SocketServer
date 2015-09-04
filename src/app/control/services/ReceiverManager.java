@@ -1,15 +1,6 @@
 package app.control.services;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.StreamCorruptedException;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import app.control.communication.MessageHandler;
 import app.control.communication.ReceiveObject;
@@ -19,18 +10,15 @@ import app.control.services.receiver.ReceiverInterface;
 import app.control.services.receiver.types.ClientReceiver;
 import app.control.services.receiver.types.DisconnectionMessageReceiver;
 import app.control.services.receiver.types.NormalMessageReceiver;
-import app.control.services.receiver.types.RegistrationMessageReceiver;
-import app.control.socketfactory.ServerSocketBuilder;
+import app.control.services.receiver.types.ServerMessageProcessor;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
 import app.model.clients.Client;
 import app.model.clients.WebClient;
-import app.model.exceptions.ServerException;
-import app.model.messages.BroadCastMessage;
 import app.model.messages.DisconnectionMessage;
 import app.model.messages.Message;
 import app.model.messages.NormalMessage;
-import app.model.messages.RegistrationMessage;
+import app.model.messages.ServerMessage;
 
 public class ReceiverManager implements Runnable {
 	Socket sock			= null;
@@ -45,8 +33,9 @@ public class ReceiverManager implements Runnable {
 	
 	ReceiverInterface receiver = null;
 
-	public void synchedReceive() {
-		while(true) {
+	public void run() {
+		boolean suicide = false;
+		while(!suicide) {
 			try {
 				Object o = ro.receive(sock);
 				if (o instanceof Message) {
@@ -57,11 +46,10 @@ public class ReceiverManager implements Runnable {
 						receiver = new DisconnectionMessageReceiver();
 						receiver.receive(o,localClient,sock);
 						break;
-					} else if (o instanceof RegistrationMessage) {
-						localClient = DAO.loadClientDataByLogin(((RegistrationMessage)o).getOwnerLogin());
-						receiver = new RegistrationMessageReceiver();
+					} else if (o instanceof ServerMessage) {
+						receiver = new ServerMessageProcessor();
 						receiver.receive(o,localClient,sock);
-//						break;
+						break;
 					}
 				} else if (o instanceof Client) {
 					localClient = DAO.loadClientData((Client)o);
@@ -74,284 +62,12 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o,localClient,sock);
 					}
 				}
-			} catch (com.mysql.jdbc.exceptions.jdbc4.CommunicationsException e) {
-				e.printStackTrace();
-				BroadCastMessage bcm = new BroadCastMessage();
-				bcm.setOwnerLogin(cLogin);
-				bcm.setOwnerName(localClient.getName());
-				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
-				try {
-					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
-					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-					bc.broadCastMessage(bcm);
-				} catch (Throwable e2) {
-					e2.printStackTrace();
-					try {
-						bc.broadCastMessage(bcm);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				} finally {
-					try {
-						ServerSocketBuilder.dumpSocket();
-						ServerSocketBuilder.createSocket();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a EOFException.");
-				try {
-					sock.close();
-					sock = null;
-				} catch (Throwable e1) {
-					e1.printStackTrace();
-				}
-				break;
-			} catch (StreamCorruptedException e) {
-				e.printStackTrace();
-				BroadCastMessage bcm = new BroadCastMessage();
-				bcm.setOwnerLogin(cLogin);
-				bcm.setOwnerName(localClient.getName());
-				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
-				try {
-					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
-					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-					bc.broadCastMessage(bcm);
-				} catch (Throwable e2) {
-					e2.printStackTrace();
-					try {
-						bc.broadCastMessage(bcm);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				} finally {
-					try {
-						ServerSocketBuilder.dumpSocket();
-						ServerSocketBuilder.createSocket();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a EOFException.");
-				try {
-					sock.close();
-					sock = null;
-				} catch (Throwable e1) {
-					e1.printStackTrace();
-				}
-				break;
-			} catch (EOFException e) {
-				e.printStackTrace();
-				BroadCastMessage bcm = new BroadCastMessage();
-				bcm.setOwnerLogin(cLogin);
-				bcm.setOwnerName(localClient.getName());
-				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
-				try {
-//					ClientCenter.getInstance().removeClientByClass(localClient);
-					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
-					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-					bc.broadCastMessage(bcm);
-				} catch (Throwable e2) {
-					try {
-						bc.broadCastMessage(bcm);
-					} catch (IOException e1) {
-						
-					}
-				} finally {
-					try {
-						ServerSocketBuilder.dumpSocket();
-						ServerSocketBuilder.createSocket();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a EOFException.");
-				try {
-					sock.close();
-					sock = null;
-				} catch (Throwable e1) {
-					e1.printStackTrace();
-				}
-				break;
-			} catch (SocketTimeoutException e) {
-				e.printStackTrace();
-				BroadCastMessage bcm = new BroadCastMessage();
-				bcm.setOwnerLogin(cLogin);
-				bcm.setOwnerName(localClient.getName());
-				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
-				try {
-//					ClientCenter.getInstance().removeClientByClass(localClient);
-					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
-					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-					bc.broadCastMessage(bcm);
-				} catch (Throwable e2) {
-					try {
-						bc.broadCastMessage(bcm);
-					} catch (IOException e1) {
-					}
-				}
-				System.err.println(getTimestamp() + "SERVER> " + cLogin + " had a SocketTimeoutException.");
-				try {
-					sock.close();
-					sock = null;
-				} catch (Throwable e1) {
-					e1.printStackTrace();
-				} finally {
-					try {
-						ServerSocketBuilder.dumpSocket();
-						ServerSocketBuilder.createSocket();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				break;
-			} catch (SocketException e) {
-				e.printStackTrace();
-				BroadCastMessage bcm = new BroadCastMessage();
-				if (localClient != null && localClient.getName() != null && cLogin != null) {
-					bcm.setOwnerLogin(cLogin);
-					bcm.setOwnerName(localClient.getName());
-				}
-				bcm.setText("Disconnected");
-				bcm.setServresponse("SERVER> " + e.getLocalizedMessage());
-				try {
-//					ClientCenter.getInstance().removeClientByClass(localClient);
-					ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
-					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-					bc.broadCastMessage(bcm);
-				} catch (Throwable e2) {
-					try {
-						bc.broadCastMessage(bcm);
-					} catch (IOException e1) {
-					}
-				}
-				if (localClient != null) {
-					System.err.println(getTimestamp() + "SERVER> " + localClient.getName() + " had a SocketException.");
-				}
-				try {
-					sock.getOutputStream().close();
-					sock.getInputStream().close();
-					sock.close();
-					sock = null;
-				} catch (Throwable e1) {
-					
-				} finally {
-					try {
-						ServerSocketBuilder.dumpSocket();
-						ServerSocketBuilder.createSocket();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				break;
-			} catch (ServerException e) {
-				try {
-					if (e.getMessage() != null) {
-						System.err.println(e.getMessage());
-					}
-					so.send(sock, e);
-					if (!e.isDoubleName()) {
-						
-					}
-					if (e.isToDisconnect()) {
-						sock.close();
-						break;
-					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
-					System.err.println(getTimestamp() + "SERVER> Could not deliver this Exception: " + e.toString());
-				} finally {
-					
-				}
 			} catch (Throwable e) {
+				suicide = true;
 				e.printStackTrace();
-				Client c = localClient;
-				if (c != null) {
-					System.out.println(getTimestamp() + "SERVER> " + cLogin + " Disconnected.");
-				} else {
-				}
-				try {
-					ClientCenter.getInstance().removeClientByLogin(cLogin);
-				} catch (Throwable e3) {	
-				}
-				try {
-					ClientCenter.getInstance().removeClientByPort(port);
-					this.sock.close();
-					sock = null;
-					break;
-				} catch (Throwable e2) {
-					e2.printStackTrace();
-					try {
-						sock.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					sock = null;
-				} 
-				finally {
-					BroadCastMessage bcm = new BroadCastMessage();
-					if (c != null) {
-						bcm.setOwnerLogin(cLogin);
-						bcm.setOwnerName(localClient.getName());
-						bcm.setText("SERVER> " + cLogin +  " had a connection error.");
-						bcm.setServresponse("SERVER> " + cLogin +  " had a connection error.");
-					}
-					bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
-					try {
-						bc.broadCastMessage(bcm);
-					} catch (IOException e1) {
-						
-					}
-				}
-				try {
-					DAO.disconnect();
-				} catch (SQLException e1) {
-					e.printStackTrace();
-					System.err.println(getTimestamp() + "SERVER> " + e.getLocalizedMessage());
-					try {
-						sock.close();
-						sock = null;
-					} catch (Throwable r) {
-						r.printStackTrace();
-					} finally {
-						try {
-							throw new ServerException(getTimestamp() + " SERVER> Database server is offline.");
-						} catch (ServerException e2) {
-						} finally {
-							try {
-								ServerSocketBuilder.dumpSocket();
-								ServerSocketBuilder.createSocket();
-							} catch (IOException e2) {
-								// TODO Auto-generated catch block
-								e2.printStackTrace();
-							}
-						}
-					}
-				}
-				break;
-			} finally {
-				
+				ClientCenter.getInstance().disconnectClient(port, e, bc);
 			}
 		}
-	}
-	
-	public void run() {
-		synchedReceive();
-	}
-
-	private String getTimestamp() {
-		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(new Date());
-		return "["+dateFormatted+"]" + " ";
 	}
 
 	public ReceiverManager(Socket sock) {

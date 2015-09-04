@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import app.ServerMain;
 import app.model.clients.Client;
+import app.model.messages.History;
 import app.model.messages.Message;
 
 public class DAO {
@@ -312,5 +313,33 @@ public class DAO {
 		}
 		return null;
 	}
-
+	
+	public static History getHistory(int rowLimit) throws SQLException {
+		connect();
+		History data = new History();
+		String query = null;
+		if (rowLimit == 0) {
+			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT FROM MESSAGELOG";
+		} else {
+			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT FROM MESSAGELOG LIMIT " + rowLimit;
+		}
+		Statement st = c.createStatement();
+		ResultSet rs = st.executeQuery(query);
+		
+		data.getHeaders().add("ID");
+		data.getHeaders().add("Timestamp");
+		data.getHeaders().add("Owner");
+		data.getHeaders().add("Message");
+		
+		while(rs.next()) {
+			data.getColumn1().add(String.valueOf(rs.getInt(1)));
+			data.getColumn2().add(rs.getString(2));
+			data.getColumn3().add(rs.getString(3));
+			data.getColumn4().add(rs.getString(4));
+		}
+		
+		disconnect();
+		return data;
+	}	
+	
 }

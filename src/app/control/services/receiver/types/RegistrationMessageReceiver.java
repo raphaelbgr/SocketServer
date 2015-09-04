@@ -3,9 +3,6 @@ package app.control.services.receiver.types;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import app.ServerMain;
 import app.control.communication.SendObject;
@@ -31,23 +28,16 @@ public class RegistrationMessageReceiver implements ReceiverInterface{
 				SendObject so = new SendObject();
 				so.send(sock, rm);
 				
-				System.out.println(this.getTimestamp() + "SERVER -> Sent registration DB key to anonymous client with PC name: " + rm.getPcname() + ", IP: " + rm.getIp() + "  and DNS hostname:" + rm.getDnsHostName());
+				System.out.println(ServerMain.getTimestamp() + "SERVER -> Sent registration DB key to anonymous client with PC name: " + rm.getPcname() + ", IP: " + rm.getIp() + "  and DNS hostname:" + rm.getDnsHostName());
 				
 //				sock.close();
 //				sock = null;
 			} else {
-				throw new ServerException(this.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
+				throw new ServerException(ServerMain.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 			}
 		} else {
-			throw new ServerException(this.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
+			throw new ServerException(ServerMain.getTimestamp() + "SERVER> Version " + ServerMain.VERSION + " required. Download at https://goo.gl/jN2mzM",true);
 		}
-	}
-
-	@Override
-	public String getTimestamp() {
-		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(new Date());
-		return "["+dateFormatted+"]" + " ";
 	}
 
 }
