@@ -1,6 +1,7 @@
 package app.model.messages;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class History implements Serializable {
@@ -12,14 +13,14 @@ public class History implements Serializable {
 	
 	private int rowLimit = 0;
 	
-	private List<String> headers = null;
+	private List<String> headers = new ArrayList<String>();
 	
-	private List<String> column1 = null;
-	private List<String> column2 = null;
-	private List<String> column3 = null;
-	private List<String> column4 = null;
-	private List<String> column5 = null;
-	private List<String> column6 = null;
+	private List<String> column1 = new ArrayList<String>();
+	private List<String> column2 = new ArrayList<String>();
+	private List<String> column3 = new ArrayList<String>();
+	private List<String> column4 = new ArrayList<String>();
+	private List<String> column5 = new ArrayList<String>();
+	private List<String> column6 = new ArrayList<String>();
 	
 	public List<String> getHeaders() {
 		return headers;

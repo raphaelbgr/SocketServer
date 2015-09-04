@@ -49,7 +49,6 @@ public class ReceiverManager implements Runnable {
 					} else if (o instanceof ServerMessage) {
 						receiver = new ServerMessageProcessor();
 						receiver.receive(o,localClient,sock);
-						break;
 					}
 				} else if (o instanceof Client) {
 					localClient = DAO.loadClientData((Client)o);

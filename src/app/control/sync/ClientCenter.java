@@ -75,7 +75,7 @@ public class ClientCenter {
 			portToClients.put(c.getLocalPort(), c);
 			namestToSocket.put(c.getLogin(), sock);
 		} else {
-			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The name " + c.getLogin() + " is already in use.", true);
+			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The login " + c.getLogin() + " is already in use.", true);
 			se.setToDisconnect(true);
 			throw se;
 		}
