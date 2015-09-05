@@ -146,6 +146,7 @@ public class DAO {
 			c.setInfnetMail("raphaelb.rocha@al.infnet.edu.br");
 			c.setWhatsapp("21988856697");
 			c.setFacebook("fb.com/raphaelbgr");
+			c.setConnect(true);
 			return c;
 		}
 	}
@@ -184,6 +185,7 @@ public class DAO {
 		} else {
 			Client c = new Client();
 			c.setName("Programmer");
+			c.setLogin("raphaelz");
 			c.setEmail("programmer@program.com");
 			c.setMembertype("DEVELOPER");
 			c.setId(111111L);
@@ -200,6 +202,8 @@ public class DAO {
 			c.setInfnetMail("raphaelb.rocha@al.infnet.edu.br");
 			c.setWhatsapp("21988856697");
 			c.setFacebook("fb.com/raphaelbgr");
+			c.setVersion("0.9.21");
+			c.setConnect(true);
 			return c;
 		}
 	}
