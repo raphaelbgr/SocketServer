@@ -9,17 +9,9 @@ public class ServerSocketBuilder {
 
 	public static ServerSocket jsock = null;
 
-	public static ServerSocket createSocket() {
-		try {
-			ServerSocketBuilder.jsock = new ServerSocket(ServerMain.PORT);
-			ServerSocketBuilder.jsock.setSoTimeout(0);
-		} catch (java.net.BindException e) {
-			System.err.println("SERVER> " + e.getLocalizedMessage());
-			System.exit(1);
-		} catch(IOException e) {
-			System.err.println("SERVER> " + e.getLocalizedMessage());
-			System.exit(1);
-		}
+	public static ServerSocket createSocket() throws IOException {
+		ServerSocketBuilder.jsock = new ServerSocket(ServerMain.PORT);
+		ServerSocketBuilder.jsock.setSoTimeout(0);
 		return ServerSocketBuilder.returnSocket();
 	}
 	
