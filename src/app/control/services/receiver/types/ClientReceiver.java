@@ -21,7 +21,8 @@ public class ClientReceiver implements ReceiverInterface {
 	public synchronized void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable {
 		
 		ClientCenter cc	= ClientCenter.getInstance();
-		String cLogin = localClient.getLogin();
+		String cLogin = null;
+		String cEmail = null;
 		Broadcaster bc = new Broadcaster();
 		SendObject so = new SendObject();
 		
@@ -30,7 +31,13 @@ public class ClientReceiver implements ReceiverInterface {
 				DAO.connect();
 				if (DAO.verifyClientPassword(localClient)) {
 					if (localClient.isConnect()) {
-						if (!ClientCenter.getInstance().checkNameAvaliability(cLogin)) {
+						String authString;
+						if (localClient.getLogin() != null) {
+							authString = localClient.getLogin();
+						} else {
+							authString = localClient.getEmail();
+						}
+						if (!ClientCenter.getInstance().checkNameAvaliability(authString)) {
 							
 							//Gets the client data on the database
 							localClient = DAO.loadClientData(localClient);

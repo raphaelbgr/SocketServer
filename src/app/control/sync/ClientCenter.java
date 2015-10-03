@@ -2,11 +2,13 @@ package app.control.sync;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
 
 import app.ServerMain;
+import app.control.dao.DAO;
 import app.model.clients.Client;
 import app.model.exceptions.ServerException;
 import app.model.messages.BroadCastMessage;
@@ -53,8 +55,11 @@ public class ClientCenter {
 	public HashSet<Socket> getSockets() {
 		return sockets;
 	}
-
-	public synchronized boolean checkNameAvaliability(String s) throws ServerException {
+	
+	public synchronized boolean checkNameAvaliability(String s) throws ServerException, SQLException {
+		if (s.contains("@")) {
+			 s = DAO.getLoginByEmail(s);
+		}
 		return onlineUserList.contains(s);
 	}
 

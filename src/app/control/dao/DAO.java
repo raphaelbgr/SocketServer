@@ -344,6 +344,26 @@ public class DAO {
 		
 		disconnect();
 		return data;
-	}	
+	}
+	
+	public static String getLoginByEmail(String email) throws SQLException {
+		if (ServerMain.DB) {
+			DAO.connect();
+			String query = "SELECT LOGIN FROM CLIENTS WHERE EMAIL='"+ email +"'";
+			Statement st = c.prepareStatement(query);
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			String result = rs.getString("LOGIN");
+			DAO.disconnect();
+
+			//DEBUG
+			if (ServerMain.DEBUG) {
+				System.out.println(query);
+			}
+
+			return result;
+		}
+		return null;
+	}
 	
 }
