@@ -155,6 +155,11 @@ public class DAO {
 		DAO.connect();
 		if (ServerMain.DB) {
 			String query = "SELECT * FROM CLIENTS WHERE LOGIN='"+ cl.getLogin() +"'";
+			
+			if (cl.getLogin() == null) {
+				query = "SELECT * FROM CLIENTS WHERE EMAIL='"+ cl.getEmail() +"'";
+			}
+			
 			Statement st = c.prepareStatement(query);
 			ResultSet rs = st.executeQuery(query);
 			rs.next();

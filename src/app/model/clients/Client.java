@@ -81,8 +81,17 @@ public class Client implements Serializable {
 		this.membertype 		= m.getType();
 		this.lastMessage 		= m;
 	}
-	public Client(String string) {
-		this.name = string;
+	public Client(String name) {
+		this.name = name;
+	}
+	public Client(String login, String password) {
+		if (login.contains("@"))
+		{
+			this.email = login;
+		} else {
+			this.login = login;
+		}
+		this.password = password;
 	}
 	public Long getId() {
 		return id;

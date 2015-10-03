@@ -21,13 +21,17 @@ public class ClientReceiver implements ReceiverInterface {
 	public synchronized void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable {
 		
 		ClientCenter cc	= ClientCenter.getInstance();
-		String cLogin = null;
-		String cEmail = null;
+		String cLogin = localClient.getLogin();
+		String cEmail = localClient.getEmail();
 		Broadcaster bc = new Broadcaster();
 		SendObject so = new SendObject();
 		
+		if (cLogin == null) {
+			cLogin = DAO.getLoginByEmail(cEmail);
+			localClient.setLogin(cLogin);
+		}
 		if (localClient.getVersion().equalsIgnoreCase(ServerMain.VERSION)) {
-			if (cLogin.length() < 21) {
+			if ((cLogin != null && cLogin.length() < 21) || cEmail != null) {
 				DAO.connect();
 				if (DAO.verifyClientPassword(localClient)) {
 					if (localClient.isConnect()) {
