@@ -1,10 +1,8 @@
 package app.control.services.receiver.types;
 
 import java.net.Socket;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import app.ServerMain;
 import app.control.communication.SendObject;
 import app.control.services.receiver.ReceiverInterface;
 import app.control.sync.Broadcaster;
@@ -35,18 +33,11 @@ public class DisconnectionMessageReceiver implements ReceiverInterface {
 		sm.setDisconnect(true);
 		so.send(sock, sm);
 		
-		System.out.println(this.getTimestamp()+ localClient.getName() + " -> " + "Disconnected");	
+		System.out.println(ServerMain.getTimestamp()+ localClient.getName() + " -> " + "Disconnected");	
 		
 		bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 		bc.broadCastMessage(bcm);	
 		
 	}
 
-	@Override
-	public String getTimestamp() {
-		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		String dateFormatted = formatter.format(new Date());
-		return "["+dateFormatted+"]" + " ";
-	}
-	
 }

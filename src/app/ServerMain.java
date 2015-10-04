@@ -4,14 +4,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import app.control.services.ConnectionHandlerThread;
+import app.control.services.ConnectionListenerThread;
 import app.control.sync.MessageCenter;
 
 public class ServerMain {
-	public static int PORT = 2000;
+	public static int PORT 						= 2000;
 
-	public static final String VERSION = "0.9.21";
-	public static final String CLIENT_LNK = "https://goo.gl/rvLH93";
+	public static final String VERSION 			= "0.9.21";
+	public static final String CLIENT_LNK 		= "https://goo.gl/rvLH93";
 
 	public static boolean DEBUG 				= false;
 	public static boolean DB					= true;
@@ -66,13 +66,16 @@ public class ServerMain {
 			}
 		}
 		if (DATABASE_CRYPT_KEY != null && DATABASE_LOGIN != null && DATABASE_PASS != null && DATABASE_ADDR != null) {
-			ConnectionHandlerThread ch = new ConnectionHandlerThread(PORT);
+			ConnectionListenerThread ch = new ConnectionListenerThread();
 			Thread t1 = new Thread(ch);
 			t1.start();
-			System.out.println(getTimestamp() + " " + "SERVER> Listening on port " + PORT);
+			System.out.println(getTimestamp() + " " + "SERVER> Attepting to open port " + PORT);
 			DATABASE_FULL_URL = "jdbc:mysql://"+ ServerMain.DATABASE_ADDR + ":" + ServerMain.DATABASE_PORT + "/" + ServerMain.DATABASE_SCHEMA;
 		} else {
-			System.out.println("Missing or invalid arguments, usage -port, -dblogin, -dbpass, -dbkey, -dbaddr, -dbport, -dbalias and -compkey to input the correct parameters for reaching the database.");
+			System.out.println("Missing or invalid arguments, usage -port,"
+					+ " -dblogin, -dbpass, -dbkey, -dbaddr, -dbport, -dbalias,"
+					+ " -compkey and -dao off to input the correct parameters"
+					+ " for reaching the database.");
 		}
 
 	}

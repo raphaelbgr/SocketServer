@@ -1,4 +1,4 @@
-package app.control.socketfactory;
+package app.control.services.interfaces;
 
 import app.model.messages.Message;
 
