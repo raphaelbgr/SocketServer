@@ -69,7 +69,7 @@ public class ServerMain {
 			ConnectionListenerThread ch = new ConnectionListenerThread();
 			Thread t1 = new Thread(ch);
 			t1.start();
-			System.out.println(getTimestamp() + " " + "SERVER> Listening on port " + PORT);
+			System.out.println(getTimestamp() + " " + "SERVER> Attepting to open port " + PORT);
 			DATABASE_FULL_URL = "jdbc:mysql://"+ ServerMain.DATABASE_ADDR + ":" + ServerMain.DATABASE_PORT + "/" + ServerMain.DATABASE_SCHEMA;
 		} else {
 			System.out.println("Missing or invalid arguments, usage -port,"

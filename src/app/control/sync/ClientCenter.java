@@ -80,6 +80,7 @@ public class ClientCenter {
 			portToClients.put(c.getLocalPort(), c);
 			namestToSocket.put(c.getLogin(), sock);
 		} else {
+			
 			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The login " + c.getLogin() + " is already in use.", true);
 			se.setToDisconnect(true);
 			throw se;
@@ -90,9 +91,15 @@ public class ClientCenter {
 		socketToClient.remove(sock);
 		sockets.remove(sock);
 		userNames.remove(c);
-		loginsToClients.remove(c.getLogin());
-		onlineUserList.remove(c.toString());
-		portToClients.remove(c.getLocalPort());
+		for (int i = 0; i < loginsToClients.size(); i++) {
+			loginsToClients.remove(c.getLogin());
+		}
+		for (int i = 0; i < onlineUserList.size(); i++) {
+			onlineUserList.remove(c.toString());
+		}
+		for (int i = 0; i <= portToClients.size(); i++) {
+			portToClients.remove(c.getLocalPort());
+		}
 		removeDoubleEntries(c);
 	}
 	
@@ -101,9 +108,15 @@ public class ClientCenter {
 		socketToClient.remove(sock);
 		sockets.remove(sock);
 		userNames.remove(c);
-		loginsToClients.remove(c.getLogin());
-		onlineUserList.remove(c.toString());
-		portToClients.remove(c.getLocalPort());
+		for (int i = 0; i < loginsToClients.size(); i++) {
+			loginsToClients.remove(c.getLogin());
+		}
+		for (int i = 0; i < onlineUserList.size(); i++) {
+			onlineUserList.remove(c.toString());
+		}
+		for (int i = 0; i <= portToClients.size(); i++) {
+			portToClients.remove(c.getLocalPort());
+		}
 		removeDoubleEntries(c);
 	}
 
@@ -116,15 +129,23 @@ public class ClientCenter {
 	}
 
 	public synchronized void removeClientByLogin(String s) {
-		c = null;
 		if(loginsToClients.containsKey(s)) {
 			c = loginsToClients.get(s);
 			socketToClient.remove(c);
-			sockets.remove(namestToSocket.get(s));
 			userNames.remove(c);
-			loginsToClients.remove(s);
-			onlineUserList.remove(s);
-			portToClients.remove(c.getLocalPort());	
+		}
+		for (Socket socket : sockets) {
+			sockets.remove(namestToSocket.get(s));
+			if (socket.getPort() == namestToSocket.get(s).getPort()) {
+				sockets.remove(socket);
+				portToClients.remove(socket.getPort());
+			}
+		}
+		for (int i = 0; i < loginsToClients.size(); i++) {
+			loginsToClients.remove(c.getLogin());
+		}
+		for (int i = 0; i < onlineUserList.size(); i++) {
+			onlineUserList.remove(c.toString());
 		}
 	}
 

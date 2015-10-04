@@ -1,38 +1,51 @@
 package app.control.services;
 
 import java.io.IOException;
+import java.net.BindException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import app.ServerMain;
-import app.control.socketfactory.ServerSocketBuilder;
-import app.control.socketfactory.SocketBuilder;
 
 public class ConnectionListenerThread extends Thread {
 
-	ServerSocketBuilder ssbuilder = null;
-	SocketBuilder sbuilder = null;
+
+	private ServerSocket jsock;
 
 	public void run() {	
-		ssbuilder = new ServerSocketBuilder();
-		sbuilder = new SocketBuilder();
-		boolean suicide = false;
 
 		do {
 			try {
-				// DUAL CALL -- SERVERSOCKETBUILDER LISTENS INCOMING CONNECTION AND WHEN IT RECEIVES, PASS IT TOO THE SOCKETBUILDER
-				sbuilder.buildLink(ServerSocketBuilder.createSocket());
-				ServerMain.RECEIVE_CONN = true;
-				sbuilder.buildLink(ServerSocketBuilder.returnSocket());
-			} catch (IOException e) {
-				// DUMP THE SOCKETLISTENER, KILLS ITSELFT AND RESTARTS THE SERVICE
-//				suicide = true;s
-				ServerSocketBuilder.dumpServerSocket();
-				ConnectionListenerThread ch = new ConnectionListenerThread();
-				Thread t1 = new Thread(ch);
-				t1.start();
+				// SERVERSOCKETBUILDER LISTENS INCOMING CONNECTION AND WHEN IT RECEIVES, PASS IT TOO THE SOCKETBUILDER
+				if (jsock != null) {
+					jsock.close();
+				}
+				jsock = new ServerSocket(ServerMain.PORT);
+				
+				// ACCEPTS THE INCOMING CONNECTION AND CREATES A SOCKET
+				Socket sock = jsock.accept();
+				
+				// ISOLATES THIS SOCKET TO A SEPARATE THREAD
+				ReceiverManager rc = new ReceiverManager(sock);
+				Thread t2 = new Thread(rc);
+				t2.start();
+			} catch (BindException e) {
 				e.printStackTrace();
-				break;
+				takeABreak(5000);
+			} catch (IOException e) {
+				// DUMP THE SOCKETLISTENER
+				e.printStackTrace();
+				takeABreak(5000);
 			}
-		} while (!suicide);
-
+		} while (ServerMain.RECEIVE_CONN);
+	}
+	
+	private void takeABreak(int duration) {
+		try {
+			System.err.println("Taking a break from port " + ServerMain.PORT + " of " + duration + " secs...");
+			Thread.sleep(duration);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
