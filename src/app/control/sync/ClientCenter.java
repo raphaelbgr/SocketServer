@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Vector;
 
 import app.ServerMain;
+import app.control.communication.SendObject;
 import app.control.dao.DAO;
 import app.model.clients.Client;
 import app.model.exceptions.ServerException;
@@ -28,7 +29,7 @@ public class ClientCenter {
 	private Vector<String> onlineUserList			= new Vector<String>();
 	private Client c								= null;
 
-	public synchronized void disconnectClient(int port, Throwable e, Broadcaster bc) {
+	public synchronized void disconnectClient(int port, Throwable e, Broadcaster bc, Socket sock) {
 		BroadCastMessage bcm = new BroadCastMessage();
 		c = getClientByPort(port);
 		if (c != null) {
@@ -49,6 +50,18 @@ public class ClientCenter {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			System.err.println("SERVER> Broadcaster exeption: " + e1.getLocalizedMessage());
+		}
+		
+		// PASSES THE THROWN EXCEPTION TO THE CLIENT
+		if (e instanceof ServerException) {
+			if (((ServerException) e).isToDisconnect()) {
+				SendObject so = new SendObject();
+				try {
+					so.send(sock, e);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -80,7 +93,6 @@ public class ClientCenter {
 			portToClients.put(c.getLocalPort(), c);
 			namestToSocket.put(c.getLogin(), sock);
 		} else {
-			
 			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The login " + c.getLogin() + " is already in use.", true);
 			se.setToDisconnect(true);
 			throw se;

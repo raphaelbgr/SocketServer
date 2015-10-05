@@ -49,6 +49,7 @@ public class Client implements Serializable {
 	String googleplus			= null;
 	String youtube				= null;
 	String msn					= null;
+	String platform				= null;
 	
 	Message lastMessage 		= null;
 	List<Message> unSentMsgs	= null;
@@ -389,6 +390,22 @@ public class Client implements Serializable {
 	}
 	public void setDisconnect(boolean isDisconnect) {
 		this.isDisconnect = isDisconnect;
+	}
+	public String getPlatform() {
+		return platform;
+	}
+	public void setPlatform(int i) {
+		switch (i) {
+		case 0:
+			platform = "desktop";
+			break;
+		case 1:
+			platform = "web";
+			break;
+		case 2:
+			platform = "android";
+			break;
+		}
 	}
 	
 }

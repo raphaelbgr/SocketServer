@@ -14,7 +14,6 @@ import app.control.services.receiver.types.ServerMessageProcessor;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
 import app.model.clients.Client;
-import app.model.clients.WebClient;
 import app.model.messages.DisconnectionMessage;
 import app.model.messages.Message;
 import app.model.messages.NormalMessage;
@@ -29,7 +28,6 @@ public class ReceiverManager implements Runnable {
 	Broadcaster bc		= new Broadcaster();
 	private Integer port;
 	Client localClient 	= null;
-	String cLogin 		= null;
 	
 	ReceiverInterface receiver = null;
 
@@ -53,18 +51,13 @@ public class ReceiverManager implements Runnable {
 				} else if (o instanceof Client) {
 					localClient = DAO.loadClientData((Client)o);
 					localClient.setLocalPort(sock.getPort());
-					cLogin = localClient.getLogin();
-					if (o instanceof WebClient) {
-						//TODO WEBCLIENT OBJ
-					} else {
-						receiver = new ClientReceiver();
-						receiver.receive(o,localClient,sock);
-					}
+					receiver = new ClientReceiver();
+					receiver.receive(o,localClient,sock);
 				}
 			} catch (Throwable e) {
 				suicide = true;
 				e.printStackTrace();
-				ClientCenter.getInstance().disconnectClient(port, e, bc);
+				ClientCenter.getInstance().disconnectClient(port, e, bc, sock);
 			}
 		}
 	}
