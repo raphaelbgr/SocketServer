@@ -15,6 +15,7 @@ public class ServerMessage extends Message implements Serializable {
 	private Set<Client> clist = null;
 	private String request = null;
 	private int rowLimit;
+	private boolean registerSuccess = false;
 
 	public ServerMessage buildMessage(String s) {
 		setServresponse(s);
@@ -31,11 +32,6 @@ public class ServerMessage extends Message implements Serializable {
 	public ServerMessage() {
 		super();
 	}
-	
-/*	public ServerMessage(Client [] clist) {
-		super();
-		setClist(clist);
-	}*/
 	
 	public ServerMessage(Set<Client> clist) {
 		super();
@@ -69,5 +65,13 @@ public class ServerMessage extends Message implements Serializable {
 
 	public void setRowLimit(int rowLimit) {
 		this.rowLimit = rowLimit;
+	}
+
+	public boolean isRegisterSuccess() {
+		return registerSuccess;
+	}
+
+	public void setRegisterSuccess(boolean registerSuccess) {
+		this.registerSuccess = registerSuccess;
 	}
 }

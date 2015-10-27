@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 
 import app.ServerMain;
 import app.model.clients.Client;
+import app.model.clients.NewClient;
 import app.model.messages.History;
 import app.model.messages.Message;
 
@@ -24,6 +26,46 @@ public class DAO {
 			c = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
 		}
 	}
+	
+	public static boolean registerUser(NewClient nc) throws SQLException {
+		if (nc.getMD5Password() == null) {
+			nc.setMD5Password(MD5.getMD5(nc.getPassword()));
+		}
+		nc.setPassword("");
+		
+		nc.setRegistrationDate(Calendar.getInstance().getTime());
+		
+		String query = "INSERT INTO CLIENTS ("
+				+ "NAME,"
+				+ "EMAIL,"
+				+ "CRYPTPASSWORD"
+				+ "MEMBERTYPE"
+				+ ",REGISTRATIONDATE,"
+				+ "SEX,"
+				+ "COLLEGE,"
+				+ "`COURSE`,"
+				+ "`COURSESTART`"
+				+ ", `INFNETID`"
+				+ ", `WHATSAPP`"
+				+ ", `FACEBOOK`) "
+				
+				+ "VALUES ('" + nc.getName() + "',"
+				+ "'" + nc.getEmail() + "',"
+				+ "'" + nc.getMD5Password() + "',"
+				+ "'" + nc.getMembertype() + "',"
+				+ "'" + nc.getRegistrationDate() + "',"
+				+ "'" + nc.getSex() + "',"
+				+ "'" + nc.getCollege() + "',"
+				+ "'" + nc.getCourse() + "',"
+				+ "'" + nc.getStartTrimester() + "',"
+				+ "'" + nc.getInfnetMail() + "',"
+				+ "'" + nc.getWhatsapp() + "',"
+				+ "'" + nc.getFacebook() + "',"
+				+ "')";
+		
+		Statement s = c.prepareStatement(query);
+		return s.execute(query);
+	}
 
 	public String codifyPassword(String pass) {
 		if (ServerMain.DB) {
@@ -31,7 +73,7 @@ public class DAO {
 		}
 		return null;
 	}
-
+	
 	public synchronized static void updateSentMsgs(Message m) throws SQLException {
 		DAO.connect();
 		if (ServerMain.DB) {
@@ -54,7 +96,7 @@ public class DAO {
 		DAO.connect();
 		ResultSet rs = null;
 		if (ServerMain.DB) {
-			String query = "SELECT LOGIN, cast(aes_decrypt(cryptpassword,'"+ServerMain.DATABASE_CRYPT_KEY+"') as CHAR) AS CRYPTPASSWORD FROM CLIENTS WHERE LOGIN='"+cl.getLogin()+"'";
+			String query = "SELECT LOGIN, CRYPTPASSWORD FROM CLIENTS WHERE LOGIN='"+cl.getLogin()+"'";
 			Statement st = c.prepareStatement(query);
 			rs = st.executeQuery(query);
 			rs.next();
@@ -65,7 +107,7 @@ public class DAO {
 			}
 
 			if (rs.getString("LOGIN").equalsIgnoreCase(cl.getLogin())) {
-				if (rs.getString("CRYPTPASSWORD").equals(cl.getPassword())) {
+				if (rs.getString("CRYPTPASSWORD").equals(cl.getMD5Password())) {
 					DAO.disconnect();
 					return true;
 				} else {
@@ -80,22 +122,6 @@ public class DAO {
 		DAO.disconnect();
 		return true;
 	}
-
-	//	public synchronized static void mD5criptifyAllDatabasePasswords() throws SQLException {
-	//		if (ServerMain.DB) {
-	//			String query = "SELECT PASSWORD FROM CLIENTS";
-	//			String queryPassDelete = "DELETE FROM CLIENTS WHERE PASSWORD LIKE '%'";
-	//			System.out.println(query);
-	//			Statement st = c.prepareStatement(query);
-	//			ResultSet rs = st.executeQuery(query);
-	//			while (rs.next()) {
-	//				String queryUpdate = "UPDATE CLIENTS SET cryptPASSWORD='" + MD5.getMD5(rs.getString("PASSWORD")) + "' WHERE PASSWORD LIKE '%'";
-	//				Statement st2 = c.prepareStatement(queryUpdate);
-	//				st2.execute(queryUpdate);
-	//				System.out.println(queryUpdate);
-	//			}
-	//		}
-	//	}
 
 	public synchronized static Client loadClientDataByLogin(String login) throws SQLException {
 		DAO.connect();
@@ -281,7 +307,11 @@ public class DAO {
 			Statement s = c.prepareStatement(query);
 			s.execute(query);
 
-			String updateClient = "UPDATE CLIENTS SET MSGCOUNT=(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') WHERE LOGIN='" + m.getOwnerLogin() + "'";
+			String updateClient = "UPDATE CLIENTS SET MSGCOUNT="
+					+ "(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG "
+					+ "AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') "
+					+ "WHERE LOGIN='" + m.getOwnerLogin() + "'";
+			
 			Statement s2 = c.prepareStatement(updateClient);
 			s2.execute(updateClient);
 

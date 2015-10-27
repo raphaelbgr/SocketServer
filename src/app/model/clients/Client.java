@@ -31,7 +31,7 @@ public class Client implements Serializable {
 
 	String login				= null;
 	String password				= null;
-	String cryptoPassword		= null;
+	String md5Password		= null;
 	String email				= null;
 	String lastIp				= null;
 	String sex					= null;
@@ -115,11 +115,11 @@ public class Client implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getCryptoPassword() {
-		return cryptoPassword;
+	public String getMD5Password() {
+		return md5Password;
 	}
-	public void setCryptoPassword(String cryptoPassword) {
-		this.cryptoPassword = cryptoPassword;
+	public void setMD5Password(String md5Password) {
+		this.md5Password = md5Password;
 	}
 	public String getEmail() {
 		return email;

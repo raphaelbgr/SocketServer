@@ -10,10 +10,12 @@ import app.control.services.receiver.ReceiverInterface;
 import app.control.services.receiver.types.ClientReceiver;
 import app.control.services.receiver.types.DisconnectionMessageReceiver;
 import app.control.services.receiver.types.NormalMessageReceiver;
+import app.control.services.receiver.types.RegistrationMessageReceiver;
 import app.control.services.receiver.types.ServerMessageProcessor;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
 import app.model.clients.Client;
+import app.model.clients.NewClient;
 import app.model.messages.DisconnectionMessage;
 import app.model.messages.Message;
 import app.model.messages.NormalMessage;
@@ -53,6 +55,9 @@ public class ReceiverManager implements Runnable {
 					localClient.setLocalPort(sock.getPort());
 					receiver = new ClientReceiver();
 					receiver.receive(o,localClient,sock);
+				} else if (o instanceof NewClient) {
+					receiver = new RegistrationMessageReceiver();
+					receiver.receive(o, null, sock);
 				}
 			} catch (Throwable e) {
 				suicide = true;

@@ -17,7 +17,7 @@ public class ServerMain {
 	public static boolean DB					= true;
 
 
-	public static MessageCenter mc = new MessageCenter();
+	public static MessageCenter mc 				= new MessageCenter();
 
 	public static String DATABASE_CRYPT_KEY 	= null;
 	public static String DATABASE_LOGIN 		= null;
@@ -52,7 +52,7 @@ public class ServerMain {
 				COMPILATION_KEY = args[i+1];
 			} else if (args[i].equalsIgnoreCase("-db")) {			
 				if (args[i+1].equalsIgnoreCase("false") || args[i+1].equalsIgnoreCase("off")) {
-					DB 				= false;
+					DB 					= false;
 					DATABASE_CRYPT_KEY 	= "TEST";
 					DATABASE_LOGIN 		= "TEST";
 					DATABASE_PASS 		= "TEST";
@@ -63,6 +63,16 @@ public class ServerMain {
 				if (args[i+1].equalsIgnoreCase("true") || args[i+1].equalsIgnoreCase("on")) {
 					DEBUG = true;
 				}
+			} else if (args[i].equalsIgnoreCase("-awstest")) {
+				DATABASE_ADDR = "54.232.241.237";
+				DATABASE_LOGIN = "test";
+				DATABASE_PASS = "test";
+				DATABASE_CRYPT_KEY = "test";
+				COMPILATION_KEY = "test";
+				if (PORT == 2000) {
+					PORT = 2001;
+				}
+				
 			}
 		}
 		if (DATABASE_CRYPT_KEY != null && DATABASE_LOGIN != null && DATABASE_PASS != null && DATABASE_ADDR != null) {
