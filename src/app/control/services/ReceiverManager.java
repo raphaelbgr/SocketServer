@@ -34,8 +34,7 @@ public class ReceiverManager implements Runnable {
 	ReceiverInterface receiver = null;
 
 	public void run() {
-		boolean suicide = false;
-		while(!suicide) {
+		while(true) {
 			try {
 				Object o = ro.receive(sock);
 				if (o instanceof Message) {
@@ -51,18 +50,20 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o,localClient,sock);
 					}
 				} else if (o instanceof Client) {
+					if (o instanceof NewClient) {
+						receiver = new RegistrationMessageReceiver();
+						receiver.receive(o, null, sock);
+						break;
+					}
 					localClient = DAO.loadClientData((Client)o);
 					localClient.setLocalPort(sock.getPort());
 					receiver = new ClientReceiver();
 					receiver.receive(o,localClient,sock);
-				} else if (o instanceof NewClient) {
-					receiver = new RegistrationMessageReceiver();
-					receiver.receive(o, null, sock);
 				}
 			} catch (Throwable e) {
-				suicide = true;
 				e.printStackTrace();
 				ClientCenter.getInstance().disconnectClient(port, e, bc, sock);
+				break;
 			}
 		}
 	}

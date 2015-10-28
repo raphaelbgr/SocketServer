@@ -63,10 +63,12 @@ public class ServerMain {
 				if (args[i+1].equalsIgnoreCase("true") || args[i+1].equalsIgnoreCase("on")) {
 					DEBUG = true;
 				}
-			} else if (args[i].equalsIgnoreCase("-awstest")) {
+			} else if (args[i].equalsIgnoreCase("-wanawstest")) {
 				DATABASE_ADDR = "54.232.241.237";
 				DATABASE_LOGIN = "test";
 				DATABASE_PASS = "test";
+				DATABASE_PORT = "3306";
+				DATABASE_SCHEMA = "test";
 				DATABASE_CRYPT_KEY = "test";
 				COMPILATION_KEY = "test";
 				if (PORT == 2000) {

@@ -28,6 +28,8 @@ public class DAO {
 	}
 	
 	public static boolean registerUser(NewClient nc) throws SQLException {
+		DAO.connect();
+		
 		if (nc.getMD5Password() == null) {
 			nc.setMD5Password(MD5.getMD5(nc.getPassword()));
 		}
@@ -64,7 +66,10 @@ public class DAO {
 				+ "')";
 		
 		Statement s = c.prepareStatement(query);
-		return s.execute(query);
+		
+		boolean success = s.execute(query);
+		DAO.disconnect();
+		return success;
 	}
 
 	public String codifyPassword(String pass) {
