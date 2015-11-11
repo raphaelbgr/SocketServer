@@ -2,6 +2,8 @@ package app.control.services;
 
 import java.net.Socket;
 
+import com.google.gson.Gson;
+
 import app.control.communication.MessageHandler;
 import app.control.communication.ReceiveObject;
 import app.control.communication.SendObject;
@@ -37,6 +39,10 @@ public class ReceiverManager implements Runnable {
 		while(true) {
 			try {
 				Object o = ro.receive(sock);
+				if (o instanceof String) {
+					Gson gson = new Gson();
+					o = gson.fromJson((String) o, Object.class);
+				}
 				if (o instanceof Message) {
 					if (o instanceof NormalMessage) {
 						receiver = new NormalMessageReceiver();

@@ -38,20 +38,26 @@ public class DAO {
 		nc.setRegistrationDate(Calendar.getInstance().getTime());
 		
 		String query = "INSERT INTO CLIENTS ("
+				+ "LOGIN,"
 				+ "NAME,"
 				+ "EMAIL,"
-				+ "CRYPTPASSWORD"
-				+ "MEMBERTYPE"
-				+ ",REGISTRATIONDATE,"
+				+ "CRYPTPASSWORD,"
+				+ "MEMBERTYPE,"
+				+ "REGISTRATIONDATE,"
 				+ "SEX,"
 				+ "COLLEGE,"
 				+ "`COURSE`,"
-				+ "`COURSESTART`"
-				+ ", `INFNETID`"
-				+ ", `WHATSAPP`"
-				+ ", `FACEBOOK`) "
+				+ "`COURSESTART`,"
+				+ "`INFNETID`,"
+				+ "`WHATSAPP`,"
+				+ "`COUNTRY`,"
+				+ "`STATE`,"
+				+ "`CITY`,"
+				+ "`FACEBOOK`) "
 				
-				+ "VALUES ('" + nc.getName() + "',"
+				+ "VALUES ("
+				+ "'" + nc.getLogin() + "',"
+				+ "'" + nc.getName() + "',"
 				+ "'" + nc.getEmail() + "',"
 				+ "'" + nc.getMD5Password() + "',"
 				+ "'" + nc.getMembertype() + "',"
@@ -62,8 +68,11 @@ public class DAO {
 				+ "'" + nc.getStartTrimester() + "',"
 				+ "'" + nc.getInfnetMail() + "',"
 				+ "'" + nc.getWhatsapp() + "',"
-				+ "'" + nc.getFacebook() + "',"
-				+ "')";
+				+ "'" + nc.getCountry() + "',"
+				+ "'" + nc.getState() + "',"
+				+ "'" + nc.getCity() + "',"
+				+ "'" + nc.getFacebook() + "'" 
+				+ ");";
 		
 		Statement s = c.prepareStatement(query);
 		
