@@ -27,7 +27,7 @@ public class DAO {
 		}
 	}
 	
-	public static boolean registerUser(NewClient nc) throws SQLException {
+	public static void registerUser(NewClient nc) throws SQLException {
 		DAO.connect();
 		
 		if (nc.getMD5Password() == null) {
@@ -35,7 +35,9 @@ public class DAO {
 		}
 		nc.setPassword("");
 		
-		nc.setRegistrationDate(Calendar.getInstance().getTime());
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+		
+		nc.setRegistrationDate(date);
 		
 		String query = "INSERT INTO CLIENTS ("
 				+ "LOGIN,"
@@ -76,9 +78,8 @@ public class DAO {
 		
 		Statement s = c.prepareStatement(query);
 		
-		boolean success = s.execute(query);
+		s.execute(query);
 		DAO.disconnect();
-		return success;
 	}
 
 	public String codifyPassword(String pass) {

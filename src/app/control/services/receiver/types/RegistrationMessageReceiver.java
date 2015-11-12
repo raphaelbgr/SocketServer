@@ -17,21 +17,19 @@ public class RegistrationMessageReceiver implements ReceiverInterface {
 	@Override
 	public void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable {
 		NewClient nc = (NewClient) o;
-		if (DAO.registerUser(nc)) {
-			ServerMessage regResponse = new ServerMessage();
-			regResponse.setRegisterSuccess(true);
-			regResponse.setServresponse("Registered " + nc.getName() + " sucessfully.");
-			
-			// Sends the login confirmation to client
-			SendObject so = new SendObject();
-			so.send(sock, regResponse);
-			
-			// Tells the client to disconnect
-//			DisconnectionMessage dm = new DisconnectionMessage(true);
-//			so.send(sock, dm);
-			
-			sock.close();
-		}
-	}
+		DAO.registerUser(nc);
+		ServerMessage regResponse = new ServerMessage();
+		regResponse.setRegisterSuccess(true);
+		regResponse.setServresponse("Registered " + nc.getName() + " sucessfully.");
 
+		// Sends the login confirmation to client
+		SendObject so = new SendObject();
+		so.send(sock, regResponse);
+
+		// Tells the client to disconnect
+		//			DisconnectionMessage dm = new DisconnectionMessage(true);
+		//			so.send(sock, dm);
+
+		sock.close();
+	}
 }
