@@ -32,7 +32,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 			bc.broadCastMessage(nm);
 			
 			//IF SUCCESSFULL, THIS WILL BE PRINTED OUT ON CONSOLE
-			System.out.println(ServerMain.getTimestamp() + nm.getOwnerName() + " -> " + nm.getText());
+			System.out.println(ServerMain.getTimestamp() + " " + nm.getOwnerName() + " -> " + nm.getText());
 			
 			//ATTEMPS TO STORE THE MESSAGE ON THE DB
 			try {
@@ -40,7 +40,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 				DAO.storeMessage(nm);
 				DAO.updateSentMsgs(nm);
 			} catch (SQLException e) {
-				System.err.println(ServerMain.getTimestamp() + "SERVER> Could not store this message on the database.");
+				System.err.println(ServerMain.getTimestamp() + " " + "SERVER> Could not store this message on the database.");
 				e.printStackTrace();
 			} finally {
 				try {

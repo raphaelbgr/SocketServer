@@ -66,7 +66,7 @@ public class ClientReceiver implements ReceiverInterface {
 							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 							bc.broadCastMessage(sm);
-							System.out.println(ServerMain.getTimestamp() + localClient.toString() + " -> Connected");
+							System.out.println(ServerMain.getTimestamp() + " " + localClient.toString() + " -> Connected");
 
 							// Authorizes the client to enter local online mode
 							ServerMessage smConnect = new ServerMessage();
