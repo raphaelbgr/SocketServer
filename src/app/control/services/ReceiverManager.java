@@ -2,8 +2,7 @@ package app.control.services;
 
 import java.net.Socket;
 
-import com.google.gson.Gson;
-
+import app.ServerMain;
 import app.control.communication.MessageHandler;
 import app.control.communication.ReceiveObject;
 import app.control.communication.SendObject;
@@ -18,10 +17,13 @@ import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
 import app.model.clients.Client;
 import app.model.clients.NewClient;
+import app.model.exceptions.ServerException;
 import app.model.messages.DisconnectionMessage;
 import app.model.messages.Message;
 import app.model.messages.NormalMessage;
 import app.model.messages.ServerMessage;
+
+import com.google.gson.Gson;
 
 public class ReceiverManager implements Runnable {
 	Socket sock			= null;
@@ -61,11 +63,20 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o, null, sock);
 						break;
 					}
-					localClient = DAO.loadClientData((Client)o);
-					localClient.setLocalPort(sock.getPort());
-					receiver = new ClientReceiver();
-					receiver.receive(o,localClient,sock);
+					if (DAO.doLogin(((Client) o).getLogin(), ((Client) o).getMD5Password())) {
+						localClient = DAO.loadClientData((Client)o);
+						localClient.setLocalPort(sock.getPort());
+						receiver = new ClientReceiver();
+						receiver.receive(o,localClient,sock);
+					} else {
+						throw new ServerException(ServerMain.getTimestamp() + " SERVER> " + 
+								"User login " + ((Client) o).getLogin() + " not found.", true);
+					}
 				}
+			} catch (ServerException e) {
+				e.printStackTrace();
+				ClientCenter.getInstance().disconnectClient(port, e, bc, sock);
+				break;
 			} catch (Throwable e) {
 				e.printStackTrace();
 				ClientCenter.getInstance().disconnectClient(port, e, bc, sock);

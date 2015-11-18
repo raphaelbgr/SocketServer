@@ -10,6 +10,7 @@ import java.util.Calendar;
 import app.ServerMain;
 import app.model.clients.Client;
 import app.model.clients.NewClient;
+import app.model.exceptions.ServerException;
 import app.model.messages.History;
 import app.model.messages.Message;
 
@@ -194,41 +195,47 @@ public class DAO {
 		}
 	}
 
-	public synchronized static Client loadClientData(Client cl) throws SQLException {
-		DAO.connect();
+	public synchronized static Client loadClientData(Client cl) throws ServerException {
 		if (ServerMain.DB) {
-			String query = "SELECT * FROM CLIENTS WHERE LOGIN='"+ cl.getLogin() +"'";
-			
-			if (cl.getLogin() == null) {
-				query = "SELECT * FROM CLIENTS WHERE EMAIL='"+ cl.getEmail() +"'";
-			}
-			
-			Statement st = c.prepareStatement(query);
-			ResultSet rs = st.executeQuery(query);
-			rs.next();
-			cl.setName(rs.getString("NAME"));
-			cl.setEmail(rs.getString("EMAIL"));
-			cl.setMembertype(rs.getString("MEMBERTYPE"));
-			cl.setId(Long.valueOf(rs.getString("ID")));
-			cl.setLastMessage(new Message(rs.getString("LASTMESSAGE")));
-			cl.setMsgCount(Long.valueOf(rs.getString("MSGCOUNT")));
-			cl.setOnlinetime(Long.valueOf(rs.getString("ONLINETIME")));
-			cl.setLastIp(rs.getString("LASTIP"));
-			cl.setRegistrationDate(rs.getDate("REGISTRATIONDATE"));
-			cl.setLastOnline(rs.getDate("LASTONLINE"));
-			cl.setSex(rs.getString("SEX"));
-			cl.setCollege(rs.getString("COLLEGE"));
-			cl.setCourse(rs.getString("COURSE"));
-			cl.setStartTrimester(rs.getString("COURSESTART"));
-			cl.setInfnetMail(rs.getString("INFNETID"));
-			cl.setWhatsapp(rs.getString("WHATSAPP"));
-			cl.setFacebook(rs.getString("FACEBOOK"));
+			try {
+				DAO.connect();
+				String query = "SELECT * FROM CLIENTS WHERE LOGIN='"+ cl.getLogin() +"'";
+				
+				if (cl.getLogin() == null) {
+					query = "SELECT * FROM CLIENTS WHERE EMAIL='"+ cl.getEmail() +"'";
+				}
+				
+				Statement st = c.prepareStatement(query);
+				ResultSet rs = st.executeQuery(query);
+				rs.next();
+				cl.setName(rs.getString("NAME"));
+				cl.setEmail(rs.getString("EMAIL"));
+				cl.setMembertype(rs.getString("MEMBERTYPE"));
+				cl.setId(Long.valueOf(rs.getString("ID")));
+				cl.setLastMessage(new Message(rs.getString("LASTMESSAGE")));
+				cl.setMsgCount(Long.valueOf(rs.getString("MSGCOUNT")));
+				cl.setOnlinetime(Long.valueOf(rs.getString("ONLINETIME")));
+				cl.setLastIp(rs.getString("LASTIP"));
+				cl.setRegistrationDate(rs.getDate("REGISTRATIONDATE"));
+				cl.setLastOnline(rs.getDate("LASTONLINE"));
+				cl.setSex(rs.getString("SEX"));
+				cl.setCollege(rs.getString("COLLEGE"));
+				cl.setCourse(rs.getString("COURSE"));
+				cl.setStartTrimester(rs.getString("COURSESTART"));
+				cl.setInfnetMail(rs.getString("INFNETID"));
+				cl.setWhatsapp(rs.getString("WHATSAPP"));
+				cl.setFacebook(rs.getString("FACEBOOK"));
 
-			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
+				//DEBUG
+				if (ServerMain.DEBUG) {
+					System.out.println(query);
+				}
+				DAO.disconnect();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new ServerException("User not found on the database.");
 			}
-			DAO.disconnect();
+			
 			return cl;
 		} else {
 			Client c = new Client();
@@ -404,6 +411,33 @@ public class DAO {
 			ResultSet rs = st.executeQuery(query);
 			rs.next();
 			result = rs.getString("LOGIN");
+			DAO.disconnect();
+
+			//DEBUG
+			if (ServerMain.DEBUG) {
+				System.out.println(query);
+			}
+		}
+		return result;
+	}
+	
+	public static boolean doLogin(String login, String password) throws SQLException {
+		boolean result = false;
+		if (ServerMain.DB) {
+			if (login.contains("@") && login.contains(".")) {
+				login = getLoginByEmail(login);
+			}
+			DAO.connect();
+			String query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='"+ login +"'"
+					+ "AND CRYPTPASSWORD='"+ password + "';";
+			Statement st = c.prepareStatement(query);
+			ResultSet rs = st.executeQuery(query);
+			if (rs.next()) {
+				rs.getString("LOGIN").equalsIgnoreCase(login);
+				result = true;
+			} else {
+				result = false;
+			}
 			DAO.disconnect();
 
 			//DEBUG

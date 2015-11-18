@@ -55,14 +55,16 @@ public class ClientCenter {
 		// PASSES THE THROWN EXCEPTION TO THE CLIENT
 		if (e instanceof ServerException) {
 			if (((ServerException) e).isToDisconnect()) {
-				SendObject so = new SendObject();
 				try {
+					SendObject so = new SendObject();
 					so.send(sock, e);
+					sock.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		}
+		
 	}
 	
 	public HashSet<Socket> getSockets() {

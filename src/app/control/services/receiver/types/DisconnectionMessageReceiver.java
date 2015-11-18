@@ -17,13 +17,18 @@ public class DisconnectionMessageReceiver implements ReceiverInterface {
 	public void receive(Object o, Client localClient, Socket sock) throws Throwable {
 		
 		BroadCastMessage bcm = new BroadCastMessage();
-		bcm.setOwnerLogin(localClient.getLogin());
-		bcm.setOwnerName(localClient.getName());
+		if (localClient != null) {
+			bcm.setOwnerLogin(localClient.getLogin());
+			bcm.setOwnerName(localClient.getName());
+		}
 		bcm.setText("Disconnected");
 		bcm.setServresponse("SERVER> Disconnected");
 		bcm.setDisconnect(true);
 		
-		ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
+		if (localClient != null) {
+			ClientCenter.getInstance().removeClientByClassAndSocket(localClient, sock);
+			System.out.println(ServerMain.getTimestamp() + " " + localClient.getName() + " -> " + "Disconnected");
+		}
 		ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 		sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 		Broadcaster bc = new Broadcaster();
@@ -32,8 +37,6 @@ public class DisconnectionMessageReceiver implements ReceiverInterface {
 		SendObject so = new SendObject();
 		sm.setDisconnect(true);
 		so.send(sock, sm);
-		
-		System.out.println(ServerMain.getTimestamp()+ localClient.getName() + " -> " + "Disconnected");	
 		
 		bcm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 		bc.broadCastMessage(bcm);	
