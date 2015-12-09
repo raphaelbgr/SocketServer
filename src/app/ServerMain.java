@@ -84,10 +84,10 @@ public class ServerMain {
 			System.out.println(getTimestamp() + " " + "SERVER> Attepting to open port " + PORT);
 			DATABASE_FULL_URL = "jdbc:mysql://"+ ServerMain.DATABASE_ADDR + ":" + ServerMain.DATABASE_PORT + "/" + ServerMain.DATABASE_SCHEMA;
 		} else {
-			System.out.println("Missing or invalid arguments, usage -port,"
-					+ " -dblogin, -dbpass, -dbkey, -dbaddr, -dbport, -dbalias,"
-					+ " -compkey and -dao off to input the correct parameters"
-					+ " for reaching the database.");
+			System.out.println("Missing or invalid arguments, usage:\n-port xxxx\n"
+					+ "-dblogin xxxxxx \n-dbpass ******\n-dbkey xxx\n-dbaddr xxx.xxx.xxx.xxx\n-dbport xxxx \n-dbalias xxxx\n"
+					+ "-compkey xxxxxxxx\n-dao off\n-debug (output queries and other info)\n"
+					+ "-wanawstest (to connect automatically to the AWS test environment)");
 		}
 
 	}
