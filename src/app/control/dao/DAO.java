@@ -123,8 +123,8 @@ public class DAO {
 			}
 			
 			String hashedPassword;
-			if ((cl.getPassword() != null || !cl.getPassword().equalsIgnoreCase(""))
-					&& (cl.getMD5Password() == null || cl.getMD5Password().equalsIgnoreCase(""))) {
+			if ((cl.getPassword() != null)
+					&& (cl.getMD5Password() == null)) {
 				hashedPassword = MD5.getMD5(cl.getPassword());
 			} else hashedPassword = cl.getMD5Password();
 			
