@@ -1,4 +1,4 @@
-package app.model.messages;
+package net.sytes.surfael.api.model.messages;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -10,9 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import app.model.clients.ClientSeenTime;
-
-@SuppressWarnings("unused")
 public class Message implements Serializable, Comparable<Message> {
 
 	/**
@@ -35,7 +32,7 @@ public class Message implements Serializable, Comparable<Message> {
 	private Date serverReceivedTimeDate;
 	private String serverReceivedTimeString;
 	
-	private ClientSeenTime [] cst;
+//	private ClientSeenTime [] cst;
 	private Vector<String> onlineUserList;
 
 	private boolean disconnect = false;
@@ -61,10 +58,10 @@ public class Message implements Serializable, Comparable<Message> {
 	private String servresponse;
 	private String dnsHostName;
 
-	private String aux1;
-	private String aux2;
-	private String aux3;
-	private String aux4;
+//	private String aux1;
+//	private String aux2;
+//	private String aux3;
+//	private String aux4;
 
 	private Object msg_DateCreatedSQL;
 

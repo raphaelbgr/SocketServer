@@ -1,4 +1,4 @@
-package app.model.clients;
+package net.sytes.surfael.api.model.clients;
 
 public class WebClient extends Client {
 

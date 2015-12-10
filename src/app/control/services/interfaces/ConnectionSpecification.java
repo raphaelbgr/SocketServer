@@ -1,6 +1,6 @@
 package app.control.services.interfaces;
 
-import app.model.messages.Message;
+import net.sytes.surfael.api.model.messages.Message;
 
 public interface ConnectionSpecification {
 	public boolean send(Message m) throws Throwable;

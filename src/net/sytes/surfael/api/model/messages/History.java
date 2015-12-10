@@ -1,4 +1,4 @@
-package app.model.messages;
+package net.sytes.surfael.api.model.messages;
 
 import java.io.Serializable;
 import java.util.ArrayList;

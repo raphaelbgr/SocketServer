@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 
-import app.model.clients.Client;
-import app.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.clients.Client;
+import net.sytes.surfael.api.model.exceptions.ServerException;
 
 public interface ReceiverInterface {
 

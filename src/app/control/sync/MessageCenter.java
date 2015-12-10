@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import app.model.messages.Message;
+import net.sytes.surfael.api.model.messages.Message;
 
 public class MessageCenter {
 

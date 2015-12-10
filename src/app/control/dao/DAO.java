@@ -8,11 +8,11 @@ import java.sql.Statement;
 import java.util.Calendar;
 
 import app.ServerMain;
-import app.model.clients.Client;
-import app.model.clients.NewClient;
-import app.model.exceptions.ServerException;
-import app.model.messages.History;
-import app.model.messages.Message;
+import net.sytes.surfael.api.model.clients.Client;
+import net.sytes.surfael.api.model.clients.NewClient;
+import net.sytes.surfael.api.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.messages.History;
+import net.sytes.surfael.api.model.messages.Message;
 
 public class DAO {
 
@@ -121,9 +121,15 @@ public class DAO {
 			if (ServerMain.DEBUG) {
 				System.out.println(query);
 			}
-
+			
+			String hashedPassword;
+			if ((cl.getPassword() != null || !cl.getPassword().equalsIgnoreCase(""))
+					&& (cl.getMD5Password() == null || cl.getMD5Password().equalsIgnoreCase(""))) {
+				hashedPassword = MD5.getMD5(cl.getPassword());
+			} else hashedPassword = cl.getMD5Password();
+			
 			if (rs.getString("LOGIN").equalsIgnoreCase(cl.getLogin())) {
-				if (rs.getString("CRYPTPASSWORD").equals(cl.getMD5Password())) {
+				if (rs.getString("CRYPTPASSWORD").equals(hashedPassword)) {
 					DAO.disconnect();
 					return true;
 				} else {
@@ -421,15 +427,34 @@ public class DAO {
 		return result;
 	}
 	
-	public static boolean doLogin(String login, String password) throws SQLException {
+	public static boolean doLogin(Client client) throws SQLException, ServerException {
 		boolean result = false;
+		
+		String login = client.getLogin();
+		String password = client.getPassword();
+		String MD5Password = client.getMD5Password();
+		String email = client.getEmail();
+		
 		if (ServerMain.DB) {
-			if (login.contains("@") && login.contains(".")) {
-				login = getLoginByEmail(login);
+			if (login == null || login.contentEquals("")) {
+				if (email == null) {
+					throw new ServerException(ServerMain.getTimestamp() + " SERVER> Please input a login/email.");
+				}
+				if (email != null && (email.contains("@") && email.contains("."))) {
+					login = getLoginByEmail(email);
+				} else throw new ServerException(ServerMain.getTimestamp() + " SERVER> Please input a VALID email.");
 			}
+			
+			if (MD5Password == null || MD5Password.equalsIgnoreCase("")) {
+				if (password == null) {
+					throw new ServerException(ServerMain.getTimestamp() + " SERVER> Please input a password.");
+				}
+				MD5Password = MD5.getMD5(password);
+			}
+			
 			DAO.connect();
 			String query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='"+ login +"'"
-					+ "AND CRYPTPASSWORD='"+ password + "';";
+					+ "AND CRYPTPASSWORD='"+ MD5Password + "';";
 			Statement st = c.prepareStatement(query);
 			ResultSet rs = st.executeQuery(query);
 			if (rs.next()) {

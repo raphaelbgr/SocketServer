@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import app.model.messages.Message;
+import net.sytes.surfael.api.model.messages.Message;
 
 
 public class Broadcaster {

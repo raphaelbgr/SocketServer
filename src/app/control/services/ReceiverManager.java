@@ -15,15 +15,13 @@ import app.control.services.receiver.types.RegistrationMessageReceiver;
 import app.control.services.receiver.types.ServerMessageProcessor;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
-import app.model.clients.Client;
-import app.model.clients.NewClient;
-import app.model.exceptions.ServerException;
-import app.model.messages.DisconnectionMessage;
-import app.model.messages.Message;
-import app.model.messages.NormalMessage;
-import app.model.messages.ServerMessage;
-
-import com.google.gson.Gson;
+import net.sytes.surfael.api.model.clients.Client;
+import net.sytes.surfael.api.model.clients.NewClient;
+import net.sytes.surfael.api.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.messages.DisconnectionMessage;
+import net.sytes.surfael.api.model.messages.Message;
+import net.sytes.surfael.api.model.messages.NormalMessage;
+import net.sytes.surfael.api.model.messages.ServerMessage;
 
 public class ReceiverManager implements Runnable {
 	Socket sock			= null;
@@ -41,10 +39,6 @@ public class ReceiverManager implements Runnable {
 		while(true) {
 			try {
 				Object o = ro.receive(sock);
-				if (o instanceof String) {
-					Gson gson = new Gson();
-					o = gson.fromJson((String) o, Object.class);
-				}
 				if (o instanceof Message) {
 					if (o instanceof NormalMessage) {
 						receiver = new NormalMessageReceiver();
@@ -63,14 +57,15 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o, null, sock);
 						break;
 					}
-					if (DAO.doLogin(((Client) o).getLogin(), ((Client) o).getMD5Password())) {
+					Client c = (Client) o;
+					if (DAO.doLogin(c)) {
 						localClient = DAO.loadClientData((Client)o);
 						localClient.setLocalPort(sock.getPort());
 						receiver = new ClientReceiver();
 						receiver.receive(o,localClient,sock);
 					} else {
 						throw new ServerException(ServerMain.getTimestamp() + " SERVER> " + 
-								"User login " + ((Client) o).getLogin() + " not found.", true);
+								"User login " + c.getLogin() + " email " + c.getEmail() + " not found.", true);
 					}
 				}
 			} catch (ServerException e) {

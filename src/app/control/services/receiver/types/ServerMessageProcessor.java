@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import app.control.communication.SendObject;
 import app.control.dao.DAO;
 import app.control.services.receiver.ReceiverInterface;
-import app.model.clients.Client;
-import app.model.exceptions.ServerException;
-import app.model.messages.History;
-import app.model.messages.ServerMessage;
+import net.sytes.surfael.api.model.clients.Client;
+import net.sytes.surfael.api.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.messages.History;
+import net.sytes.surfael.api.model.messages.ServerMessage;
 
 public class ServerMessageProcessor implements ReceiverInterface {
 

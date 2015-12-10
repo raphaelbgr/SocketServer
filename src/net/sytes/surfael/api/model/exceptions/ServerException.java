@@ -1,4 +1,4 @@
-package app.model.exceptions;
+package net.sytes.surfael.api.model.exceptions;
 
 public class ServerException extends Throwable {
 

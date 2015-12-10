@@ -1,6 +1,6 @@
-package app.model.clients;
+package net.sytes.surfael.api.model.clients;
 
-import app.model.messages.Message;
+import net.sytes.surfael.api.model.messages.Message;
 
 
 public class ClientSeenTime extends Client {

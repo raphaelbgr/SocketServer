@@ -10,10 +10,10 @@ import app.control.dao.DAO;
 import app.control.services.receiver.ReceiverInterface;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
-import app.model.clients.Client;
-import app.model.exceptions.ServerException;
-import app.model.messages.BroadCastMessage;
-import app.model.messages.ServerMessage;
+import net.sytes.surfael.api.model.clients.Client;
+import net.sytes.surfael.api.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.messages.BroadCastMessage;
+import net.sytes.surfael.api.model.messages.ServerMessage;
 
 public class ClientReceiver implements ReceiverInterface {
 

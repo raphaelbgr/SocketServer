@@ -1,9 +1,9 @@
-package app.model.messages;
+package net.sytes.surfael.api.model.messages;
 
 import java.io.Serializable;
 import java.util.Set;
 
-import app.model.clients.Client;
+import net.sytes.surfael.api.model.clients.Client;
 
 public class ServerMessage extends Message implements Serializable {
 

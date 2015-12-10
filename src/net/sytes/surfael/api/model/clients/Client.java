@@ -1,4 +1,4 @@
-package app.model.clients;
+package net.sytes.surfael.api.model.clients;
 
 import java.io.Serializable;
 import java.net.Socket;
@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import app.model.messages.Message;
+import net.sytes.surfael.api.model.messages.Message;
 
 
 public class Client implements Serializable {
@@ -31,7 +31,7 @@ public class Client implements Serializable {
 
 	String login				= null;
 	String password				= null;
-	String md5Password		= null;
+	String md5Password			= null;
 	String email				= null;
 	String lastIp				= null;
 	String sex					= null;

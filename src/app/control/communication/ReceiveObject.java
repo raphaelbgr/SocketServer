@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import app.model.exceptions.ServerException;
-import app.model.messages.Message;
+import net.sytes.surfael.api.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.messages.Message;
 
 public class ReceiveObject {
 
