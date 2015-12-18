@@ -37,7 +37,7 @@ public class ClientCenter {
 			bcm.setOwnerName(c.getName());
 			bcm.setText("SERVER> " + c.getLogin() +  " had a problem: " + e.getLocalizedMessage());
 			bcm.setServresponse("SERVER> " + c.getLogin() +  " had a problem: " + e.getLocalizedMessage());
-			removeClientByLogin(c.getLogin());
+			removeClientByLoginAndPlatform(c.getLogin(), c.getPlatform());
 		} else {
 			bcm.setOwnerLogin("N/A");
 			bcm.setOwnerName("N/A");
@@ -51,7 +51,7 @@ public class ClientCenter {
 			e1.printStackTrace();
 			System.err.println("SERVER> Broadcaster exeption: " + e1.getLocalizedMessage());
 		}
-		
+
 		// PASSES THE THROWN EXCEPTION TO THE CLIENT
 		if (e instanceof ServerException) {
 			if (((ServerException) e).isToDisconnect()) {
@@ -64,16 +64,16 @@ public class ClientCenter {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	public HashSet<Socket> getSockets() {
 		return sockets;
 	}
-	
+
 	public synchronized boolean checkNameAvaliability(String s) throws ServerException, SQLException {
 		if (s.contains("@")) {
-			 s = DAO.getLoginByEmail(s);
+			s = DAO.getLoginByEmail(s);
 		}
 		return onlineUserList.contains(s);
 	}
@@ -86,14 +86,14 @@ public class ClientCenter {
 	}
 
 	public synchronized void addClient(Socket sock, Client c) throws Throwable {
-		if (!loginsToClients.containsKey(c.getLogin())) {
-			loginsToClients.put(c.getLogin(), c);
+		if (!loginsToClients.containsKey(c.getLogin() + c.getPlatform())) {
+			loginsToClients.put(c.getLogin() + c.getPlatform(), c);
 			sockets.add(sock);
 			userNames.add(c);
 			onlineUserList.add(c.toString());
 			socketToClient.put(sock, c);
 			portToClients.put(c.getLocalPort(), c);
-			namestToSocket.put(c.getLogin(), sock);
+			namestToSocket.put(c.getLogin() + c.getPlatform(), sock);
 		} else {
 			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The login " + c.getLogin() + " is already in use.", true);
 			se.setToDisconnect(true);
@@ -106,7 +106,7 @@ public class ClientCenter {
 		sockets.remove(sock);
 		userNames.remove(c);
 		for (int i = 0; i < loginsToClients.size(); i++) {
-			loginsToClients.remove(c.getLogin());
+			loginsToClients.remove(c.getLogin() + c.getPlatform());
 		}
 		for (int i = 0; i < onlineUserList.size(); i++) {
 			onlineUserList.remove(c.toString());
@@ -116,14 +116,14 @@ public class ClientCenter {
 		}
 		removeDoubleEntries(c);
 	}
-	
+
 	public synchronized void removeClientBySocket(Socket sock) {
 		Client c = socketToClient.get(sock);
 		socketToClient.remove(sock);
 		sockets.remove(sock);
 		userNames.remove(c);
 		for (int i = 0; i < loginsToClients.size(); i++) {
-			loginsToClients.remove(c.getLogin());
+			loginsToClients.remove(c.getLogin() + c.getPlatform());
 		}
 		for (int i = 0; i < onlineUserList.size(); i++) {
 			onlineUserList.remove(c.toString());
@@ -142,21 +142,20 @@ public class ClientCenter {
 		}
 	}
 
-	public synchronized void removeClientByLogin(String s) {
-		if(loginsToClients.containsKey(s)) {
-			c = loginsToClients.get(s);
+	public synchronized void removeClientByLoginAndPlatform(String login, String platform) {
+		if(loginsToClients.containsKey(login + platform)) {
+			c = loginsToClients.get(login + platform);
 			socketToClient.remove(c);
 			userNames.remove(c);
 		}
-		for (Socket socket : sockets) {
-			sockets.remove(namestToSocket.get(s));
-			if (socket.getPort() == namestToSocket.get(s).getPort()) {
-				sockets.remove(socket);
-				portToClients.remove(socket.getPort());
-			}
+		Socket socket = namestToSocket.get(login + platform);
+		if (socket != null) {
+			sockets.remove(socket);
+			portToClients.remove(socket.getPort());
+			namestToSocket.remove(socket);
 		}
 		for (int i = 0; i < loginsToClients.size(); i++) {
-			loginsToClients.remove(c.getLogin());
+			loginsToClients.remove(c.getLogin() + c.getPlatform());
 		}
 		for (int i = 0; i < onlineUserList.size(); i++) {
 			onlineUserList.remove(c.toString());
@@ -181,11 +180,11 @@ public class ClientCenter {
 		if(portToClients.containsKey(i)) {
 			c = portToClients.get(i);
 			socketToClient.remove(c);
-			sockets.remove(namestToSocket.get(c.getLogin()));
-			namestToSocket.remove(c.getLogin());
+			sockets.remove(namestToSocket.get(c.getLogin() + c.getPlatform()));
+			namestToSocket.remove(c.getLogin() + c.getPlatform());
 			userNames.remove(c);
-			loginsToClients.remove(c.getLogin());
-			onlineUserList.remove(c.getLogin());
+			loginsToClients.remove(c.getLogin() + c.getPlatform());
+			onlineUserList.remove(c.getLogin() + c.getPlatform());
 			portToClients.remove(i);
 		} else {
 			throw new ServerException(c.getLogin() + " is already offline.");

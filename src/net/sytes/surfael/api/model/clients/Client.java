@@ -218,9 +218,9 @@ public class Client implements Serializable {
 	@Override
 	public String toString() {
 		if (this.getCollege().equalsIgnoreCase("infnet")) {
-			return this.name + " / " + this.getCourse() + this.getStartTrimester().substring(0, 4);
+			return "["+ this.getPlatform().toUpperCase() +"] " + this.name + " / " + this.getCourse() + this.getStartTrimester().substring(0, 4);
 		} else {
-			return this.name + " / " + this.getCollege();
+			return "["+ this.getPlatform().toUpperCase() +"] " + this.name + " / " + this.getCollege();
 		}
 	}
 	public int getLocalPort() {
