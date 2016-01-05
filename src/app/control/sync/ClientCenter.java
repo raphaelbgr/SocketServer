@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
 
-import app.ServerMain;
 import app.control.communication.SendObject;
 import app.control.dao.DAO;
 import net.sytes.surfael.api.model.clients.Client;
@@ -19,9 +18,11 @@ import net.sytes.surfael.api.model.messages.BroadCastMessage;
 public class ClientCenter {
 
 	private static ClientCenter cc 					= null;
+	
 	private HashMap<String,Client> loginsToClients 	= new HashMap<String,Client>();
-	private HashMap<Socket,Client> socketToClient	= new HashMap<Socket,Client>();
 	private HashMap<String,Socket> namestToSocket	= new HashMap<String,Socket>();
+	
+	private HashMap<Integer, Socket> socketToPorts	= new HashMap<Integer,Socket>();
 	private HashMap<Integer,Client> portToClients 	= new HashMap<Integer,Client>();
 
 	private HashSet<Client> userNames 				= new HashSet<Client>();
@@ -37,7 +38,7 @@ public class ClientCenter {
 			bcm.setOwnerName(c.getName());
 			bcm.setText("SERVER> " + c.getLogin() +  " had a problem: " + e.getLocalizedMessage());
 			bcm.setServresponse("SERVER> " + c.getLogin() +  " had a problem: " + e.getLocalizedMessage());
-			removeClientByLoginAndPlatform(c.getLogin(), c.getPlatform());
+			removeClientByLoginAndPlatform(c.getLogin(), c.getPlatform(), String.valueOf(c.getLocalPort()));
 		} else {
 			bcm.setOwnerLogin("N/A");
 			bcm.setOwnerName("N/A");
@@ -64,7 +65,6 @@ public class ClientCenter {
 				}
 			}
 		}
-
 	}
 
 	public HashSet<Socket> getSockets() {
@@ -78,52 +78,23 @@ public class ClientCenter {
 		return onlineUserList.contains(s);
 	}
 
-	public synchronized void addUser(Client c) throws ServerException {
-		if (!userNames.add(c)) {
-			throw new ServerException("Client login already in use: " + c.getLogin());
-		}
-		onlineUserList.add(c.toString());
-	}
-
 	public synchronized void addClient(Socket sock, Client c) throws Throwable {
-		if (!loginsToClients.containsKey(c.getLogin() + c.getPlatform())) {
-			loginsToClients.put(c.getLogin() + c.getPlatform(), c);
-			sockets.add(sock);
-			userNames.add(c);
+		if (!onlineUserList.contains(c.toString())) {
 			onlineUserList.add(c.toString());
-			socketToClient.put(sock, c);
-			portToClients.put(c.getLocalPort(), c);
-			namestToSocket.put(c.getLogin() + c.getPlatform(), sock);
-		} else {
-			ServerException se = new ServerException(ServerMain.getTimestamp() + " SERVER> The login " + c.getLogin() + " is already in use.", true);
-			se.setToDisconnect(true);
-			throw se;
 		}
+		loginsToClients.put(c.getLogin() + c.getPlatform() + c.getLocalPort(), c);
+		sockets.add(sock);
+		userNames.add(c);
+		portToClients.put(c.getLocalPort(), c);
+		namestToSocket.put(c.getLogin() + c.getPlatform() + c.getLocalPort(), sock);
 	}
 
 	public synchronized void removeClientByClassAndSocket(Client c,Socket sock) throws Throwable {
-		socketToClient.remove(sock);
+		socketToPorts.remove(c.getLocalPort());
 		sockets.remove(sock);
 		userNames.remove(c);
 		for (int i = 0; i < loginsToClients.size(); i++) {
-			loginsToClients.remove(c.getLogin() + c.getPlatform());
-		}
-		for (int i = 0; i < onlineUserList.size(); i++) {
-			onlineUserList.remove(c.toString());
-		}
-		for (int i = 0; i <= portToClients.size(); i++) {
-			portToClients.remove(c.getLocalPort());
-		}
-		removeDoubleEntries(c);
-	}
-
-	public synchronized void removeClientBySocket(Socket sock) {
-		Client c = socketToClient.get(sock);
-		socketToClient.remove(sock);
-		sockets.remove(sock);
-		userNames.remove(c);
-		for (int i = 0; i < loginsToClients.size(); i++) {
-			loginsToClients.remove(c.getLogin() + c.getPlatform());
+			loginsToClients.remove(c.getLogin() + c.getPlatform() + c.getLocalPort());
 		}
 		for (int i = 0; i < onlineUserList.size(); i++) {
 			onlineUserList.remove(c.toString());
@@ -142,23 +113,16 @@ public class ClientCenter {
 		}
 	}
 
-	public synchronized void removeClientByLoginAndPlatform(String login, String platform) {
-		if(loginsToClients.containsKey(login + platform)) {
-			c = loginsToClients.get(login + platform);
-			socketToClient.remove(c);
+	public synchronized void removeClientByLoginAndPlatform(String login, String platform, String port) {
+		if(loginsToClients.containsKey(login + platform + port)) {
+			c = loginsToClients.get(login + platform + port);
 			userNames.remove(c);
 		}
-		Socket socket = namestToSocket.get(login + platform);
+		Socket socket = namestToSocket.get(login + platform + port);
 		if (socket != null) {
 			sockets.remove(socket);
 			portToClients.remove(socket.getPort());
 			namestToSocket.remove(socket);
-		}
-		for (int i = 0; i < loginsToClients.size(); i++) {
-			loginsToClients.remove(c.getLogin() + c.getPlatform());
-		}
-		for (int i = 0; i < onlineUserList.size(); i++) {
-			onlineUserList.remove(c.toString());
 		}
 	}
 
@@ -173,30 +137,6 @@ public class ClientCenter {
 			}
 		}
 		return c;
-	}
-
-	public synchronized void removeClientByPort(Integer i) throws Throwable {
-		c = null;
-		if(portToClients.containsKey(i)) {
-			c = portToClients.get(i);
-			socketToClient.remove(c);
-			sockets.remove(namestToSocket.get(c.getLogin() + c.getPlatform()));
-			namestToSocket.remove(c.getLogin() + c.getPlatform());
-			userNames.remove(c);
-			loginsToClients.remove(c.getLogin() + c.getPlatform());
-			onlineUserList.remove(c.getLogin() + c.getPlatform());
-			portToClients.remove(i);
-		} else {
-			throw new ServerException(c.getLogin() + " is already offline.");
-		}
-	}
-
-	public HashMap<String, Client> getChash() {
-		return loginsToClients;
-	}
-
-	public void setChash(HashMap<String, Client> chash) {
-		this.loginsToClients = chash;
 	}
 
 	//SINGLETON BLOCK
@@ -216,11 +156,4 @@ public class ClientCenter {
 		return onlineUserList;
 	}
 
-	public void setOnlineUserList(Vector<String> onlineUserList) {
-		this.onlineUserList = onlineUserList;
-	}
-
-	public HashMap<Socket, Client> getClientSockets() {
-		return socketToClient;
-	}
 }
