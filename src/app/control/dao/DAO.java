@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import app.ServerMain;
 import net.sytes.surfael.api.model.clients.Client;
 import net.sytes.surfael.api.model.clients.NewClient;
 import net.sytes.surfael.api.model.exceptions.ServerException;
 import net.sytes.surfael.api.model.messages.History;
 import net.sytes.surfael.api.model.messages.Message;
+import app.ServerMain;
 
 public class DAO {
 
@@ -91,6 +91,7 @@ public class DAO {
 	}
 	
 	public synchronized static void updateSentMsgs(Message m) throws SQLException {
+
 		DAO.connect();
 		if (ServerMain.DB) {
 			String query = "UPDATE CLIENTS SET LASTMESSAGE=\""+ m.getText() + "\", LASTMESSAGEDATE='" + m.getMsg_DateCreatedSQL() + "', LASTMESSAGE_TIMESTAMP='" + m.getTimestamp() + "'"
@@ -288,6 +289,32 @@ public class DAO {
 		}
 		return count;
 	}
+	
+	public static int getOwnerMessagesSentAsync(String login) {
+		int count = 0;
+		if (ServerMain.DB) {
+			String query = "SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "'";
+			Statement st;
+			try {
+				st = c.createStatement();
+				ResultSet rs = st.executeQuery(query);
+				while(rs.next()) {
+					count =  rs.getInt("COUNT(OWNERLOGIN)");
+				}
+				while(rs.next()) {
+					count =  rs.getInt("COUNT(OWNERLOGIN)");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			//DEBUG
+			if (ServerMain.DEBUG) {
+				System.out.println(query);
+			}
+		}
+		return count;
+	}
 
 	public synchronized static int generateOwnerID(String login) throws SQLException {
 		int id = 0;
@@ -473,4 +500,57 @@ public class DAO {
 		return result;
 	}
 
+	public static void storeMessageAsync(final Message m) {
+		Thread t1 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					DAO.connect();
+					if (ServerMain.DB) {
+						String query = "INSERT INTO MESSAGELOG (OWNERLOGIN,OWNERNAME,TEXT,CREATIONTIME,SERVERRECEIVEDTIME,MSG_DATE,IP,PCNAME,NETWORK,TYPE,SERVRESPONSE,OWNERID,"
+								+ "`MESSAGESERVER#`,`MESSAGEOWNER#`, `SERV_REC_TIMESTAMP`, `SERV_REC_TIME`) "
+
+								+ "VALUES ('" + m.getOwnerLogin() + "',"
+								+ "'" + m.getOwnerName() + "',"
+								+ "\"" + m.getText() + "\","
+								+ "'" + m.getCreationtime() + "',"
+								+ "'" + m.getServerReceivedTimeSQLDate() + "',"
+								+ "'" + m.getMsg_DateCreatedSQL() + "',"
+								+ "'" + m.getIp() + "',"
+								+ "'" + m.getPcname() + "',"
+								+ "'" + m.getNetwork() + "',"
+								+ "'" + m.getType() + "',"
+								+ "'" + m.getServresponse() + "',"
+								+ "'" + m.getOwnerID() + "',"
+								+ "'" + m.getMessageServerCount() + "',"
+								+ "'" + getOwnerMessagesSentAsync(m.getOwnerLogin()) + "',"
+								+ "'" + m.getServerReceivedtimeString() + "',"
+								+ "'" + m.getServerReceivedTimeLong() + "')";
+						Statement s = c.prepareStatement(query);
+						s.execute(query);
+
+						String updateClient = "UPDATE CLIENTS SET MSGCOUNT="
+								+ "(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG "
+								+ "AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') "
+								+ "WHERE LOGIN='" + m.getOwnerLogin() + "'";
+						
+						Statement s2 = c.prepareStatement(updateClient);
+						s2.execute(updateClient);
+
+						//DEBUG
+						if (ServerMain.DEBUG) {
+							System.out.println(query);
+							System.out.println(updateClient);
+						}
+						DAO.disconnect();
+						updateSentMsgs(m);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		t1.start();
+	}
 }

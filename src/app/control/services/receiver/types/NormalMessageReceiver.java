@@ -37,8 +37,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 			//ATTEMPS TO STORE THE MESSAGE ON THE DB
 			try {
 				DAO.connect();
-				DAO.storeMessage(nm);
-				DAO.updateSentMsgs(nm);
+				DAO.storeMessageAsync(nm);
 			} catch (SQLException e) {
 				System.err.println(ServerMain.getTimestamp() + " " + "SERVER> Could not store this message on the database.");
 				e.printStackTrace();
