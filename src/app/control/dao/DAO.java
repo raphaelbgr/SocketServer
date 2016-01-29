@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 
+import net.sytes.surfael.api.control.classes.MD5;
 import net.sytes.surfael.api.model.clients.Client;
 import net.sytes.surfael.api.model.clients.NewClient;
 import net.sytes.surfael.api.model.exceptions.ServerException;
@@ -124,10 +125,11 @@ public class DAO {
 			}
 			
 			String hashedPassword;
-			if ((cl.getPassword() != null)
-					&& (cl.getMD5Password() == null)) {
+			if (cl.getPassword() != null) {
 				hashedPassword = MD5.getMD5(cl.getPassword());
-			} else hashedPassword = cl.getMD5Password();
+			} else {
+				hashedPassword = cl.getMD5Password();
+			}
 			
 			if (rs.getString("LOGIN").equalsIgnoreCase(cl.getLogin())) {
 				if (rs.getString("CRYPTPASSWORD").equals(hashedPassword)) {

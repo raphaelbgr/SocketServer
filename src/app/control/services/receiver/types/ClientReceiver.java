@@ -39,10 +39,6 @@ public class ClientReceiver implements ReceiverInterface {
 					if (localClient.isConnect()) {
 						if (localClient.getLogin() != null) {
 							ClientCenter.getInstance().checkNameAvaliability(localClient.getLogin());
-						} else {
-//							if (localClient.getPlatform().equalsIgnoreCase("desktop")) {
-//								desktopDuplicatta = true;
-//							}
 						}
 					}
 					// Checks this login is already connected
