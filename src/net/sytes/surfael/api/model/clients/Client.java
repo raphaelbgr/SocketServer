@@ -55,10 +55,10 @@ public class Client implements Serializable {
 	Message lastMessage 		= null;
 	List<Message> unSentMsgs	= null;
 	
-	Long id						= null;
-	Long msgCount				= null;
-	Long onlinetime 			= null;
-	Long messagesSent 			= null;
+	int id						= 0;
+	int msgCount				= 0;
+	int onlinetime 				= 0;
+	int messagesSent 			= 0;
 	
 	Socket sock 				= null;
 	
@@ -108,13 +108,13 @@ public class Client implements Serializable {
 			this.password = password;
 		}
 	}
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	public Long getMsgCount() {
+	public int getMsgCount() {
 		return msgCount;
 	}
 	public String getLogin() {
@@ -141,8 +141,8 @@ public class Client implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public void setMsgCount(Long msgCount) {
-		this.msgCount = msgCount + 1L;
+	public void setMsgCount(int msgCount) {
+		this.msgCount = msgCount + 1;
 	}
 	public String getText() {
 		return text;
@@ -192,10 +192,10 @@ public class Client implements Serializable {
 	public void setTargetPort(Integer port) {
 		this.port = port;
 	}
-	public Long getOnlinetime() {
+	public int getOnlinetime() {
 		return onlinetime;
 	}
-	public void setOnlinetime(Long onlinetime) {
+	public void setOnlinetime(int onlinetime) {
 		this.onlinetime = onlinetime;
 	}
 	public Date getLastOnline() {
@@ -261,10 +261,10 @@ public class Client implements Serializable {
 	public void setUnSentMsgs(List<Message> unSentMsgs) {
 		this.unSentMsgs = unSentMsgs;
 	}
-	public Long getMessagesSent() {
+	public int getMessagesSent() {
 		return messagesSent;
 	}
-	public void setMessagesSent(Long messagesSent) {
+	public void setMessagesSent(int messagesSent) {
 		this.messagesSent = messagesSent;
 	}
 	public String getIp() {
