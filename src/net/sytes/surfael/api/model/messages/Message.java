@@ -67,6 +67,8 @@ public class Message implements Serializable, Comparable<Message> {
 
 	private Long serverReceivedTimeLong;
 
+	private int senderId;
+
 	public Set<String> getSeen() {
 		return receivedby;
 	}
@@ -392,5 +394,11 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public void setDnsHostName(String dnsHostName) {
 		this.dnsHostName = dnsHostName;
+	}
+	public void setSenderId(int id) {
+		this.senderId = id;
+	}
+	public int getSenderId() {
+		return this.senderId;
 	}
 }

@@ -116,13 +116,16 @@ public class DAO {
 		if (ServerMain.DB) {
 			String query = "SELECT LOGIN, CRYPTPASSWORD FROM CLIENTS WHERE LOGIN='"+cl.getLogin()+"'";
 			Statement st = c.prepareStatement(query);
-			rs = st.executeQuery(query);
-			rs.next();
+			rs = st.executeQuery(query);	
 
 			//DEBUG
 			if (ServerMain.DEBUG) {
 				System.out.println(query);
 			}
+			
+			if (!rs.next()) {
+				return false;
+			} 
 			
 			String hashedPassword;
 			if (cl.getPassword() != null) {

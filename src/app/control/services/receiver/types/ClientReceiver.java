@@ -80,7 +80,7 @@ public class ClientReceiver implements ReceiverInterface {
 						throw new ServerException(ServerMain.getTimestamp() + "SERVER> The login " + cLogin + " is already in use.",true, true);
 					}
 					DAO.disconnect();
-				} else throw new ServerException(ServerMain.getTimestamp() + "SERVER> Wrong Password.",true);
+				} else throw new ServerException(ServerMain.getTimestamp() + "SERVER> Wrong Login or Password.",true);
 			} else {
 				DAO.disconnect();
 				throw new ServerException(ServerMain.getTimestamp() + " SERVER> Name greater than 20 characters.",true);
