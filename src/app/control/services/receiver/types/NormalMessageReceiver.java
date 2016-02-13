@@ -36,19 +36,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 			System.out.println(ServerMain.getTimestamp() + " " + nm.getOwnerName() + " -> " + nm.getText());
 			
 			//ATTEMPS TO STORE THE MESSAGE ON THE DB
-			try {
-				DAO.connect();
-				DAO.storeMessageAsync(nm);
-			} catch (SQLException e) {
-				System.err.println(ServerMain.getTimestamp() + " " + "SERVER> Could not store this message on the database.");
-				e.printStackTrace();
-			} finally {
-				try {
-					DAO.disconnect();
-				} catch (SQLException e) {
-					
-				}
-			}
+			DAO.aSyncStoreMessage(nm);
 		} else {
 			throw new ServerException(ServerMain.getTimestamp() + " SERVER> Message greater than 100 characters.");
 		}

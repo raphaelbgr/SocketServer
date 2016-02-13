@@ -13,68 +13,65 @@ import net.sytes.surfael.api.model.messages.Message;
 public class Client implements Serializable {
 
 	private static final long serialVersionUID = 296589332172289191L;
-	
-	Date registrationDate 		= null;
-	Date lastOnline 			= null;
-	Date lastMessageSent		= null;
-	
-	private int localPort;
-	private String version;
-	
-	boolean isConnect			= false;
-	boolean isDisconnect		= false;
-	
-	String text 				= null;
-	String name 				= null;
-	String middlename 			= null;
-	String lastname 			= null;
-	String membertype 			= null;
 
-	String login				= null;
-	String password				= null;
-	String md5Password			= null;
-	String email				= null;
-	String lastIp				= null;
-	String sex					= null;
-	String college				= null;
-	String startTrimester		= null;
-	String city					= null;
-	String state				= null;
-	String country				= null;
-	String course				= null;
-	String infnetMail			= null;
-	String whatsapp				= null;
-	String facebook				= null;
-	String twitter				= null;
-	String instagram			= null;
-	String googleplus			= null;
-	String youtube				= null;
-	String msn					= null;
-	String platform				= null;
-	
-	Message lastMessage 		= null;
-	List<Message> unSentMsgs	= null;
-	
-	int id						= 0;
-	int msgCount				= 0;
-	int onlinetime 				= 0;
-	int messagesSent 			= 0;
-	
-	Socket sock 				= null;
-	
-	String ip 					= null;
-	Integer port 				= null;
-	
-	String aux1 				= null;
-	String aux2 				= null;
-	String aux3 				= null;
-	String aux4 				= null;
-	
+	private Date registrationDate 		= null;
+	private Date lastOnline 			= null;
+	private Date lastMessageSent		= null;
+
+	private int localPort				= 0;
+	private String version				= null;
+
+	boolean isConnect					= false;
+	boolean isDisconnect				= false;
+
+	private String text 				= null;
+	private String name 				= null;
+	private String middlename 			= null;
+	private String lastname 			= null;
+	private String membertype 			= null;
+
+	private String login				= null;
+	private String password				= null;
+	private String md5Password			= null;
+	private String email				= null;
+	private String lastIp				= null;
+	private String sex					= null;
+	private String college				= null;
+	private String startTrimester		= null;
+	private String city					= null;
+	private String state				= null;
+	private String country				= null;
+	private String course				= null;
+	private String infnetMail			= null;
+	private String whatsapp				= null;
+	private String facebook				= null;
+	private String twitter				= null;
+	private String instagram			= null;
+	private String googleplus			= null;
+	private String youtube				= null;
+	private String msn					= null;
+	private String platform				= null;
+	private String photoUrl				= null;
+
+	private Message lastMessage 		= null;
+	private List<Message> unSentMsgs	= null;
+
+	private int id						= 0;
+	private int msgCount				= 0;
+	private int onlinetime 				= 0;
+	private int messagesSent 			= 0;
+
+	private Socket sock 				= null;
+
+	private String ip 					= null;
+	private Integer port 				= null;
+	private String fbToken				= null;
+
 	public Client(Socket sock) {
 		this.sock = sock;
 	}
 	public Client() {
-		
+
 	}
 	public Client (Socket sock, Message m) {
 		this.sock 				= sock;
@@ -105,7 +102,7 @@ public class Client implements Serializable {
 		if (crypt) {
 			this.md5Password = MD5.getMD5(password);
 		} else {
-			this.password = password;
+			this.md5Password = password;
 		}
 	}
 	public int getId() {
@@ -228,7 +225,7 @@ public class Client implements Serializable {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
+
 	@Override
 	public String toString() {
 		if (this.getCollege().equalsIgnoreCase("infnet")) {
@@ -321,30 +318,6 @@ public class Client implements Serializable {
 	public void setPort(Integer port) {
 		this.port = port;
 	}
-	public String getAux1() {
-		return aux1;
-	}
-	public void setAux1(String aux1) {
-		this.aux1 = aux1;
-	}
-	public String getAux2() {
-		return aux2;
-	}
-	public void setAux2(String aux2) {
-		this.aux2 = aux2;
-	}
-	public String getAux3() {
-		return aux3;
-	}
-	public void setAux3(String aux3) {
-		this.aux3 = aux3;
-	}
-	public String getAux4() {
-		return aux4;
-	}
-	public void setAux4(String aux4) {
-		this.aux4 = aux4;
-	}
 	public String getInfnetMail() {
 		return infnetMail;
 	}
@@ -410,16 +383,29 @@ public class Client implements Serializable {
 	}
 	public void setPlatform(int i) {
 		switch (i) {
-		case 0:
-			platform = "desktop";
-			break;
-		case 1:
-			platform = "web";
-			break;
-		case 2:
-			platform = "android";
-			break;
+			case 0:
+				platform = "desktop";
+				break;
+			case 1:
+				platform = "web";
+				break;
+			case 2:
+				platform = "android";
+				break;
 		}
 	}
-	
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
+	public String getFbToken() {
+		return fbToken;
+	}
+
+	public void setFbToken(String fbToken) {
+		this.fbToken = fbToken;
+	}
+
 }

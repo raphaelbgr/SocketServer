@@ -1,6 +1,7 @@
 package app.control.services;
 
 import java.net.Socket;
+import java.sql.SQLException;
 
 import app.ServerMain;
 import app.control.communication.MessageHandler;
@@ -64,8 +65,13 @@ public class ReceiverManager implements Runnable {
 						receiver = new ClientReceiver();
 						receiver.receive(o,localClient,sock);
 					} else {
-						throw new ServerException(ServerMain.getTimestamp() + " SERVER> " + 
-								"User login " + c.getLogin() + " email " + c.getEmail() + " not found.", true);
+						if (c.getLogin() != null) {
+							throw new ServerException(ServerMain.getTimestamp() + " SERVER> " +
+									"Login " + c.getLogin() + " or/and Passwords doesn't match", true);
+						} else {
+							throw new ServerException(ServerMain.getTimestamp() + " SERVER> " +
+									"Email " + c.getEmail() + " or/and Password doesn't match", true);
+						}
 					}
 				}
 			} catch (ServerException e) {

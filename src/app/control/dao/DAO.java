@@ -1,15 +1,15 @@
 package app.control.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import net.sytes.surfael.api.control.classes.MD5;
 import net.sytes.surfael.api.model.clients.Client;
 import net.sytes.surfael.api.model.clients.NewClient;
+import net.sytes.surfael.api.model.exceptions.LocalException;
 import net.sytes.surfael.api.model.exceptions.ServerException;
 import net.sytes.surfael.api.model.messages.History;
 import net.sytes.surfael.api.model.messages.Message;
@@ -22,6 +22,9 @@ public class DAO {
 	final private static String DATABASE_PASSWD = ServerMain.DATABASE_PASS;
 
 	static Connection c = null;
+	private static List<Message> messagesToStore = Collections.synchronizedList(new ArrayList<Message>());
+	private static boolean storeAgentRunning;
+	private static ArrayList<Message> array;
 
 	public static synchronized void connect() throws SQLException {
 		if (ServerMain.DB) {
@@ -83,26 +86,22 @@ public class DAO {
 		s.execute(query);
 		DAO.disconnect();
 	}
-
-	public String codifyPassword(String pass) {
-		if (ServerMain.DB) {
-			return MD5.getMD5(pass);
-		}
-		return null;
-	}
 	
 	public synchronized static void updateSentMsgs(Message m) throws SQLException {
 
 		DAO.connect();
 		if (ServerMain.DB) {
-			String query = "UPDATE CLIENTS SET LASTMESSAGE=\""+ m.getText() + "\", LASTMESSAGEDATE='" + m.getMsg_DateCreatedSQL() + "', LASTMESSAGE_TIMESTAMP='" + m.getTimestamp() + "'"
-					+ "WHERE LOGIN='"+ m.getOwnerLogin() + "';";
+			String query = "UPDATE CLIENTS SET LASTMESSAGE=\""+ m.getText()
+					+ "\", LASTMESSAGEDATE='" + m.getMsg_DateCreatedSQL()
+					+ "', LASTMESSAGE_TIMESTAMP='" + m.getTimestamp()
+					+ "'"
+					+ "WHERE LOGIN='"+ m.getOwnerLogin()
+					+ "';";
 
 			//DEBUG
 			if (ServerMain.DEBUG) {
 				System.out.println(query);
 			}
-
 			Statement s = c.prepareStatement(query);
 			s.execute(query);
 			DAO.disconnect();
@@ -151,50 +150,19 @@ public class DAO {
 		return true;
 	}
 
-	public synchronized static Client loadClientDataByLogin(String login) throws SQLException {
-		DAO.connect();
-		if (ServerMain.DB) {
-			String query = "SELECT * FROM CLIENTS WHERE LOGIN='"+ login +"'";
-			Statement st = c.prepareStatement(query);
-			ResultSet rs = st.executeQuery(query);
-			rs.next();
-			Client cl = new Client();
-			cl.setName(rs.getString("NAME"));
-			cl.setEmail(rs.getString("EMAIL"));
-			cl.setMembertype(rs.getString("MEMBERTYPE"));
-			cl.setId(Integer.valueOf(rs.getString("ID")));
-			cl.setLastMessage(new Message(rs.getString("LASTMESSAGE")));
-			cl.setMsgCount(Integer.valueOf(rs.getString("MSGCOUNT")));
-			cl.setOnlinetime(Integer.valueOf(rs.getString("ONLINETIME")));
-			cl.setLastIp(rs.getString("LASTIP"));
-			cl.setRegistrationDate(rs.getDate("REGISTRATIONDATE"));
-			cl.setLastOnline(rs.getDate("LASTONLINE"));
-			cl.setSex(rs.getString("SEX"));
-			cl.setCollege(rs.getString("COLLEGE"));
-			cl.setCourse(rs.getString("COURSE"));
-			cl.setStartTrimester(rs.getString("COURSESTART"));
-			cl.setInfnetMail(rs.getString("INFNETID"));
-			cl.setWhatsapp(rs.getString("WHATSAPP"));
-			cl.setFacebook(rs.getString("FACEBOOK"));
-
-			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
-			DAO.disconnect();
-			return cl;
-		} else {
+	public synchronized static Client loadFakeDebugAccount() throws LocalException {
+		if (!ServerMain.DB) {
 			Client c = new Client();
 			c.setName("Programmer");
 			c.setEmail("programmer@program.com");
 			c.setMembertype("DEVELOPER");
-			c.setId(111111);
+			c.setId(100000);
 			c.setLastMessage(new Message("Last message."));
 			c.setMsgCount(1);
 			c.setOnlinetime(10);
 			c.setLastIp("127.0.0.1");
-			//			c.setRegistrationDate(new Date("10-08-2015"));
-			//			c.setLastOnline(new Date("10-08-2015"));
+			c.setRegistrationDate(Calendar.getInstance().getTime());
+			c.setLastOnline(Calendar.getInstance().getTime());
 			c.setSex("Male");
 			c.setCollege("INFNET");
 			c.setCourse("GEC");
@@ -205,6 +173,7 @@ public class DAO {
 			c.setConnect(true);
 			return c;
 		}
+		else throw new LocalException("Server db is set to -on, cannot generate fake data.");
 	}
 
 	public synchronized static Client loadClientData(Client cl) throws ServerException {
@@ -212,11 +181,11 @@ public class DAO {
 			try {
 				DAO.connect();
 				String query = "SELECT * FROM CLIENTS WHERE LOGIN='"+ cl.getLogin() +"'";
-				
+
 				if (cl.getLogin() == null) {
 					query = "SELECT * FROM CLIENTS WHERE EMAIL='"+ cl.getEmail() +"'";
 				}
-				
+
 				Statement st = c.prepareStatement(query);
 				ResultSet rs = st.executeQuery(query);
 				rs.next();
@@ -237,6 +206,7 @@ public class DAO {
 				cl.setInfnetMail(rs.getString("INFNETID"));
 				cl.setWhatsapp(rs.getString("WHATSAPP"));
 				cl.setFacebook(rs.getString("FACEBOOK"));
+				cl.setFbToken(rs.getString("FACEBOOK_TOKEN"));
 
 				//DEBUG
 				if (ServerMain.DEBUG) {
@@ -245,57 +215,14 @@ public class DAO {
 				DAO.disconnect();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new ServerException("User not found on the database.");
+				throw new ServerException("Could not connect to the Database Server at this time.", true);
 			}
-			
+
 			return cl;
-		} else {
-			Client c = new Client();
-			c.setName("Programmer");
-			c.setLogin("raphaelz");
-			c.setEmail("programmer@program.com");
-			c.setMembertype("DEVELOPER");
-			c.setId(111111);
-			c.setLastMessage(new Message("Last message."));
-			c.setMsgCount(1);
-			c.setOnlinetime(10);
-			c.setLastIp("127.0.0.1");
-			//			c.setRegistrationDate(new Date("10-08-2015"));
-			//			c.setLastOnline(new Date("10-08-2015"));
-			c.setSex("Male");
-			c.setCollege("INFNET");
-			c.setCourse("GEC");
-			c.setStartTrimester("2013.2");
-			c.setInfnetMail("raphaelb.rocha@al.infnet.edu.br");
-			c.setWhatsapp("21988856697");
-			c.setFacebook("fb.com/raphaelbgr");
-			c.setVersion("0.9.21");
-			c.setConnect(true);
-			return c;
-		}
-	}
-
-	public synchronized static int getOwnerMessagesSent(String login) throws SQLException {
-		int count = 0;
-		if (ServerMain.DB) {
-			String query = "SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "'";
-			//			String queryClient = "UPDATE CLIENTS SET MSGCOUNT=(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "') WHERE LOGIN='" + login + "'";
-			Statement st = c.createStatement();
-			ResultSet rs = st.executeQuery(query);
-
-			while(rs.next()) {
-				count =  rs.getInt("COUNT(OWNERLOGIN)");
-			}
-
-			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
-		}
-		return count;
+		} else throw new ServerException("DB option is set to -off, server is not authorized to perform a conenction to the Datababse Server.");
 	}
 	
-	public static int getOwnerMessagesSentAsync(String login) {
+	public static int getOwnerMessagesSentAsync(String login) throws ServerException {
 		int count = 0;
 		if (ServerMain.DB) {
 			String query = "SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG AS COUNT WHERE OWNERLOGIN='" + login + "'";
@@ -317,99 +244,20 @@ public class DAO {
 			if (ServerMain.DEBUG) {
 				System.out.println(query);
 			}
-		}
+		} else throw new ServerException("DB option is set to -off, server is not authorized to perform a conenction to the Datababse Server.");
 		return count;
 	}
 
-	public synchronized static int generateOwnerID(String login) throws SQLException {
-		int id = 0;
-		if (ServerMain.DB) {
-			String query = "SELECT DISTINCT COUNT(LOGIN) FROM CLIENTS AS COUNT";
-			Statement st = c.createStatement();
-			ResultSet rs = st.executeQuery(query);
-
-			while(rs.next()) {
-				id =  rs.getInt("COUNT(LOGIN)");
-			}
-
-			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
-			DAO.disconnect();
-			return id + 1;
-		}
-		return 0;
-	}
-
-	public synchronized static void storeMessage(Message m) throws SQLException {
-		DAO.connect();
-		if (ServerMain.DB) {
-			String query = "INSERT INTO MESSAGELOG (OWNERLOGIN,OWNERNAME,TEXT,CREATIONTIME,SERVERRECEIVEDTIME,MSG_DATE,IP,PCNAME,NETWORK,TYPE,SERVRESPONSE,OWNERID,"
-					+ "`MESSAGESERVER#`,`MESSAGEOWNER#`, `SERV_REC_TIMESTAMP`, `SERV_REC_TIME`) "
-
-					+ "VALUES ('" + m.getOwnerLogin() + "',"
-					+ "'" + m.getOwnerName() + "',"
-					+ "\"" + m.getText() + "\","
-					+ "'" + m.getCreationtime() + "',"
-					+ "'" + m.getServerReceivedTimeSQLDate() + "',"
-					+ "'" + m.getMsg_DateCreatedSQL() + "',"
-					+ "'" + m.getIp() + "',"
-					+ "'" + m.getPcname() + "',"
-					+ "'" + m.getNetwork() + "',"
-					+ "'" + m.getType() + "',"
-					+ "'" + m.getServresponse() + "',"
-					+ "'" + m.getOwnerID() + "',"
-					+ "'" + m.getMessageServerCount() + "',"
-					+ "'" + getOwnerMessagesSent(m.getOwnerLogin()) + "',"
-					+ "'" + m.getServerReceivedtimeString() + "',"
-					+ "'" + m.getServerReceivedTimeLong() + "')";
-			Statement s = c.prepareStatement(query);
-			s.execute(query);
-
-			String updateClient = "UPDATE CLIENTS SET MSGCOUNT="
-					+ "(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG "
-					+ "AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') "
-					+ "WHERE LOGIN='" + m.getOwnerLogin() + "'";
-			
-			Statement s2 = c.prepareStatement(updateClient);
-			s2.execute(updateClient);
-
-			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-				System.out.println(updateClient);
-			}
-			DAO.disconnect();
-		}
-	}
-
-	public static synchronized void disconnect() throws SQLException {
+	public static synchronized void disconnect() {
 		if (ServerMain.DB && c != null) {
-			if (!c.isClosed()) {
-				c.close();
+			try {
+				if (!c.isClosed()) {
+                    c.close();
+                }
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
-	}
-
-	public static synchronized String getClientNameByLogin(String login) throws SQLException {
-		String result = null;
-		if (ServerMain.DB) {
-			DAO.connect();
-			String query = "SELECT NAME FROM CLIENTS WHERE LOGIN='"+ login +"'";
-			Statement st = c.prepareStatement(query);
-			ResultSet rs = st.executeQuery(query);
-			rs.next();
-			result = rs.getString("NAME");
-			DAO.disconnect();
-
-			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
-			return result;
-		}
-		return null;
 	}
 	
 	public static History getHistory(int rowLimit) throws SQLException {
@@ -460,7 +308,7 @@ public class DAO {
 	}
 	
 	public static boolean doLogin(Client client) throws SQLException, ServerException {
-		boolean result = false;
+		boolean result;
 		
 		String login = client.getLogin();
 		String password = client.getPassword();
@@ -501,61 +349,104 @@ public class DAO {
 			if (ServerMain.DEBUG) {
 				System.out.println(query);
 			}
-		}
+		} else throw new ServerException(ServerMain.getTimestamp() + " SERVER> The option -db off is set, unable to access de database.");
 		return result;
 	}
 
-	public static void storeMessageAsync(final Message m) {
+	public synchronized static void aSyncStoreMessage(final Message m) {
+		messagesToStore.add(m);
+
+		Thread t1 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (storeAgentRunning) {
+					try {
+						Thread.sleep(10000);
+						List<Message> messages = new ArrayList<>(messagesToStore);
+						messagesToStore.clear();
+
+						DAO dao = new DAO();
+						dao.aSyncDataBaseWrite(messages);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		if (storeAgentRunning == false) {
+			storeAgentRunning = true;
+			t1.start();
+		}
+	}
+
+	public synchronized void aSyncDataBaseWrite(final List<Message> messages) {
+
 		Thread t1 = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					DAO.connect();
-					if (ServerMain.DB) {
-						String query = "INSERT INTO MESSAGELOG (OWNERLOGIN,OWNERNAME,TEXT,CREATIONTIME,SERVERRECEIVEDTIME,MSG_DATE,IP,PCNAME,NETWORK,TYPE,SERVRESPONSE,OWNERID,"
-								+ "`MESSAGESERVER#`,`MESSAGEOWNER#`, `SERV_REC_TIMESTAMP`, `SERV_REC_TIME`) "
+					for (Message m : messages) {
+						DAO.connect();
+						if (ServerMain.DB) {
+							String query = "INSERT INTO MESSAGELOG (OWNERLOGIN,OWNERNAME,TEXT,CREATIONTIME,SERVERRECEIVEDTIME,MSG_DATE,IP,PCNAME,NETWORK,TYPE,SERVRESPONSE,OWNERID,"
+									+ "`MESSAGESERVER#`,`MESSAGEOWNER#`, `SERV_REC_TIMESTAMP`, `SERV_REC_TIME`) "
 
-								+ "VALUES ('" + m.getOwnerLogin() + "',"
-								+ "'" + m.getOwnerName() + "',"
-								+ "\"" + m.getText() + "\","
-								+ "'" + m.getCreationtime() + "',"
-								+ "'" + m.getServerReceivedTimeSQLDate() + "',"
-								+ "'" + m.getMsg_DateCreatedSQL() + "',"
-								+ "'" + m.getIp() + "',"
-								+ "'" + m.getPcname() + "',"
-								+ "'" + m.getNetwork() + "',"
-								+ "'" + m.getType() + "',"
-								+ "'" + m.getServresponse() + "',"
-								+ "'" + m.getOwnerID() + "',"
-								+ "'" + m.getMessageServerCount() + "',"
-								+ "'" + getOwnerMessagesSentAsync(m.getOwnerLogin()) + "',"
-								+ "'" + m.getServerReceivedtimeString() + "',"
-								+ "'" + m.getServerReceivedTimeLong() + "')";
-						Statement s = c.prepareStatement(query);
-						s.execute(query);
+									+ "VALUES ('" + m.getOwnerLogin() + "',"
+									+ "'" + m.getOwnerName() + "',"
+									+ "\"" + m.getText() + "\","
+									+ "'" + m.getCreationtime() + "',"
+									+ "'" + m.getServerReceivedTimeSQLDate() + "',"
+									+ "'" + m.getMsg_DateCreatedSQL() + "',"
+									+ "'" + m.getIp() + "',"
+									+ "'" + m.getPcname() + "',"
+									+ "'" + m.getNetwork() + "',"
+									+ "'" + m.getType() + "',"
+									+ "'" + m.getServresponse() + "',"
+									+ "'" + m.getOwnerID() + "',"
+									+ "'" + 0 + "',"
+									+ "'" + 0 + "',"
+									+ "'" + m.getServerReceivedtimeString() + "',"
+									+ "'" + m.getServerReceivedTimeLong() + "')";
+							Statement s = c.prepareStatement(query);
+							s.execute(query);
 
-						String updateClient = "UPDATE CLIENTS SET MSGCOUNT="
-								+ "(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG "
-								+ "AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') "
-								+ "WHERE LOGIN='" + m.getOwnerLogin() + "'";
-						
-						Statement s2 = c.prepareStatement(updateClient);
-						s2.execute(updateClient);
+							String updateClient = "UPDATE CLIENTS SET MSGCOUNT="
+									+ "(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG "
+									+ "AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') "
+									+ "WHERE LOGIN='" + m.getOwnerLogin() + "'";
 
-						//DEBUG
-						if (ServerMain.DEBUG) {
-							System.out.println(query);
-							System.out.println(updateClient);
+							Statement s2 = c.prepareStatement(updateClient);
+							s2.execute(updateClient);
+
+							//DEBUG
+							if (ServerMain.DEBUG) {
+								System.out.println(query);
+								System.out.println(updateClient);
+							}
+							updateSentMsgs(m);
+							DAO.disconnect();
 						}
-						DAO.disconnect();
-						updateSentMsgs(m);
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					DAO.disconnect();
 				}
 			}
 		});
 		t1.start();
+		storeAgentRunning = true;
 	}
+
+	public static DAO getInstance() {
+		if (instance == null) {
+			instance =  new DAO();
+		} return instance;
+	}
+
+	private static DAO instance;
+
 }
