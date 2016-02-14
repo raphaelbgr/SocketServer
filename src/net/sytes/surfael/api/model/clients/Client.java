@@ -17,6 +17,7 @@ public class Client implements Serializable {
 	private Date registrationDate 		= null;
 	private Date lastOnline 			= null;
 	private Date lastMessageSent		= null;
+	private Date birthDate				= null;
 
 	private int localPort				= 0;
 	private String version				= null;
@@ -228,11 +229,17 @@ public class Client implements Serializable {
 
 	@Override
 	public String toString() {
-		if (this.getCollege().equalsIgnoreCase("infnet")) {
-			return this.name + " / " + this.getCourse() + this.getStartTrimester().substring(0, 4);
-		} else {
-			return this.name + " / " + this.getCollege();
-		}
+		if (this.getCollege() != null) {
+			if (this.getCollege().equalsIgnoreCase("infnet")) {
+				return this.name + " / " + this.getCourse() + this.getStartTrimester().substring(0, 4);
+			} else {
+				return this.name + " / " + this.getCollege();
+			}
+		} else if (this.name != null) {
+			return this.name;
+		} else if (this.email != null) {
+			return this.email;
+		} else return super.toString();
 	}
 	public int getLocalPort() {
 		return localPort;
@@ -406,6 +413,14 @@ public class Client implements Serializable {
 
 	public void setFbToken(String fbToken) {
 		this.fbToken = fbToken;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 }

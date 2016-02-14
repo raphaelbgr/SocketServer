@@ -35,7 +35,7 @@ public class ClientReceiver implements ReceiverInterface {
 		if (localClient.getVersion().equalsIgnoreCase(ServerMain.VERSION)) {
 			if ((cLogin != null && cLogin.length() < 21) || cEmail != null) {
 				DAO.connect();
-				if (DAO.verifyClientPassword(localClient)) {
+				if (DAO.verifyClientPassword((Client)o)) {
 					if (localClient.isConnect()) {
 						if (localClient.getLogin() != null) {
 							ClientCenter.getInstance().checkNameAvaliability(localClient.getLogin());
@@ -45,7 +45,6 @@ public class ClientReceiver implements ReceiverInterface {
 					if (!desktopDuplicatta) {
 						try {
 							// Verify the avaliability of it's name on the system and adds it to the online list
-							// TODO ANDROID USES THE SAME LOGIN, AND LOGINS ARE UNIQUE AND ARE KEYS TO SOCKETS, FIX THIS
 							cc.addClient(sock, localClient);
 
 							// Broadcasts the new user coming in to all clients

@@ -57,13 +57,16 @@ public class ReceiverManager implements Runnable {
 						receiver = new RegistrationMessageReceiver();
 						receiver.receive(o, null, sock);
 						break;
+					} else if (!DAO.clientExists((Client) o)) {
+						receiver = new RegistrationMessageReceiver();
+						receiver.receive(o, null, sock);
 					}
 					Client c = (Client) o;
 					if (DAO.doLogin(c)) {
-						localClient = DAO.loadClientData((Client)o);
+						localClient = DAO.loadClientData((Client) o);
 						localClient.setLocalPort(sock.getPort());
 						receiver = new ClientReceiver();
-						receiver.receive(o,localClient,sock);
+						receiver.receive(o, localClient, sock);
 					} else {
 						if (c.getLogin() != null) {
 							throw new ServerException(ServerMain.getTimestamp() + " SERVER> " +

@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d606bd1d-bb91-425f-8962-d40c5793de5c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/mysql_mysql_connector_java_5_1_38.xml" afterPath="$PROJECT_DIR$/.idea/libraries/mysql_mysql_connector_java_5_1_38.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/dao/DAO.java" afterPath="$PROJECT_DIR$/src/app/control/dao/DAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/services/ReceiverManager.java" afterPath="$PROJECT_DIR$/src/app/control/services/ReceiverManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java" afterPath="$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java" afterPath="$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/services/receiver/types/RegistrationMessageReceiver.java" afterPath="$PROJECT_DIR$/src/app/control/services/receiver/types/RegistrationMessageReceiver.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java" afterPath="$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java" />
     </list>
     <ignored path="SocketServer.iws" />
@@ -22,12 +22,19 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/SocketServer$ServerMain.coverage" NAME="ServerMain Coverage Results" MODIFIED="1455403209025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/SocketServer$ServerMain.coverage" NAME="ServerMain Coverage Results" MODIFIED="1455429742569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>app.*</FILTER>
     </SUITE>
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DatabaseView">
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -39,68 +46,52 @@
         <entry file="file://$PROJECT_DIR$/src/app/control/sync/ClientCenter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="82" column="45" selection-start-line="82" selection-start-column="45" selection-end-line="82" selection-end-column="45" />
+              <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DAO.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DAO.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/control/dao/DAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36380598">
-              <caret line="417" column="76" selection-start-line="417" selection-start-column="76" selection-end-line="417" selection-end-column="76" />
-              <folding>
-                <element signature="e#10746#11121#0" expanded="true" />
-                <element signature="e#11120#11121#0" expanded="true" />
-                <element signature="e#11315#13187#0" expanded="true" />
-                <element signature="e#13186#13187#0" expanded="true" />
-                <marker date="1455403995894" expanded="true" signature="1630:2551" placeholder="INSERT INTO CLIENTS... " />
-                <marker date="1455403995894" expanded="true" signature="2790:3014" placeholder="UPDATE CLIEN... " />
-                <marker date="1455403995894" expanded="true" signature="3360:3432" placeholder="SELECT LOGIN... CLIENTS" />
-                <marker date="1455403995894" expanded="true" signature="5162:5217" placeholder="SELECT * FRO... CLIENTS" />
-                <marker date="1455403995894" expanded="true" signature="5268:5323" placeholder="SELECT * FRO... CLIENTS" />
-                <marker date="1455403995894" expanded="true" signature="6887:6969" placeholder="SELECT COUNT... MESSAGELOG" />
-                <marker date="1455403995894" expanded="true" signature="7927:8003" placeholder="SELECT `MESS... MESSAGELOG" />
-                <marker date="1455403995894" expanded="true" signature="8029:8112" placeholder="SELECT `MESS... MESSAGELOG" />
-                <marker date="1455403995894" expanded="true" signature="8761:8812" placeholder="SELECT LOGIN... CLIENTS" />
-                <marker date="1455403995894" expanded="true" signature="10057:10156" placeholder="SELECT LOGIN... CLIENTS" />
-                <marker date="1455403995894" expanded="true" signature="11483:12378" placeholder="INSERT INTO MESSAGELOG... " />
-                <marker date="1455403995894" expanded="true" signature="12485:12691" placeholder="UPDATE CLIEN... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InstanceDAO.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/control/dao/InstanceDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state vertical-scroll-proportion="-8.4827585">
+              <caret line="77" column="49" selection-start-line="77" selection-start-column="49" selection-end-line="77" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#427#428#0" expanded="true" />
-                <element signature="e#465#466#0" expanded="true" />
+                <element signature="e#11773#12148#0" expanded="true" />
+                <element signature="e#12147#12148#0" expanded="true" />
+                <element signature="e#12342#14214#0" expanded="true" />
+                <element signature="e#14213#14214#0" expanded="true" />
+                <marker date="1455478466661" expanded="true" signature="1909:2948" placeholder="INSERT INTO CLIENTS... " />
+                <marker date="1455478466661" expanded="true" signature="3187:3411" placeholder="UPDATE CLIEN... " />
+                <marker date="1455478466661" expanded="true" signature="3757:3829" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="3905:3957" placeholder="SELECT EMAIL... EMAIL" />
+                <marker date="1455478466661" expanded="true" signature="3905:3975" placeholder="SELECT * FRO... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="5839:5894" placeholder="SELECT * FRO... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="5945:6000" placeholder="SELECT * FRO... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="7815:7897" placeholder="SELECT COUNT... MESSAGELOG" />
+                <marker date="1455478466661" expanded="true" signature="8855:8931" placeholder="SELECT `MESS... MESSAGELOG" />
+                <marker date="1455478466661" expanded="true" signature="8957:9040" placeholder="SELECT `MESS... MESSAGELOG" />
+                <marker date="1455478466661" expanded="true" signature="9689:9740" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="11084:11183" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="12510:13405" placeholder="INSERT INTO MESSAGELOG... " />
+                <marker date="1455478466661" expanded="true" signature="13512:13718" placeholder="UPDATE CLIEN... " />
+                <marker date="1455478466661" expanded="true" signature="14794:14892" placeholder="SELECT EMAIL... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="14794:14900" placeholder="SELECT EMAIL... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="14961:15059" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="14961:15067" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1455478466661" expanded="true" signature="14961:15068" placeholder="SELECT LOGIN... CLIENTS" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NormalMessageReceiver.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java">
+      <file leaf-file-name="RegistrationMessageReceiver.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/RegistrationMessageReceiver.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReceiverManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/control/services/ReceiverManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+              <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -110,27 +101,37 @@
         <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="89" column="24" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
+              <caret line="43" column="61" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ReceiveObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/control/communication/ReceiveObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="18" column="9" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReceiverManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/control/services/ReceiverManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="47" selection-start-line="0" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MD5.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/control/classes/MD5.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.47574627">
+              <caret line="231" column="40" selection-start-line="0" selection-start-column="0" selection-end-line="426" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -157,12 +158,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/app/control/sync/ClientCenter.java" />
-        <option value="$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java" />
         <option value="$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java" />
-        <option value="$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java" />
-        <option value="$PROJECT_DIR$/src/app/control/services/ReceiverManager.java" />
         <option value="$PROJECT_DIR$/src/app/control/dao/instanceDAO.java" />
         <option value="$PROJECT_DIR$/src/app/control/dao/InstanceDAO.java" />
+        <option value="$PROJECT_DIR$/src/app/control/services/ReceiverManager.java" />
+        <option value="$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java" />
+        <option value="$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java" />
+        <option value="$PROJECT_DIR$/src/app/control/services/receiver/types/RegistrationMessageReceiver.java" />
         <option value="$PROJECT_DIR$/src/app/control/dao/DAO.java" />
       </list>
     </option>
@@ -180,7 +182,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1928" />
+    <option name="x" value="54" />
     <option name="y" value="-8" />
     <option name="width" value="1874" />
     <option name="height" value="1096" />
@@ -342,84 +344,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="control" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="control" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="control" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dao" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -944,15 +868,15 @@
       <option name="number" value="Default" />
       <updated>1452032887998</updated>
       <workItem from="1452032890576" duration="2144000" />
-      <workItem from="1455389621527" duration="14398000" />
+      <workItem from="1455389621527" duration="35643000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16542000" />
+    <option name="totallyTimeSpent" value="37787000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1874" height="1096" extended-state="6" />
+    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -964,7 +888,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18622175" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17922497" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -982,12 +906,20 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="36" />
+      <option name="time" value="60" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1017,22 +949,30 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
-            <element signature="e#10746#11121#0" expanded="true" />
-            <element signature="e#11120#11121#0" expanded="true" />
-            <element signature="e#11315#13187#0" expanded="true" />
-            <element signature="e#13186#13187#0" expanded="true" />
-            <marker date="1455403995894" expanded="true" signature="1630:2551" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455403995894" expanded="true" signature="2790:3014" placeholder="UPDATE CLIEN... " />
-            <marker date="1455403995894" expanded="true" signature="3360:3432" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="5162:5217" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="5268:5323" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="6887:6969" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455403995894" expanded="true" signature="7927:8003" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455403995894" expanded="true" signature="8029:8112" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455403995894" expanded="true" signature="8761:8812" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="10057:10156" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="11483:12378" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455403995894" expanded="true" signature="12485:12691" placeholder="UPDATE CLIEN... " />
+            <element signature="imports" expanded="true" />
+            <element signature="e#11773#12148#0" expanded="true" />
+            <element signature="e#12147#12148#0" expanded="true" />
+            <element signature="e#12342#14214#0" expanded="true" />
+            <element signature="e#14213#14214#0" expanded="true" />
+            <marker date="1455478466661" expanded="true" signature="1909:2948" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1455478466661" expanded="true" signature="3187:3411" placeholder="UPDATE CLIEN... " />
+            <marker date="1455478466661" expanded="true" signature="3757:3829" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="3905:3957" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1455478466661" expanded="true" signature="3905:3975" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="5839:5894" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="5945:6000" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="7815:7897" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1455478466661" expanded="true" signature="8855:8931" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1455478466661" expanded="true" signature="8957:9040" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1455478466661" expanded="true" signature="9689:9740" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="11084:11183" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="12510:13405" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1455478466661" expanded="true" signature="13512:13718" placeholder="UPDATE CLIEN... " />
+            <marker date="1455478466661" expanded="true" signature="14794:14892" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14794:14900" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14961:15059" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14961:15067" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14961:15068" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
         </state>
       </provider>
@@ -1072,22 +1012,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="47" selection-start-line="0" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/control/classes/MD5.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33228347">
@@ -1107,10 +1031,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/control/communication/ReceiveObject.java">
+    <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30088496">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7077409">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/ReceiverInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16062993">
+          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -1118,7 +1050,23 @@
     <entry file="file://$PROJECT_DIR$/src/app/control/sync/ClientCenter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="45" selection-start-line="82" selection-start-column="45" selection-end-line="82" selection-end-column="45" />
+          <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/control/classes/MD5.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45132744">
+          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/RegistrationMessageReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -1126,15 +1074,15 @@
     <entry file="file://$PROJECT_DIR$/src/app/control/services/ReceiverManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java">
+    <entry file="file://$PROJECT_DIR$/src/app/control/communication/ReceiveObject.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <caret line="18" column="9" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -1142,45 +1090,49 @@
     <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="89" column="24" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
+          <caret line="43" column="61" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/control/dao/InstanceDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#427#428#0" expanded="true" />
-            <element signature="e#465#466#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/control/dao/DAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36380598">
-          <caret line="417" column="76" selection-start-line="417" selection-start-column="76" selection-end-line="417" selection-end-column="76" />
+        <state vertical-scroll-proportion="-8.4827585">
+          <caret line="77" column="49" selection-start-line="77" selection-start-column="49" selection-end-line="77" selection-end-column="49" />
           <folding>
-            <element signature="e#10746#11121#0" expanded="true" />
-            <element signature="e#11120#11121#0" expanded="true" />
-            <element signature="e#11315#13187#0" expanded="true" />
-            <element signature="e#13186#13187#0" expanded="true" />
-            <marker date="1455403995894" expanded="true" signature="1630:2551" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455403995894" expanded="true" signature="2790:3014" placeholder="UPDATE CLIEN... " />
-            <marker date="1455403995894" expanded="true" signature="3360:3432" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="5162:5217" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="5268:5323" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="6887:6969" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455403995894" expanded="true" signature="7927:8003" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455403995894" expanded="true" signature="8029:8112" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455403995894" expanded="true" signature="8761:8812" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="10057:10156" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455403995894" expanded="true" signature="11483:12378" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455403995894" expanded="true" signature="12485:12691" placeholder="UPDATE CLIEN... " />
+            <element signature="imports" expanded="true" />
+            <element signature="e#11773#12148#0" expanded="true" />
+            <element signature="e#12147#12148#0" expanded="true" />
+            <element signature="e#12342#14214#0" expanded="true" />
+            <element signature="e#14213#14214#0" expanded="true" />
+            <marker date="1455478466661" expanded="true" signature="1909:2948" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1455478466661" expanded="true" signature="3187:3411" placeholder="UPDATE CLIEN... " />
+            <marker date="1455478466661" expanded="true" signature="3757:3829" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="3905:3957" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1455478466661" expanded="true" signature="3905:3975" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="5839:5894" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="5945:6000" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="7815:7897" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1455478466661" expanded="true" signature="8855:8931" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1455478466661" expanded="true" signature="8957:9040" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1455478466661" expanded="true" signature="9689:9740" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="11084:11183" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="12510:13405" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1455478466661" expanded="true" signature="13512:13718" placeholder="UPDATE CLIEN... " />
+            <marker date="1455478466661" expanded="true" signature="14794:14892" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14794:14900" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14961:15059" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14961:15067" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1455478466661" expanded="true" signature="14961:15068" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47574627">
+          <caret line="231" column="40" selection-start-line="0" selection-start-column="0" selection-end-line="426" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

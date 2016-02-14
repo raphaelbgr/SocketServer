@@ -32,11 +32,17 @@ public class DAO {
 		}
 	}
 	
-	public static void registerUser(NewClient nc) throws SQLException {
+	public static void registerUser(Client nc) throws SQLException {
 		DAO.connect();
 		
-		if (nc.getMD5Password() == null) {
+		if (nc.getMD5Password() == null && nc.getFbToken() == null && nc.getPassword() == null) {
+			nc.setMD5Password(MD5.getMD5("P@ssw0rd"));
+		} else if (nc.getPassword() != null) {
 			nc.setMD5Password(MD5.getMD5(nc.getPassword()));
+		} else if (nc.getFbToken() != null) {
+			nc.setMD5Password(MD5.getMD5("P@ssw0rd"));
+		} else {
+			nc.setMD5Password(nc.getMD5Password());
 		}
 		nc.setPassword("");
 		
@@ -60,6 +66,8 @@ public class DAO {
 				+ "`COUNTRY`,"
 				+ "`STATE`,"
 				+ "`CITY`,"
+				+ "`FACEBOOK_TOKEN`,"
+				+ "`PHOTO_URL`,"
 				+ "`FACEBOOK`) "
 				
 				+ "VALUES ("
@@ -78,6 +86,8 @@ public class DAO {
 				+ "'" + nc.getCountry() + "',"
 				+ "'" + nc.getState() + "',"
 				+ "'" + nc.getCity() + "',"
+				+ "'" + nc.getFbToken() + "',"
+				+ "'" + nc.getPhotoUrl() + "',"
 				+ "'" + nc.getFacebook() + "'" 
 				+ ");";
 		
@@ -114,6 +124,12 @@ public class DAO {
 		ResultSet rs = null;
 		if (ServerMain.DB) {
 			String query = "SELECT LOGIN, CRYPTPASSWORD FROM CLIENTS WHERE LOGIN='"+cl.getLogin()+"'";
+			String column = "LOGIN";
+			if (cl.getLogin() == null) {
+				query = "SELECT EMAIL, CRYPTPASSWORD FROM EMAIL WHERE EMAIL='"+cl.getEmail()+"'";
+				column = "EMAIL";
+			}
+
 			Statement st = c.prepareStatement(query);
 			rs = st.executeQuery(query);	
 
@@ -125,25 +141,27 @@ public class DAO {
 			if (!rs.next()) {
 				return false;
 			} 
-			
-			String hashedPassword;
-			if (cl.getPassword() != null) {
-				hashedPassword = MD5.getMD5(cl.getPassword());
-			} else {
-				hashedPassword = cl.getMD5Password();
-			}
-			
-			if (rs.getString("LOGIN").equalsIgnoreCase(cl.getLogin())) {
-				if (rs.getString("CRYPTPASSWORD").equals(hashedPassword)) {
-					DAO.disconnect();
-					return true;
+
+			if (cl.getFbToken() == null) {
+				String hashedPassword;
+				if (cl.getPassword() != null) {
+					hashedPassword = MD5.getMD5(cl.getPassword());
+				} else {
+					hashedPassword = cl.getMD5Password();
+				}
+
+				if (rs.getString(column).equalsIgnoreCase(cl.getLogin()) || rs.getString(column).equalsIgnoreCase(cl.getEmail())) {
+					if (rs.getString("CRYPTPASSWORD").equals(hashedPassword)) {
+						DAO.disconnect();
+						return true;
+					} else {
+						DAO.disconnect();
+						return false;
+					}
 				} else {
 					DAO.disconnect();
 					return false;
 				}
-			} else {
-				DAO.disconnect();
-				return false;
 			}
 		}
 		DAO.disconnect();
@@ -189,8 +207,23 @@ public class DAO {
 				Statement st = c.prepareStatement(query);
 				ResultSet rs = st.executeQuery(query);
 				rs.next();
-				cl.setName(rs.getString("NAME"));
-				cl.setEmail(rs.getString("EMAIL"));
+
+				if (cl.getName() == null) {
+					cl.setName(rs.getString("NAME"));
+				}
+				if (cl.getEmail() == null) {
+					cl.setEmail(rs.getString("EMAIL"));
+				}
+				if (cl.getSex() == null) {
+					cl.setSex(rs.getString("SEX"));
+				}
+				if (cl.getFbToken() == null) {
+					cl.setFbToken(rs.getString("FACEBOOK_TOKEN"));
+				}
+				if (cl.getPhotoUrl() == null) {
+					cl.setFbToken(rs.getString("PHOTO_URL"));
+				}
+
 				cl.setMembertype(rs.getString("MEMBERTYPE"));
 				cl.setId(Integer.valueOf(rs.getString("ID")));
 				cl.setLastMessage(new Message(rs.getString("LASTMESSAGE")));
@@ -199,14 +232,13 @@ public class DAO {
 				cl.setLastIp(rs.getString("LASTIP"));
 				cl.setRegistrationDate(rs.getDate("REGISTRATIONDATE"));
 				cl.setLastOnline(rs.getDate("LASTONLINE"));
-				cl.setSex(rs.getString("SEX"));
 				cl.setCollege(rs.getString("COLLEGE"));
 				cl.setCourse(rs.getString("COURSE"));
 				cl.setStartTrimester(rs.getString("COURSESTART"));
 				cl.setInfnetMail(rs.getString("INFNETID"));
 				cl.setWhatsapp(rs.getString("WHATSAPP"));
 				cl.setFacebook(rs.getString("FACEBOOK"));
-				cl.setFbToken(rs.getString("FACEBOOK_TOKEN"));
+
 
 				//DEBUG
 				if (ServerMain.DEBUG) {
@@ -324,14 +356,18 @@ public class DAO {
 					login = getLoginByEmail(email);
 				} else throw new ServerException(ServerMain.getTimestamp() + " SERVER> Please input a VALID email.");
 			}
-			
-			if (MD5Password == null || MD5Password.equalsIgnoreCase("")) {
-				if (password == null) {
-					throw new ServerException(ServerMain.getTimestamp() + " SERVER> Please input a password.");
+
+			if (client.getFbToken() == null) {
+				if ((MD5Password == null || MD5Password.equalsIgnoreCase(""))) {
+					if (password == null) {
+						throw new ServerException(ServerMain.getTimestamp() + " SERVER> Please input a password.");
+					}
+					MD5Password = MD5.getMD5(password);
 				}
-				MD5Password = MD5.getMD5(password);
+			} else {
+				MD5Password = MD5.getMD5("P@ssw0rd");
 			}
-			
+
 			DAO.connect();
 			String query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='"+ login +"'"
 					+ "AND CRYPTPASSWORD='"+ MD5Password + "';";
@@ -449,4 +485,41 @@ public class DAO {
 
 	private static DAO instance;
 
+	public static boolean clientExists(Client cl) throws SQLException {
+		DAO.connect();
+		ResultSet rs = null;
+		String credential = null;
+		String query = null;
+
+		if (ServerMain.DB) {
+			String MD5Password = MD5.getMD5("P@ssw0rd");
+
+			if (cl.getFbToken() == null) {
+				MD5Password = cl.getMD5Password();
+			}
+			if (cl.getLogin() == null) {
+				credential = cl.getEmail();
+				query = "SELECT EMAIL FROM CLIENTS WHERE EMAIL='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+			} else {
+				credential = cl.getLogin();
+				query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+			}
+			System.out.println(query);
+			//DEBUG
+			if (ServerMain.DEBUG) {
+				System.out.println(query);
+			}
+
+			Statement st = c.prepareStatement(query);
+			rs = st.executeQuery(query);
+		}
+
+		if (rs.next()) {
+			DAO.disconnect();
+			return true;
+		} else {
+			DAO.disconnect();
+			return false;
+		}
+	}
 }
