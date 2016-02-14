@@ -34,13 +34,19 @@ public class DAO {
 	
 	public static void registerUser(Client nc) throws SQLException {
 		DAO.connect();
-		
+
+		// REGISTER NORMAL USER WITHOUT NOTHING -- USELESS
 		if (nc.getMD5Password() == null && nc.getFbToken() == null && nc.getPassword() == null) {
 			nc.setMD5Password(MD5.getMD5("P@ssw0rd"));
+		// REGISTER USER WITH UNENCRYPTED PASSWORD
 		} else if (nc.getPassword() != null) {
 			nc.setMD5Password(MD5.getMD5(nc.getPassword()));
+		// REGISTER USER WITH NO PASSWORD (FACEBOOK)
 		} else if (nc.getFbToken() != null) {
 			nc.setMD5Password(MD5.getMD5("P@ssw0rd"));
+		// DATABASE CANT INPUT "NULL" - DUPLICITY INTEGRITY IS VIOLATED
+			nc.setLogin(String.valueOf(Calendar.getInstance().getTimeInMillis()));
+		// REGISTER USER WUTH ENCRYPTED-READY PASSWORD
 		} else {
 			nc.setMD5Password(nc.getMD5Password());
 		}
