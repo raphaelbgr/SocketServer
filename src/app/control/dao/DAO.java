@@ -229,6 +229,9 @@ public class DAO {
 				if (cl.getPhotoUrl() == null) {
 					cl.setPhotoUrl(rs.getString("PHOTO_URL"));
 				}
+				if (cl.getBirthDate() == null) {
+					cl.setBirthDate(rs.getDate("BIRTHDATE"));
+				}
 
 				cl.setMembertype(rs.getString("MEMBERTYPE"));
 				cl.setId(Integer.valueOf(rs.getString("ID")));
@@ -244,6 +247,7 @@ public class DAO {
 				cl.setInfnetMail(rs.getString("INFNETID"));
 				cl.setWhatsapp(rs.getString("WHATSAPP"));
 				cl.setFacebook(rs.getString("FACEBOOK"));
+				cl.setMD5Password(rs.getString("CRYPTPASSWORD"));
 
 
 				//DEBUG
