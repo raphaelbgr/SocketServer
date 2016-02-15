@@ -25,14 +25,14 @@ public class Message implements Serializable, Comparable<Message> {
 	private String version;
 	private int messageServerCount;
 	private int messageOwnerCount;
-	
+
 	private long ownerID;
 	private long creationTime;
-	
+
 	private Date serverReceivedTimeDate;
 	private String serverReceivedTimeString;
-	
-//	private ClientSeenTime [] cst;
+
+	//	private ClientSeenTime [] cst;
 	private Vector<String> onlineUserList;
 
 	private boolean disconnect = false;
@@ -40,7 +40,7 @@ public class Message implements Serializable, Comparable<Message> {
 	private boolean connect = false;
 
 	private String compilationKey = null;
-	
+
 	private String addUser;
 	private String delUser;
 	private String ownerLogin;
@@ -58,10 +58,7 @@ public class Message implements Serializable, Comparable<Message> {
 	private String servresponse;
 	private String dnsHostName;
 
-//	private String aux1;
-//	private String aux2;
-//	private String aux3;
-//	private String aux4;
+	private String senderPhotoUrl;
 
 	private Object msg_DateCreatedSQL;
 
@@ -262,15 +259,10 @@ public class Message implements Serializable, Comparable<Message> {
 	/**
 	 * Sugestao do Daniel Olivera (Muito boa) de impressao direta do objeto via toString();
 	 */
-		@Override
+	@Override
 	public String toString() {
 		return "[" + this.getTimestamp() + "] " + this.getOwnerName() + " -> " + this.getText();
 	}
-	/*
-	@Override
-	public int compare(Message o1, Message o2) {
-		return o1.getType().compareTo(o2.getType());
-	}*/
 
 	@Override
 	public int compareTo(Message m) {
@@ -306,7 +298,7 @@ public class Message implements Serializable, Comparable<Message> {
 		this.setDateString();
 		return this;
 	}
-	
+
 	public Message buildConnectMessage() {
 		this.setOwnerLogin(getOwnerLogin());
 		this.setCreationtime(Calendar.getInstance().getTimeInMillis());
@@ -323,7 +315,7 @@ public class Message implements Serializable, Comparable<Message> {
 		setIp(ip);
 		setCreationtime(Calendar.getInstance().getTimeInMillis());
 	}
-	
+
 	public Message (String owner, String Message) {
 		setText(Message);
 		setOwnerLogin(owner);
@@ -400,5 +392,12 @@ public class Message implements Serializable, Comparable<Message> {
 	}
 	public int getSenderId() {
 		return this.senderId;
+	}
+	public String getSenderPhotoUrl() {
+		return senderPhotoUrl;
+	}
+
+	public void setSenderPhotoUrl(String senderPhotoUrl) {
+		this.senderPhotoUrl = senderPhotoUrl;
 	}
 }

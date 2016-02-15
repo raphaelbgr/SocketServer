@@ -27,6 +27,10 @@ public class NormalMessageReceiver implements ReceiverInterface {
 			nm.setOwnerLogin(localClient.getLogin());
 			nm.setServerReceivedtime();
 			nm.setSenderId(localClient.getId());
+
+			if (localClient.getPhotoUrl() != null) {
+				nm.setSenderPhotoUrl(localClient.getPhotoUrl());
+			}
 			
 			//BUILDS THE BROADCASTER AND SENDS THE MESSAGE TO EVERYONE
 			Broadcaster bc = new Broadcaster();
