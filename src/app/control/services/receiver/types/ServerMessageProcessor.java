@@ -23,11 +23,18 @@ public class ServerMessageProcessor implements ReceiverInterface {
 		
 		if (sm.getRequest() != null) {
 			switch (sm.getRequest()) {
-			case "history":
+			case "history": {
 				data = DAO.getHistory(sm.getRowLimit());
 				SendObject so = new SendObject();
 				so.send(sock, data);
 				break;
+			}
+			case "androidhistory": {
+				data = DAO.getAndroidHistory(sm.getRowLimit());
+				SendObject so = new SendObject();
+				so.send(sock, data);
+				break;
+			}
 			default:
 				break;
 			}

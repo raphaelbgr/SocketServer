@@ -1,10 +1,8 @@
 package app.control.dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 import net.sytes.surfael.api.control.classes.MD5;
 import net.sytes.surfael.api.model.clients.Client;
@@ -329,6 +327,58 @@ public class DAO {
 		disconnect();
 		return data;
 	}
+
+	public static History getAndroidHistory(int rowLimit) throws SQLException {
+		connect();
+
+		String query = null;
+		if (rowLimit == 0) {
+			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID FROM MESSAGELOG "
+					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID;";
+		} else {
+			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID FROM MESSAGELOG "
+					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID LIMIT" + rowLimit + ";";
+		}
+		Statement st = c.createStatement();
+		ResultSet rs = st.executeQuery(query);
+
+		History data = new History();
+
+		while(rs.next()) {
+			HashMap<String, String> messagelogRow = new HashMap<>();
+
+			messagelogRow.put("ID", String.valueOf(rs.getInt("MESSAGESERVER#")));
+			messagelogRow.put("Timestamp",rs.getString("SERV_REC_TIMESTAMP"));
+			messagelogRow.put("Owner", rs.getString("OWNERNAME"));
+			messagelogRow.put("Message", rs.getString("TEXT"));
+			messagelogRow.put("Photo_URL", rs.getString("PHOTO_URL"));
+			messagelogRow.put("OwnerID", rs.getString("OWNERID"));
+
+			data.addMessageRow(messagelogRow);
+		}
+
+		disconnect();
+		return data;
+	}
+	
+	public static String getPhotoUrlByID(int id) throws SQLException {
+		String result = null;
+		if (ServerMain.DB) {
+			DAO.connect();
+			String query = "SELECT PHOTO_URL FROM CLIENTS WHERE ID='"+ id +"'";
+			Statement st = c.prepareStatement(query);
+			ResultSet rs = st.executeQuery(query);
+			rs.next();
+			result = rs.getString("PHOTO_URL");
+			DAO.disconnect();
+
+			//DEBUG
+			if (ServerMain.DEBUG) {
+				System.out.println(query);
+			}
+		}
+		return result;
+	}
 	
 	public static String getLoginByEmail(String email) throws SQLException {
 		String result = null;
@@ -377,12 +427,20 @@ public class DAO {
 			} else {
 				MD5Password = MD5.getMD5("P@ssw0rd");
 			}
-
+			
 			DAO.connect();
 			String query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='"+ login +"'"
 					+ "AND CRYPTPASSWORD='"+ MD5Password + "';";
 			Statement st = c.prepareStatement(query);
 			ResultSet rs = st.executeQuery(query);
+			
+			boolean disconnectTwice = false;
+			if (c.isClosed()) {
+				disconnectTwice = true;
+				DAO.connect();
+				
+			}
+			
 			if (rs.next()) {
 				rs.getString("LOGIN").equalsIgnoreCase(login);
 				result = true;
@@ -390,6 +448,7 @@ public class DAO {
 				result = false;
 			}
 			DAO.disconnect();
+			if (disconnectTwice) DAO.disconnect();
 
 			//DEBUG
 			if (ServerMain.DEBUG) {
@@ -448,11 +507,12 @@ public class DAO {
 									+ "'" + m.getNetwork() + "',"
 									+ "'" + m.getType() + "',"
 									+ "'" + m.getServresponse() + "',"
-									+ "'" + m.getOwnerID() + "',"
+									+ "'" + m.getSenderId() + "',"
 									+ "'" + 0 + "',"
 									+ "'" + 0 + "',"
 									+ "'" + m.getServerReceivedtimeString() + "',"
-									+ "'" + m.getServerReceivedTimeLong() + "')";
+									+ "'" + m.getServerReceivedTimeLong()
+									+ "')";
 							Statement s = c.prepareStatement(query);
 							s.execute(query);
 
@@ -514,7 +574,7 @@ public class DAO {
 				credential = cl.getLogin();
 				query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
 			}
-			System.out.println(query);
+
 			//DEBUG
 			if (ServerMain.DEBUG) {
 				System.out.println(query);

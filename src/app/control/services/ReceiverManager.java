@@ -1,5 +1,6 @@
 package app.control.services;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 
@@ -79,8 +80,15 @@ public class ReceiverManager implements Runnable {
 				}
 			} catch (ServerException e) {
 				e.printStackTrace();
-				ClientCenter.getInstance().disconnectClient(port, e, bc, sock);
-				break;
+				if (e.isToDisconnect()) {
+					ClientCenter.getInstance().disconnectClient(port, e, bc, sock);
+					break;
+				} else
+					try {
+						new SendObject().send(sock, e);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 			} catch (Throwable e) {
 				e.printStackTrace();
 				ClientCenter.getInstance().disconnectClient(port, e, bc, sock);

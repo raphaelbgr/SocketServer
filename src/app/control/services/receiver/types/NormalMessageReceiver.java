@@ -18,7 +18,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 	@Override
 	public void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException {
 		NormalMessage nm = (NormalMessage) o;
-		if (nm.getText().length() < 101) {
+		if (nm.getText().length() < 1001) {
 			
 			//BUILD DE MESSAGE RESPONSE
 			nm.setServresponse("SERVER> Received");
@@ -42,7 +42,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 			//ATTEMPS TO STORE THE MESSAGE ON THE DB
 			DAO.aSyncStoreMessage(nm);
 		} else {
-			throw new ServerException(ServerMain.getTimestamp() + " SERVER> Message greater than 100 characters.");
+			throw new ServerException(ServerMain.getTimestamp() + " SERVER> Message greater than 1000 characters.");
 		}
 	}
 }
