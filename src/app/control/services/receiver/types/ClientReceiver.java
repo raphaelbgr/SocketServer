@@ -51,6 +51,7 @@ public class ClientReceiver implements ReceiverInterface {
 							BroadCastMessage bcm = new BroadCastMessage();
 							bcm.setOwnerLogin(cLogin);
 							bcm.setOwnerName(localClient.getName());
+							bcm.setOwnerEmail(localClient.getEmail());
 							bcm.setConnect(true);
 							bcm.setText("Connected");
 							bcm.setServresponse("SERVER> Connected");

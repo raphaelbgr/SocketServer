@@ -27,6 +27,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 			nm.setOwnerLogin(localClient.getLogin());
 			nm.setServerReceivedtime();
 			nm.setSenderId(localClient.getId());
+			nm.setOwnerEmail(localClient.getEmail());
 
 			if (localClient.getPhotoUrl() != null) {
 				nm.setSenderPhotoUrl(localClient.getPhotoUrl());

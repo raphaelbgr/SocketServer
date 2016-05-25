@@ -333,10 +333,10 @@ public class DAO {
 
 		String query = null;
 		if (rowLimit == 0) {
-			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID FROM MESSAGELOG "
+			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID, CLIENTS.EMAIL FROM MESSAGELOG "
 					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID;";
 		} else {
-			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID FROM MESSAGELOG "
+			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID, CLIENTS.EMAIL FROM MESSAGELOG "
 					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID LIMIT" + rowLimit + ";";
 		}
 		Statement st = c.createStatement();
@@ -353,6 +353,7 @@ public class DAO {
 			messagelogRow.put("Message", rs.getString("TEXT"));
 			messagelogRow.put("Photo_URL", rs.getString("PHOTO_URL"));
 			messagelogRow.put("OwnerID", rs.getString("OWNERID"));
+			messagelogRow.put("Email", rs.getString("EMAIL"));
 
 			data.addMessageRow(messagelogRow);
 		}

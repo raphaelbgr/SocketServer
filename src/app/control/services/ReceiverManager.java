@@ -2,8 +2,14 @@ package app.control.services;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.SQLException;
 
+import net.sytes.surfael.api.model.clients.Client;
+import net.sytes.surfael.api.model.clients.NewClient;
+import net.sytes.surfael.api.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.messages.DisconnectionMessage;
+import net.sytes.surfael.api.model.messages.Message;
+import net.sytes.surfael.api.model.messages.NormalMessage;
+import net.sytes.surfael.api.model.messages.ServerMessage;
 import app.ServerMain;
 import app.control.communication.MessageHandler;
 import app.control.communication.ReceiveObject;
@@ -17,13 +23,6 @@ import app.control.services.receiver.types.RegistrationMessageReceiver;
 import app.control.services.receiver.types.ServerMessageProcessor;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
-import net.sytes.surfael.api.model.clients.Client;
-import net.sytes.surfael.api.model.clients.NewClient;
-import net.sytes.surfael.api.model.exceptions.ServerException;
-import net.sytes.surfael.api.model.messages.DisconnectionMessage;
-import net.sytes.surfael.api.model.messages.Message;
-import net.sytes.surfael.api.model.messages.NormalMessage;
-import net.sytes.surfael.api.model.messages.ServerMessage;
 
 public class ReceiverManager implements Runnable {
 	Socket sock			= null;

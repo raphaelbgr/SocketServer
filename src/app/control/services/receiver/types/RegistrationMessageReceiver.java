@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 
+import net.sytes.surfael.api.model.clients.Client;
+import net.sytes.surfael.api.model.exceptions.ServerException;
+import net.sytes.surfael.api.model.messages.ServerMessage;
 import app.control.communication.SendObject;
 import app.control.dao.DAO;
 import app.control.services.receiver.ReceiverInterface;
-import net.sytes.surfael.api.model.clients.Client;
-import net.sytes.surfael.api.model.clients.NewClient;
-import net.sytes.surfael.api.model.exceptions.ServerException;
-import net.sytes.surfael.api.model.messages.ServerMessage;
 
 public class RegistrationMessageReceiver implements ReceiverInterface {
 
