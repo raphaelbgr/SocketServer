@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d606bd1d-bb91-425f-8962-d40c5793de5c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/AndroidHistory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/dao/DAO.java" afterPath="$PROJECT_DIR$/src/app/control/dao/DAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/services/receiver/types/ServerMessageProcessor.java" afterPath="$PROJECT_DIR$/src/app/control/services/receiver/types/ServerMessageProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/History.java" afterPath="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/History.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/services/ReceiverManager.java" afterPath="$PROJECT_DIR$/src/app/control/services/ReceiverManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java" afterPath="$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java" afterPath="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java" />
     </list>
     <ignored path="SocketServer.iws" />
@@ -35,6 +35,12 @@
     <option name="SORT_POSITIONED" value="false" />
     <option name="SHOW_TABLE_DETAILS" value="true" />
     <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+    </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -47,49 +53,198 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DAO.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/control/dao/DAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="350" column="38" selection-start-line="350" selection-start-column="31" selection-end-line="350" selection-end-column="38" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <marker date="1455746911896" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
-                <marker date="1455746911896" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
-                <marker date="1455746911896" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
-                <marker date="1455746911896" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
-                <marker date="1455746911896" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
-                <marker date="1455746911896" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
-                <marker date="1455746911896" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
-                <marker date="1455746911896" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
-                <marker date="1455746911896" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
-                <marker date="1455746911896" expanded="true" signature="10090:10166" placeholder="SELECT `MESS... MESSAGELOG" />
-                <marker date="1455746911896" expanded="true" signature="10192:10275" placeholder="SELECT `MESS... MESSAGELOG" />
-                <marker date="1455746911896" expanded="true" signature="10984:11035" placeholder="SELECT LOGIN... CLIENTS" />
-                <marker date="1455746911896" expanded="true" signature="12379:12478" placeholder="SELECT LOGIN... CLIENTS" />
-                <marker date="1455746911896" expanded="true" signature="13805:14700" placeholder="INSERT INTO MESSAGELOG... " />
-                <marker date="1455746911896" expanded="true" signature="14807:15013" placeholder="UPDATE CLIEN... " />
-                <marker date="1455746911896" expanded="true" signature="16089:16195" placeholder="SELECT EMAIL... CLIENTS" />
-                <marker date="1455746911896" expanded="true" signature="16256:16362" placeholder="SELECT LOGIN... CLIENTS" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#2443#2444#0" expanded="false" />
+                <element signature="e#2464#2465#0" expanded="false" />
+                <element signature="e#4745#4746#0" expanded="false" />
+                <element signature="e#4768#4769#0" expanded="false" />
+                <element signature="e#4814#4815#0" expanded="false" />
+                <element signature="e#4842#4843#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Message.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java">
+      <file leaf-file-name="DAO.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/control/dao/DAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3412271">
-              <caret line="343" column="79" selection-start-line="343" selection-start-column="79" selection-end-line="343" selection-end-column="79" />
+            <state vertical-scroll-proportion="0.6598891">
+              <caret line="361" column="0" selection-start-line="361" selection-start-column="0" selection-end-line="361" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#10273#10274#0" expanded="true" />
-                <element signature="e#10306#10307#0" expanded="true" />
+                <marker date="1466471452737" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
+                <marker date="1466471452737" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
+                <marker date="1466471452737" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1466471452737" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
+                <marker date="1466471452737" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
+                <marker date="1466471452737" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
+                <marker date="1466471452737" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
+                <marker date="1466471452737" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
+                <marker date="1466471452737" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
+                <marker date="1466471452737" expanded="true" signature="10094:10154" placeholder="SELECT `MESS... MESSAGELOG" />
+                <marker date="1466471452737" expanded="true" signature="10094:10283" placeholder="SELECT `MESS... MESSAGELOG" />
+                <marker date="1466471452737" expanded="true" signature="10299:10413" placeholder="SELECT *, CL... MESSAGELOG" />
+                <marker date="1466471452737" expanded="true" signature="10444:10639" placeholder="SELECT `MESS... MESSAGELOG" />
+                <marker date="1466471452737" expanded="true" signature="11522:11571" placeholder="SELECT PHOTO... CLIENTS" />
+                <marker date="1466471452737" expanded="true" signature="11994:12045" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1466471452737" expanded="true" signature="13392:13491" placeholder="SELECT LOGIN... CLIENTS" />
+                <marker date="1466471452737" expanded="true" signature="14984:15889" placeholder="INSERT INTO MESSAGELOG... " />
+                <marker date="1466471452737" expanded="true" signature="15996:16202" placeholder="UPDATE CLIEN... " />
+                <marker date="1466471452737" expanded="true" signature="17278:17384" placeholder="SELECT EMAIL... CLIENTS" />
+                <marker date="1466471452737" expanded="true" signature="17445:17551" placeholder="SELECT LOGIN... CLIENTS" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="console.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/18e67873-31ad-42ee-97eb-e1c363382559/console.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="52" selection-start-line="0" selection-start-column="52" selection-end-line="0" selection-end-column="52" />
+              <folding>
+                <marker date="1466470977297" expanded="true" signature="0:114" placeholder="SELECT *, CL... MESSAGELOG" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="280" column="22" selection-start-line="280" selection-start-column="22" selection-end-line="280" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1641#1642#0" expanded="true" />
+                <element signature="e#1665#1666#0" expanded="true" />
+                <element signature="e#1701#1702#0" expanded="true" />
+                <element signature="e#1733#1734#0" expanded="true" />
+                <element signature="e#1766#1767#0" expanded="true" />
+                <element signature="e#1790#1791#0" expanded="true" />
+                <element signature="e#1838#1839#0" expanded="true" />
+                <element signature="e#1873#1874#0" expanded="true" />
+                <element signature="e#1900#1901#0" expanded="true" />
+                <element signature="e#1918#1919#0" expanded="true" />
+                <element signature="e#1946#1947#0" expanded="true" />
+                <element signature="e#1967#1968#0" expanded="true" />
+                <element signature="e#2007#2008#0" expanded="true" />
+                <element signature="e#2036#2037#0" expanded="true" />
+                <element signature="e#2072#2073#0" expanded="true" />
+                <element signature="e#2095#2096#0" expanded="true" />
+                <element signature="e#2127#2128#0" expanded="true" />
+                <element signature="e#2150#2151#0" expanded="true" />
+                <element signature="e#2464#2465#0" expanded="true" />
+                <element signature="e#2482#2483#0" expanded="true" />
+                <element signature="e#2790#2791#0" expanded="true" />
+                <element signature="e#2811#2812#0" expanded="true" />
+                <element signature="e#2856#2857#0" expanded="true" />
+                <element signature="e#2884#2885#0" expanded="true" />
+                <element signature="e#2914#2915#0" expanded="true" />
+                <element signature="e#2935#2936#0" expanded="true" />
+                <element signature="e#2978#2979#0" expanded="true" />
+                <element signature="e#3007#3008#0" expanded="true" />
+                <element signature="e#3035#3036#0" expanded="true" />
+                <element signature="e#3054#3055#0" expanded="true" />
+                <element signature="e#3093#3094#0" expanded="true" />
+                <element signature="e#3118#3119#0" expanded="true" />
+                <element signature="e#3374#3375#0" expanded="true" />
+                <element signature="e#3407#3408#0" expanded="true" />
+                <element signature="e#3465#3466#0" expanded="true" />
+                <element signature="e#3502#3503#0" expanded="true" />
+                <element signature="e#3544#3545#0" expanded="true" />
+                <element signature="e#3573#3574#0" expanded="true" />
+                <element signature="e#3598#3599#0" expanded="true" />
+                <element signature="e#3614#3615#0" expanded="true" />
+                <element signature="e#3656#3657#0" expanded="true" />
+                <element signature="e#3685#3686#0" expanded="true" />
+                <element signature="e#3721#3722#0" expanded="true" />
+                <element signature="e#3744#3745#0" expanded="true" />
+                <element signature="e#3774#3775#0" expanded="true" />
+                <element signature="e#3800#3801#0" expanded="true" />
+                <element signature="e#3830#3831#0" expanded="true" />
+                <element signature="e#3856#3857#0" expanded="true" />
+                <element signature="e#3888#3889#0" expanded="true" />
+                <element signature="e#3907#3908#0" expanded="true" />
+                <element signature="e#3934#3935#0" expanded="true" />
+                <element signature="e#3952#3953#0" expanded="true" />
+                <element signature="e#3988#3989#0" expanded="true" />
+                <element signature="e#4011#4012#0" expanded="true" />
+                <element signature="e#4040#4041#0" expanded="true" />
+                <element signature="e#4060#4061#0" expanded="true" />
+                <element signature="e#4100#4101#0" expanded="true" />
+                <element signature="e#4127#4128#0" expanded="true" />
+                <element signature="e#4155#4156#0" expanded="true" />
+                <element signature="e#4174#4175#0" expanded="true" />
+                <element signature="e#4207#4208#0" expanded="true" />
+                <element signature="e#4231#4232#0" expanded="true" />
+                <element signature="e#4280#4281#0" expanded="true" />
+                <element signature="e#4315#4316#0" expanded="true" />
+                <element signature="e#4353#4354#0" expanded="true" />
+                <element signature="e#4378#4379#0" expanded="true" />
+                <element signature="e#4408#4409#0" expanded="true" />
+                <element signature="e#4429#4430#0" expanded="true" />
+                <element signature="e#4634#4635#0" expanded="true" />
+                <element signature="e#4652#4653#0" expanded="true" />
+                <element signature="e#4688#4689#0" expanded="true" />
+                <element signature="e#4711#4712#0" expanded="true" />
+                <element signature="e#4746#4747#0" expanded="true" />
+                <element signature="e#4772#4773#0" expanded="true" />
+                <element signature="e#4824#4825#0" expanded="true" />
+                <element signature="e#4863#4864#0" expanded="true" />
+                <element signature="e#4896#4897#0" expanded="true" />
+                <element signature="e#4922#4923#0" expanded="true" />
+                <element signature="e#4972#4973#0" expanded="true" />
+                <element signature="e#5011#5012#0" expanded="true" />
+                <element signature="e#6379#6380#0" expanded="true" />
+                <element signature="e#6473#6474#0" expanded="true" />
+                <element signature="e#6876#6877#0" expanded="true" />
+                <element signature="e#6910#6911#0" expanded="true" />
+                <element signature="e#8336#8337#0" expanded="true" />
+                <element signature="e#8374#8375#0" expanded="true" />
+                <element signature="e#8417#8418#0" expanded="true" />
+                <element signature="e#8453#8454#0" expanded="true" />
+                <element signature="e#8853#8854#0" expanded="true" />
+                <element signature="e#8885#8886#0" expanded="true" />
+                <element signature="e#8946#8947#0" expanded="true" />
+                <element signature="e#8997#8998#0" expanded="true" />
+                <element signature="e#9034#9035#0" expanded="true" />
+                <element signature="e#9065#9066#0" expanded="true" />
+                <element signature="e#9124#9125#0" expanded="true" />
+                <element signature="e#9173#9174#0" expanded="true" />
+                <element signature="e#9215#9216#0" expanded="true" />
+                <element signature="e#9244#9245#0" expanded="true" />
+                <element signature="e#9287#9288#0" expanded="true" />
+                <element signature="e#9323#9324#0" expanded="true" />
+                <element signature="e#9512#9513#0" expanded="true" />
+                <element signature="e#9551#9552#0" expanded="true" />
+                <element signature="e#9747#9748#0" expanded="true" />
+                <element signature="e#9779#9780#0" expanded="true" />
+                <element signature="e#9816#9817#0" expanded="true" />
+                <element signature="e#9844#9845#0" expanded="true" />
+                <element signature="e#9900#9901#0" expanded="true" />
+                <element signature="e#9943#9944#0" expanded="true" />
+                <element signature="e#9986#9987#0" expanded="true" />
+                <element signature="e#10022#10023#0" expanded="true" />
+                <element signature="e#10056#10057#0" expanded="true" />
+                <element signature="e#10081#10082#0" expanded="true" />
+                <element signature="e#10131#10132#0" expanded="true" />
+                <element signature="e#10168#10169#0" expanded="true" />
+                <element signature="e#10203#10204#0" expanded="true" />
+                <element signature="e#10228#10229#0" expanded="true" />
+                <element signature="e#10256#10257#0" expanded="true" />
+                <element signature="e#10283#10284#0" expanded="true" />
+                <element signature="e#10320#10321#0" expanded="true" />
+                <element signature="e#10348#10349#0" expanded="true" />
+                <element signature="e#10405#10406#0" expanded="true" />
+                <element signature="e#10448#10449#0" expanded="true" />
+                <element signature="e#10495#10496#0" expanded="true" />
+                <element signature="e#10528#10529#0" expanded="true" />
+                <element signature="e#10572#10573#0" expanded="true" />
+                <element signature="e#10602#10603#0" expanded="true" />
+                <element signature="e#10636#10637#0" expanded="true" />
+                <element signature="e#10665#10666#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -100,7 +255,43 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#805#806#0" expanded="false" />
+                <element signature="e#826#827#0" expanded="false" />
+                <element signature="e#874#875#0" expanded="false" />
+                <element signature="e#903#904#0" expanded="false" />
+                <element signature="e#939#940#0" expanded="false" />
+                <element signature="e#960#961#0" expanded="false" />
+                <element signature="e#1008#1009#0" expanded="false" />
+                <element signature="e#1037#1038#0" expanded="false" />
+                <element signature="e#1073#1074#0" expanded="false" />
+                <element signature="e#1094#1095#0" expanded="false" />
+                <element signature="e#1142#1143#0" expanded="false" />
+                <element signature="e#1171#1172#0" expanded="false" />
+                <element signature="e#1207#1208#0" expanded="false" />
+                <element signature="e#1228#1229#0" expanded="false" />
+                <element signature="e#1276#1277#0" expanded="false" />
+                <element signature="e#1305#1306#0" expanded="false" />
+                <element signature="e#1341#1342#0" expanded="false" />
+                <element signature="e#1362#1363#0" expanded="false" />
+                <element signature="e#1410#1411#0" expanded="false" />
+                <element signature="e#1439#1440#0" expanded="false" />
+                <element signature="e#1475#1476#0" expanded="false" />
+                <element signature="e#1496#1497#0" expanded="false" />
+                <element signature="e#1544#1545#0" expanded="false" />
+                <element signature="e#1573#1574#0" expanded="false" />
+                <element signature="e#1609#1610#0" expanded="false" />
+                <element signature="e#1630#1631#0" expanded="false" />
+                <element signature="e#1678#1679#0" expanded="false" />
+                <element signature="e#1707#1708#0" expanded="false" />
+                <element signature="e#1735#1736#0" expanded="false" />
+                <element signature="e#1757#1758#0" expanded="false" />
+                <element signature="e#1798#1799#0" expanded="false" />
+                <element signature="e#1829#1830#0" expanded="false" />
+                <element signature="e#2079#2080#0" expanded="false" />
+                <element signature="e#2107#2108#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -111,18 +302,40 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="9" column="52" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#719#720#0" expanded="false" />
+                <element signature="e#749#750#0" expanded="false" />
+                <element signature="e#800#801#0" expanded="false" />
+                <element signature="e#838#839#0" expanded="false" />
+                <element signature="e#877#878#0" expanded="false" />
+                <element signature="e#907#908#0" expanded="false" />
+                <element signature="e#958#959#0" expanded="false" />
+                <element signature="e#996#997#0" expanded="false" />
+                <element signature="e#1035#1036#0" expanded="false" />
+                <element signature="e#1065#1066#0" expanded="false" />
+                <element signature="e#1116#1117#0" expanded="false" />
+                <element signature="e#1154#1155#0" expanded="false" />
+                <element signature="e#1193#1194#0" expanded="false" />
+                <element signature="e#1223#1224#0" expanded="false" />
+                <element signature="e#1274#1275#0" expanded="false" />
+                <element signature="e#1312#1313#0" expanded="false" />
+                <element signature="e#1351#1352#0" expanded="false" />
+                <element signature="e#1381#1382#0" expanded="false" />
+                <element signature="e#1432#1433#0" expanded="false" />
+                <element signature="e#1470#1471#0" expanded="false" />
+                <element signature="e#1509#1510#0" expanded="false" />
+                <element signature="e#1539#1540#0" expanded="false" />
+                <element signature="e#1590#1591#0" expanded="false" />
+                <element signature="e#1628#1629#0" expanded="false" />
+                <element signature="e#1667#1668#0" expanded="false" />
+                <element signature="e#1697#1698#0" expanded="false" />
+                <element signature="e#1748#1749#0" expanded="false" />
+                <element signature="e#1786#1787#0" expanded="false" />
+                <element signature="e#1817#1818#0" expanded="false" />
+                <element signature="e#1848#1849#0" expanded="false" />
+                <element signature="e#1892#1893#0" expanded="false" />
+                <element signature="e#1932#1933#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientReceiver.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="79" selection-start-line="65" selection-start-column="79" selection-end-line="65" selection-end-column="79" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -131,8 +344,10 @@
         <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/RegistrationMessageReceiver.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-              <folding />
+              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,7 +357,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -151,7 +368,7 @@
         <entry file="file://$PROJECT_DIR$/src/app/control/services/ReceiverManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="45" selection-start-line="51" selection-start-column="45" selection-end-line="51" selection-end-column="45" />
+              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -161,7 +378,7 @@
         <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/ServerMessageProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -196,10 +413,11 @@
         <option value="$PROJECT_DIR$/src/net/sytes/surfael/api/model/clients/Client.java" />
         <option value="$PROJECT_DIR$/src/app/control/services/receiver/types/NormalMessageReceiver.java" />
         <option value="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/AndroidHistory.java" />
-        <option value="$PROJECT_DIR$/src/app/control/dao/DAO.java" />
         <option value="$PROJECT_DIR$/src/app/control/services/receiver/types/ServerMessageProcessor.java" />
         <option value="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/History.java" />
         <option value="$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/18e67873-31ad-42ee-97eb-e1c363382559/console.sql" />
+        <option value="$PROJECT_DIR$/src/app/control/dao/DAO.java" />
       </list>
     </option>
   </component>
@@ -215,11 +433,21 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="54" />
+    <option name="x" value="-1928" />
     <option name="y" value="-8" />
-    <option name="width" value="1874" />
-    <option name="height" value="1096" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -246,7 +474,81 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Problems" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="SocketServer">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="SocketServer">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="control" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -378,84 +680,62 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Problems" />
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="SocketServer">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="SocketServer">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="src">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocketServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="control" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocketServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="control" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dao" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -937,7 +1217,8 @@
       <workItem from="1455486057268" duration="7432000" />
       <workItem from="1455744350998" duration="2672000" />
       <workItem from="1455748571417" duration="619000" />
-      <workItem from="1455749275450" duration="1606000" />
+      <workItem from="1455749275450" duration="2197000" />
+      <workItem from="1466470321699" duration="4121000" />
     </task>
     <task id="LOCAL-00001" summary="Added support for client storage.">
       <created>1455510566229</created>
@@ -949,35 +1230,36 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51130000" />
+    <option name="totallyTimeSpent" value="55842000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39852008" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2203125" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3266385" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25475687" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17922497" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17916666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39852008" sideWeight="0.49791667" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39858013" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18622175" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -999,7 +1281,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="63" />
+      <option name="time" value="69" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1008,37 +1290,32 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/control/sync/ClientCenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/control/dao/DAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="356" column="19" selection-start-line="356" selection-start-column="15" selection-end-line="356" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1455746911896" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455746911896" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
-            <marker date="1455746911896" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10090:10166" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10192:10275" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10984:11035" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="12379:12478" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="13805:14700" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455746911896" expanded="true" signature="14807:15013" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="16089:16195" placeholder="SELECT EMAIL... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="16256:16362" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1466471452737" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1466471452737" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10154" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10283" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10299:10413" placeholder="SELECT *, CL... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10444:10639" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="11522:11571" placeholder="SELECT PHOTO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="11994:12045" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="13392:13491" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="14984:15889" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1466471452737" expanded="true" signature="15996:16202" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="17278:17384" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="17445:17551" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
         </state>
       </provider>
@@ -1047,7 +1324,43 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="80" column="42" selection-start-line="80" selection-start-column="42" selection-end-line="80" selection-end-column="42" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#805#806#0" expanded="false" />
+            <element signature="e#826#827#0" expanded="false" />
+            <element signature="e#874#875#0" expanded="false" />
+            <element signature="e#903#904#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
+            <element signature="e#960#961#0" expanded="false" />
+            <element signature="e#1008#1009#0" expanded="false" />
+            <element signature="e#1037#1038#0" expanded="false" />
+            <element signature="e#1073#1074#0" expanded="false" />
+            <element signature="e#1094#1095#0" expanded="false" />
+            <element signature="e#1142#1143#0" expanded="false" />
+            <element signature="e#1171#1172#0" expanded="false" />
+            <element signature="e#1207#1208#0" expanded="false" />
+            <element signature="e#1228#1229#0" expanded="false" />
+            <element signature="e#1276#1277#0" expanded="false" />
+            <element signature="e#1305#1306#0" expanded="false" />
+            <element signature="e#1341#1342#0" expanded="false" />
+            <element signature="e#1362#1363#0" expanded="false" />
+            <element signature="e#1410#1411#0" expanded="false" />
+            <element signature="e#1439#1440#0" expanded="false" />
+            <element signature="e#1475#1476#0" expanded="false" />
+            <element signature="e#1496#1497#0" expanded="false" />
+            <element signature="e#1544#1545#0" expanded="false" />
+            <element signature="e#1573#1574#0" expanded="false" />
+            <element signature="e#1609#1610#0" expanded="false" />
+            <element signature="e#1630#1631#0" expanded="false" />
+            <element signature="e#1678#1679#0" expanded="false" />
+            <element signature="e#1707#1708#0" expanded="false" />
+            <element signature="e#1735#1736#0" expanded="false" />
+            <element signature="e#1757#1758#0" expanded="false" />
+            <element signature="e#1798#1799#0" expanded="false" />
+            <element signature="e#1829#1830#0" expanded="false" />
+            <element signature="e#2079#2080#0" expanded="false" />
+            <element signature="e#2107#2108#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1056,7 +1369,39 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="52" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#719#720#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#800#801#0" expanded="false" />
+            <element signature="e#838#839#0" expanded="false" />
+            <element signature="e#877#878#0" expanded="false" />
+            <element signature="e#907#908#0" expanded="false" />
+            <element signature="e#958#959#0" expanded="false" />
+            <element signature="e#996#997#0" expanded="false" />
+            <element signature="e#1035#1036#0" expanded="false" />
+            <element signature="e#1065#1066#0" expanded="false" />
+            <element signature="e#1116#1117#0" expanded="false" />
+            <element signature="e#1154#1155#0" expanded="false" />
+            <element signature="e#1193#1194#0" expanded="false" />
+            <element signature="e#1223#1224#0" expanded="false" />
+            <element signature="e#1274#1275#0" expanded="false" />
+            <element signature="e#1312#1313#0" expanded="false" />
+            <element signature="e#1351#1352#0" expanded="false" />
+            <element signature="e#1381#1382#0" expanded="false" />
+            <element signature="e#1432#1433#0" expanded="false" />
+            <element signature="e#1470#1471#0" expanded="false" />
+            <element signature="e#1509#1510#0" expanded="false" />
+            <element signature="e#1539#1540#0" expanded="false" />
+            <element signature="e#1590#1591#0" expanded="false" />
+            <element signature="e#1628#1629#0" expanded="false" />
+            <element signature="e#1667#1668#0" expanded="false" />
+            <element signature="e#1697#1698#0" expanded="false" />
+            <element signature="e#1748#1749#0" expanded="false" />
+            <element signature="e#1786#1787#0" expanded="false" />
+            <element signature="e#1817#1818#0" expanded="false" />
+            <element signature="e#1848#1849#0" expanded="false" />
+            <element signature="e#1892#1893#0" expanded="false" />
+            <element signature="e#1932#1933#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1065,7 +1410,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="65" column="79" selection-start-line="65" selection-start-column="79" selection-end-line="65" selection-end-column="79" />
-          <folding />
+          <folding>
+            <marker date="1466470359834" expanded="false" signature="53:590" placeholder="..." />
+            <marker date="1466470359834" expanded="true" signature="846:3711" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1073,7 +1421,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1081,7 +1431,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1113,7 +1465,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2443#2444#0" expanded="false" />
+            <element signature="e#2464#2465#0" expanded="false" />
+            <element signature="e#4745#4746#0" expanded="false" />
+            <element signature="e#4768#4769#0" expanded="false" />
+            <element signature="e#4814#4815#0" expanded="false" />
+            <element signature="e#4842#4843#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1123,23 +1483,26 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1455746911896" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455746911896" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
-            <marker date="1455746911896" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10090:10166" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10192:10275" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10984:11035" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="12379:12478" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="13805:14700" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455746911896" expanded="true" signature="14807:15013" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="16089:16195" placeholder="SELECT EMAIL... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="16256:16362" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1466471452737" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1466471452737" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10154" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10283" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10299:10413" placeholder="SELECT *, CL... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10444:10639" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="11522:11571" placeholder="SELECT PHOTO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="11994:12045" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="13392:13491" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="14984:15889" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1466471452737" expanded="true" signature="15996:16202" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="17278:17384" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="17445:17551" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
         </state>
       </provider>
@@ -1148,7 +1511,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="65" column="79" selection-start-line="65" selection-start-column="79" selection-end-line="65" selection-end-column="79" />
-          <folding />
+          <folding>
+            <marker date="1466470359834" expanded="false" signature="53:590" placeholder="..." />
+            <marker date="1466470359834" expanded="true" signature="846:3711" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1156,7 +1522,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1164,7 +1532,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1188,7 +1558,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2443#2444#0" expanded="false" />
+            <element signature="e#2464#2465#0" expanded="false" />
+            <element signature="e#4745#4746#0" expanded="false" />
+            <element signature="e#4768#4769#0" expanded="false" />
+            <element signature="e#4814#4815#0" expanded="false" />
+            <element signature="e#4842#4843#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1198,23 +1576,26 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1455746911896" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455746911896" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
-            <marker date="1455746911896" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10090:10166" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10192:10275" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10984:11035" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="12379:12478" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="13805:14700" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455746911896" expanded="true" signature="14807:15013" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="16089:16195" placeholder="SELECT EMAIL... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="16256:16362" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1466471452737" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1466471452737" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10154" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10283" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10299:10413" placeholder="SELECT *, CL... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10444:10639" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="11522:11571" placeholder="SELECT PHOTO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="11994:12045" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="13392:13491" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="14984:15889" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1466471452737" expanded="true" signature="15996:16202" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="17278:17384" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="17445:17551" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
         </state>
       </provider>
@@ -1223,7 +1604,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="61" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
-          <folding />
+          <folding>
+            <marker date="1466470359834" expanded="false" signature="53:590" placeholder="..." />
+            <marker date="1466470359834" expanded="true" signature="846:3711" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1231,7 +1615,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1247,7 +1633,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2443#2444#0" expanded="false" />
+            <element signature="e#2464#2465#0" expanded="false" />
+            <element signature="e#4745#4746#0" expanded="false" />
+            <element signature="e#4768#4769#0" expanded="false" />
+            <element signature="e#4814#4815#0" expanded="false" />
+            <element signature="e#4842#4843#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1257,23 +1651,26 @@
           <caret line="77" column="49" selection-start-line="77" selection-start-column="49" selection-end-line="77" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1455746911896" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455746911896" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
-            <marker date="1455746911896" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10090:10166" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10192:10275" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10984:11035" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="12379:12478" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="13805:14700" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455746911896" expanded="true" signature="14807:15013" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="16089:16195" placeholder="SELECT EMAIL... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="16256:16362" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1466471452737" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1466471452737" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10154" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10283" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10299:10413" placeholder="SELECT *, CL... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10444:10639" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="11522:11571" placeholder="SELECT PHOTO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="11994:12045" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="13392:13491" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="14984:15889" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1466471452737" expanded="true" signature="15996:16202" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="17278:17384" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="17445:17551" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
         </state>
       </provider>
@@ -1282,7 +1679,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1290,7 +1689,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="61" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
-          <folding />
+          <folding>
+            <marker date="1466470359834" expanded="false" signature="53:590" placeholder="..." />
+            <marker date="1466470359834" expanded="true" signature="846:3711" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1298,7 +1700,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="9" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1322,7 +1726,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="82" column="45" selection-start-line="82" selection-start-column="45" selection-end-line="82" selection-end-column="45" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2443#2444#0" expanded="false" />
+            <element signature="e#2464#2465#0" expanded="false" />
+            <element signature="e#4745#4746#0" expanded="false" />
+            <element signature="e#4768#4769#0" expanded="false" />
+            <element signature="e#4814#4815#0" expanded="false" />
+            <element signature="e#4842#4843#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1339,23 +1751,26 @@
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1455746911896" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455746911896" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
-            <marker date="1455746911896" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10090:10166" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10192:10275" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10984:11035" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="12379:12478" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="13805:14700" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455746911896" expanded="true" signature="14807:15013" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="16089:16195" placeholder="SELECT EMAIL... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="16256:16362" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1466471452737" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1466471452737" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10154" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10283" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10299:10413" placeholder="SELECT *, CL... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10444:10639" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="11522:11571" placeholder="SELECT PHOTO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="11994:12045" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="13392:13491" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="14984:15889" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1466471452737" expanded="true" signature="15996:16202" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="17278:17384" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="17445:17551" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
         </state>
       </provider>
@@ -1364,7 +1779,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1431,8 +1848,11 @@
     <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/ClientReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="79" selection-start-line="65" selection-start-column="79" selection-end-line="65" selection-end-column="79" />
-          <folding />
+          <caret line="67" column="74" selection-start-line="67" selection-start-column="74" selection-end-line="67" selection-end-column="74" />
+          <folding>
+            <marker date="1466470359834" expanded="false" signature="53:590" placeholder="..." />
+            <marker date="1466470359834" expanded="true" signature="846:3711" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1441,7 +1861,39 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="52" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#719#720#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#800#801#0" expanded="false" />
+            <element signature="e#838#839#0" expanded="false" />
+            <element signature="e#877#878#0" expanded="false" />
+            <element signature="e#907#908#0" expanded="false" />
+            <element signature="e#958#959#0" expanded="false" />
+            <element signature="e#996#997#0" expanded="false" />
+            <element signature="e#1035#1036#0" expanded="false" />
+            <element signature="e#1065#1066#0" expanded="false" />
+            <element signature="e#1116#1117#0" expanded="false" />
+            <element signature="e#1154#1155#0" expanded="false" />
+            <element signature="e#1193#1194#0" expanded="false" />
+            <element signature="e#1223#1224#0" expanded="false" />
+            <element signature="e#1274#1275#0" expanded="false" />
+            <element signature="e#1312#1313#0" expanded="false" />
+            <element signature="e#1351#1352#0" expanded="false" />
+            <element signature="e#1381#1382#0" expanded="false" />
+            <element signature="e#1432#1433#0" expanded="false" />
+            <element signature="e#1470#1471#0" expanded="false" />
+            <element signature="e#1509#1510#0" expanded="false" />
+            <element signature="e#1539#1540#0" expanded="false" />
+            <element signature="e#1590#1591#0" expanded="false" />
+            <element signature="e#1628#1629#0" expanded="false" />
+            <element signature="e#1667#1668#0" expanded="false" />
+            <element signature="e#1697#1698#0" expanded="false" />
+            <element signature="e#1748#1749#0" expanded="false" />
+            <element signature="e#1786#1787#0" expanded="false" />
+            <element signature="e#1817#1818#0" expanded="false" />
+            <element signature="e#1848#1849#0" expanded="false" />
+            <element signature="e#1892#1893#0" expanded="false" />
+            <element signature="e#1932#1933#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1450,15 +1902,25 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2443#2444#0" expanded="false" />
+            <element signature="e#2464#2465#0" expanded="false" />
+            <element signature="e#4745#4746#0" expanded="false" />
+            <element signature="e#4768#4769#0" expanded="false" />
+            <element signature="e#4814#4815#0" expanded="false" />
+            <element signature="e#4842#4843#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/RegistrationMessageReceiver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-          <folding />
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1466,15 +1928,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/control/services/ReceiverManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="45" selection-start-line="51" selection-start-column="45" selection-end-line="51" selection-end-column="45" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1482,6 +1938,198 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#805#806#0" expanded="false" />
+            <element signature="e#826#827#0" expanded="false" />
+            <element signature="e#874#875#0" expanded="false" />
+            <element signature="e#903#904#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
+            <element signature="e#960#961#0" expanded="false" />
+            <element signature="e#1008#1009#0" expanded="false" />
+            <element signature="e#1037#1038#0" expanded="false" />
+            <element signature="e#1073#1074#0" expanded="false" />
+            <element signature="e#1094#1095#0" expanded="false" />
+            <element signature="e#1142#1143#0" expanded="false" />
+            <element signature="e#1171#1172#0" expanded="false" />
+            <element signature="e#1207#1208#0" expanded="false" />
+            <element signature="e#1228#1229#0" expanded="false" />
+            <element signature="e#1276#1277#0" expanded="false" />
+            <element signature="e#1305#1306#0" expanded="false" />
+            <element signature="e#1341#1342#0" expanded="false" />
+            <element signature="e#1362#1363#0" expanded="false" />
+            <element signature="e#1410#1411#0" expanded="false" />
+            <element signature="e#1439#1440#0" expanded="false" />
+            <element signature="e#1475#1476#0" expanded="false" />
+            <element signature="e#1496#1497#0" expanded="false" />
+            <element signature="e#1544#1545#0" expanded="false" />
+            <element signature="e#1573#1574#0" expanded="false" />
+            <element signature="e#1609#1610#0" expanded="false" />
+            <element signature="e#1630#1631#0" expanded="false" />
+            <element signature="e#1678#1679#0" expanded="false" />
+            <element signature="e#1707#1708#0" expanded="false" />
+            <element signature="e#1735#1736#0" expanded="false" />
+            <element signature="e#1757#1758#0" expanded="false" />
+            <element signature="e#1798#1799#0" expanded="false" />
+            <element signature="e#1829#1830#0" expanded="false" />
+            <element signature="e#2079#2080#0" expanded="false" />
+            <element signature="e#2107#2108#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="280" column="22" selection-start-line="280" selection-start-column="22" selection-end-line="280" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1641#1642#0" expanded="true" />
+            <element signature="e#1665#1666#0" expanded="true" />
+            <element signature="e#1701#1702#0" expanded="true" />
+            <element signature="e#1733#1734#0" expanded="true" />
+            <element signature="e#1766#1767#0" expanded="true" />
+            <element signature="e#1790#1791#0" expanded="true" />
+            <element signature="e#1838#1839#0" expanded="true" />
+            <element signature="e#1873#1874#0" expanded="true" />
+            <element signature="e#1900#1901#0" expanded="true" />
+            <element signature="e#1918#1919#0" expanded="true" />
+            <element signature="e#1946#1947#0" expanded="true" />
+            <element signature="e#1967#1968#0" expanded="true" />
+            <element signature="e#2007#2008#0" expanded="true" />
+            <element signature="e#2036#2037#0" expanded="true" />
+            <element signature="e#2072#2073#0" expanded="true" />
+            <element signature="e#2095#2096#0" expanded="true" />
+            <element signature="e#2127#2128#0" expanded="true" />
+            <element signature="e#2150#2151#0" expanded="true" />
+            <element signature="e#2464#2465#0" expanded="true" />
+            <element signature="e#2482#2483#0" expanded="true" />
+            <element signature="e#2790#2791#0" expanded="true" />
+            <element signature="e#2811#2812#0" expanded="true" />
+            <element signature="e#2856#2857#0" expanded="true" />
+            <element signature="e#2884#2885#0" expanded="true" />
+            <element signature="e#2914#2915#0" expanded="true" />
+            <element signature="e#2935#2936#0" expanded="true" />
+            <element signature="e#2978#2979#0" expanded="true" />
+            <element signature="e#3007#3008#0" expanded="true" />
+            <element signature="e#3035#3036#0" expanded="true" />
+            <element signature="e#3054#3055#0" expanded="true" />
+            <element signature="e#3093#3094#0" expanded="true" />
+            <element signature="e#3118#3119#0" expanded="true" />
+            <element signature="e#3374#3375#0" expanded="true" />
+            <element signature="e#3407#3408#0" expanded="true" />
+            <element signature="e#3465#3466#0" expanded="true" />
+            <element signature="e#3502#3503#0" expanded="true" />
+            <element signature="e#3544#3545#0" expanded="true" />
+            <element signature="e#3573#3574#0" expanded="true" />
+            <element signature="e#3598#3599#0" expanded="true" />
+            <element signature="e#3614#3615#0" expanded="true" />
+            <element signature="e#3656#3657#0" expanded="true" />
+            <element signature="e#3685#3686#0" expanded="true" />
+            <element signature="e#3721#3722#0" expanded="true" />
+            <element signature="e#3744#3745#0" expanded="true" />
+            <element signature="e#3774#3775#0" expanded="true" />
+            <element signature="e#3800#3801#0" expanded="true" />
+            <element signature="e#3830#3831#0" expanded="true" />
+            <element signature="e#3856#3857#0" expanded="true" />
+            <element signature="e#3888#3889#0" expanded="true" />
+            <element signature="e#3907#3908#0" expanded="true" />
+            <element signature="e#3934#3935#0" expanded="true" />
+            <element signature="e#3952#3953#0" expanded="true" />
+            <element signature="e#3988#3989#0" expanded="true" />
+            <element signature="e#4011#4012#0" expanded="true" />
+            <element signature="e#4040#4041#0" expanded="true" />
+            <element signature="e#4060#4061#0" expanded="true" />
+            <element signature="e#4100#4101#0" expanded="true" />
+            <element signature="e#4127#4128#0" expanded="true" />
+            <element signature="e#4155#4156#0" expanded="true" />
+            <element signature="e#4174#4175#0" expanded="true" />
+            <element signature="e#4207#4208#0" expanded="true" />
+            <element signature="e#4231#4232#0" expanded="true" />
+            <element signature="e#4280#4281#0" expanded="true" />
+            <element signature="e#4315#4316#0" expanded="true" />
+            <element signature="e#4353#4354#0" expanded="true" />
+            <element signature="e#4378#4379#0" expanded="true" />
+            <element signature="e#4408#4409#0" expanded="true" />
+            <element signature="e#4429#4430#0" expanded="true" />
+            <element signature="e#4634#4635#0" expanded="true" />
+            <element signature="e#4652#4653#0" expanded="true" />
+            <element signature="e#4688#4689#0" expanded="true" />
+            <element signature="e#4711#4712#0" expanded="true" />
+            <element signature="e#4746#4747#0" expanded="true" />
+            <element signature="e#4772#4773#0" expanded="true" />
+            <element signature="e#4824#4825#0" expanded="true" />
+            <element signature="e#4863#4864#0" expanded="true" />
+            <element signature="e#4896#4897#0" expanded="true" />
+            <element signature="e#4922#4923#0" expanded="true" />
+            <element signature="e#4972#4973#0" expanded="true" />
+            <element signature="e#5011#5012#0" expanded="true" />
+            <element signature="e#6379#6380#0" expanded="true" />
+            <element signature="e#6473#6474#0" expanded="true" />
+            <element signature="e#6876#6877#0" expanded="true" />
+            <element signature="e#6910#6911#0" expanded="true" />
+            <element signature="e#8336#8337#0" expanded="true" />
+            <element signature="e#8374#8375#0" expanded="true" />
+            <element signature="e#8417#8418#0" expanded="true" />
+            <element signature="e#8453#8454#0" expanded="true" />
+            <element signature="e#8853#8854#0" expanded="true" />
+            <element signature="e#8885#8886#0" expanded="true" />
+            <element signature="e#8946#8947#0" expanded="true" />
+            <element signature="e#8997#8998#0" expanded="true" />
+            <element signature="e#9034#9035#0" expanded="true" />
+            <element signature="e#9065#9066#0" expanded="true" />
+            <element signature="e#9124#9125#0" expanded="true" />
+            <element signature="e#9173#9174#0" expanded="true" />
+            <element signature="e#9215#9216#0" expanded="true" />
+            <element signature="e#9244#9245#0" expanded="true" />
+            <element signature="e#9287#9288#0" expanded="true" />
+            <element signature="e#9323#9324#0" expanded="true" />
+            <element signature="e#9512#9513#0" expanded="true" />
+            <element signature="e#9551#9552#0" expanded="true" />
+            <element signature="e#9747#9748#0" expanded="true" />
+            <element signature="e#9779#9780#0" expanded="true" />
+            <element signature="e#9816#9817#0" expanded="true" />
+            <element signature="e#9844#9845#0" expanded="true" />
+            <element signature="e#9900#9901#0" expanded="true" />
+            <element signature="e#9943#9944#0" expanded="true" />
+            <element signature="e#9986#9987#0" expanded="true" />
+            <element signature="e#10022#10023#0" expanded="true" />
+            <element signature="e#10056#10057#0" expanded="true" />
+            <element signature="e#10081#10082#0" expanded="true" />
+            <element signature="e#10131#10132#0" expanded="true" />
+            <element signature="e#10168#10169#0" expanded="true" />
+            <element signature="e#10203#10204#0" expanded="true" />
+            <element signature="e#10228#10229#0" expanded="true" />
+            <element signature="e#10256#10257#0" expanded="true" />
+            <element signature="e#10283#10284#0" expanded="true" />
+            <element signature="e#10320#10321#0" expanded="true" />
+            <element signature="e#10348#10349#0" expanded="true" />
+            <element signature="e#10405#10406#0" expanded="true" />
+            <element signature="e#10448#10449#0" expanded="true" />
+            <element signature="e#10495#10496#0" expanded="true" />
+            <element signature="e#10528#10529#0" expanded="true" />
+            <element signature="e#10572#10573#0" expanded="true" />
+            <element signature="e#10602#10603#0" expanded="true" />
+            <element signature="e#10636#10637#0" expanded="true" />
+            <element signature="e#10665#10666#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/18e67873-31ad-42ee-97eb-e1c363382559/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="52" selection-start-line="0" selection-start-column="52" selection-end-line="0" selection-end-column="52" />
+          <folding>
+            <marker date="1466470977297" expanded="true" signature="0:114" placeholder="SELECT *, CL... MESSAGELOG" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/control/services/ReceiverManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1489,46 +2137,37 @@
     <entry file="file://$PROJECT_DIR$/src/app/control/services/receiver/types/ServerMessageProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/control/dao/DAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="350" column="38" selection-start-line="350" selection-start-column="31" selection-end-line="350" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.6598891">
+          <caret line="361" column="0" selection-start-line="361" selection-start-column="0" selection-end-line="361" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1455746911896" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
-            <marker date="1455746911896" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
-            <marker date="1455746911896" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10090:10166" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10192:10275" placeholder="SELECT `MESS... MESSAGELOG" />
-            <marker date="1455746911896" expanded="true" signature="10984:11035" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="12379:12478" placeholder="SELECT LOGIN... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="13805:14700" placeholder="INSERT INTO MESSAGELOG... " />
-            <marker date="1455746911896" expanded="true" signature="14807:15013" placeholder="UPDATE CLIEN... " />
-            <marker date="1455746911896" expanded="true" signature="16089:16195" placeholder="SELECT EMAIL... CLIENTS" />
-            <marker date="1455746911896" expanded="true" signature="16256:16362" placeholder="SELECT LOGIN... CLIENTS" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sytes/surfael/api/model/messages/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3412271">
-          <caret line="343" column="79" selection-start-line="343" selection-start-column="79" selection-end-line="343" selection-end-column="79" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#10273#10274#0" expanded="true" />
-            <element signature="e#10306#10307#0" expanded="true" />
+            <marker date="1466471452737" expanded="true" signature="2175:3214" placeholder="INSERT INTO CLIENTS... " />
+            <marker date="1466471452737" expanded="true" signature="3453:3677" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="4023:4095" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="4171:4241" placeholder="SELECT EMAIL... EMAIL" />
+            <marker date="1466471452737" expanded="true" signature="6105:6160" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="6211:6266" placeholder="SELECT * FRO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="8226:8308" placeholder="SELECT COUNT... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9266:9342" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="9368:9451" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10154" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10094:10283" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10299:10413" placeholder="SELECT *, CL... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="10444:10639" placeholder="SELECT `MESS... MESSAGELOG" />
+            <marker date="1466471452737" expanded="true" signature="11522:11571" placeholder="SELECT PHOTO... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="11994:12045" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="13392:13491" placeholder="SELECT LOGIN... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="14984:15889" placeholder="INSERT INTO MESSAGELOG... " />
+            <marker date="1466471452737" expanded="true" signature="15996:16202" placeholder="UPDATE CLIEN... " />
+            <marker date="1466471452737" expanded="true" signature="17278:17384" placeholder="SELECT EMAIL... CLIENTS" />
+            <marker date="1466471452737" expanded="true" signature="17445:17551" placeholder="SELECT LOGIN... CLIENTS" />
           </folding>
         </state>
       </provider>

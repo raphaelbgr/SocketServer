@@ -53,14 +53,20 @@ public class ReceiverManager implements Runnable {
 						receiver.receive(o,localClient,sock);
 					}
 				} else if (o instanceof Client) {
+					
+					// In case of a user Proper Registration
 					if (o instanceof NewClient) {
 						receiver = new RegistrationMessageReceiver();
 						receiver.receive(o, null, sock);
 						break;
+						
+					// In case of a login wich auto-registration for a new comer *remove on the future*
 					} else if (!DAO.clientExists((Client) o)) {
 						receiver = new RegistrationMessageReceiver();
 						receiver.receive(o, null, sock);
 					}
+					
+					// Client login process
 					Client c = (Client) o;
 					if (DAO.doLogin(c)) {
 						localClient = DAO.loadClientData((Client) o);

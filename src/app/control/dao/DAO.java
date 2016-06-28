@@ -1,17 +1,24 @@
 package app.control.dao;
 
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
+import app.ServerMain;
+import app.control.helpers.H_DAO;
 import net.sytes.surfael.api.control.classes.MD5;
 import net.sytes.surfael.api.model.clients.Client;
-import net.sytes.surfael.api.model.clients.NewClient;
 import net.sytes.surfael.api.model.exceptions.LocalException;
 import net.sytes.surfael.api.model.exceptions.ServerException;
 import net.sytes.surfael.api.model.messages.History;
 import net.sytes.surfael.api.model.messages.Message;
-import app.ServerMain;
 
 public class DAO {
 
@@ -22,8 +29,9 @@ public class DAO {
 	static Connection c = null;
 	private static List<Message> messagesToStore = Collections.synchronizedList(new ArrayList<Message>());
 	private static boolean storeAgentRunning;
-	private static ArrayList<Message> array;
-
+	
+	
+	// Use for Read Queries
 	public static synchronized void connect() throws SQLException {
 		if (ServerMain.DB) {
 			c = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
@@ -224,8 +232,9 @@ public class DAO {
 				if (cl.getFbToken() == null) {
 					cl.setFbToken(rs.getString("FACEBOOK_TOKEN"));
 				}
-				if (cl.getPhotoUrl() == null) {
-					cl.setPhotoUrl(rs.getString("PHOTO_URL"));
+				if (cl.getPhotoUrl() != null || !(cl.getPhotoUrl().equalsIgnoreCase(rs.getString("PHOTO_URL")))) {
+					cl.setPhotoUrl(cl.getPhotoUrl());
+					updateClientPhotoURLAsync(cl.getPhotoUrl(), rs.getString("ID"));
 				}
 				if (cl.getBirthDate() == null) {
 					cl.setBirthDate(rs.getDate("BIRTHDATE"));
@@ -332,13 +341,14 @@ public class DAO {
 		connect();
 
 		String query = null;
-		if (rowLimit == 0) {
-			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID, CLIENTS.EMAIL FROM MESSAGELOG "
-					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID;";
-		} else {
-			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID, CLIENTS.EMAIL FROM MESSAGELOG "
-					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID LIMIT" + rowLimit + ";";
-		}
+//		if (rowLimit == 0) {
+//			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID, CLIENTS.EMAIL FROM MESSAGELOG "
+//					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID;";
+			query = "SELECT *, CLIENTS.ID AS OWNERID, CLIENTS.EMAIL FROM MESSAGELOG INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID;";
+//		} else {
+//			query = "SELECT `MESSAGESERVER#`, SERV_REC_TIMESTAMP, OWNERNAME, TEXT, PHOTO_URL, CLIENTS.ID AS OWNERID, CLIENTS.EMAIL FROM MESSAGELOG "
+//					+ "INNER JOIN CLIENTS ON CLIENTS.ID=MESSAGELOG.OWNERID LIMIT" + rowLimit + ";";
+//		}
 		Statement st = c.createStatement();
 		ResultSet rs = st.executeQuery(query);
 
@@ -472,7 +482,7 @@ public class DAO {
 						messagesToStore.clear();
 
 						DAO dao = new DAO();
-						dao.aSyncDataBaseWrite(messages);
+						dao.aSyncDataBaseMessageHistoryInsert(messages);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -485,7 +495,7 @@ public class DAO {
 		}
 	}
 
-	public synchronized void aSyncDataBaseWrite(final List<Message> messages) {
+	public synchronized void aSyncDataBaseMessageHistoryInsert(final List<Message> messages) {
 
 		Thread t1 = new Thread(new Runnable() {
 			@Override
@@ -494,48 +504,27 @@ public class DAO {
 					for (Message m : messages) {
 						DAO.connect();
 						if (ServerMain.DB) {
-							String query = "INSERT INTO MESSAGELOG (OWNERLOGIN,OWNERNAME,TEXT,CREATIONTIME,SERVERRECEIVEDTIME,MSG_DATE,IP,PCNAME,NETWORK,TYPE,SERVRESPONSE,OWNERID,"
-									+ "`MESSAGESERVER#`,`MESSAGEOWNER#`, `SERV_REC_TIMESTAMP`, `SERV_REC_TIME`) "
-
-									+ "VALUES ('" + m.getOwnerLogin() + "',"
-									+ "'" + m.getOwnerName() + "',"
-									+ "\"" + m.getText() + "\","
-									+ "'" + m.getCreationtime() + "',"
-									+ "'" + m.getServerReceivedTimeSQLDate() + "',"
-									+ "'" + m.getMsg_DateCreatedSQL() + "',"
-									+ "'" + m.getIp() + "',"
-									+ "'" + m.getPcname() + "',"
-									+ "'" + m.getNetwork() + "',"
-									+ "'" + m.getType() + "',"
-									+ "'" + m.getServresponse() + "',"
-									+ "'" + m.getSenderId() + "',"
-									+ "'" + 0 + "',"
-									+ "'" + 0 + "',"
-									+ "'" + m.getServerReceivedtimeString() + "',"
-									+ "'" + m.getServerReceivedTimeLong()
-									+ "')";
-							Statement s = c.prepareStatement(query);
-							s.execute(query);
-
-							String updateClient = "UPDATE CLIENTS SET MSGCOUNT="
-									+ "(SELECT COUNT(OWNERLOGIN) FROM MESSAGELOG "
-									+ "AS COUNT WHERE OWNERLOGIN='" + m.getOwnerLogin() + "') "
-									+ "WHERE LOGIN='" + m.getOwnerLogin() + "'";
-
-							Statement s2 = c.prepareStatement(updateClient);
-							s2.execute(updateClient);
-
+							
+							// Insert into history code
+							String insertMessageQuery = H_DAO.prepareInsertMessageHistoryQuery(m);
+							Statement st1 = c.prepareStatement(insertMessageQuery);
+							st1.execute(insertMessageQuery);
+							
+							// Update message count code
+							String updateClientMessageCount = H_DAO.prepareUpdateClientMessageCountQuery(m);
+							Statement st2 = c.prepareStatement(updateClientMessageCount);
+							st2.execute(updateClientMessageCount);
+							
 							//DEBUG
 							if (ServerMain.DEBUG) {
-								System.out.println(query);
-								System.out.println(updateClient);
+								System.out.println(insertMessageQuery);
+								System.out.println(updateClientMessageCount);
 							}
 							updateSentMsgs(m);
 							DAO.disconnect();
 						}
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -591,6 +580,18 @@ public class DAO {
 		} else {
 			DAO.disconnect();
 			return false;
+		}
+	}
+	
+	private static void updateClientPhotoURLAsync(final String photoURL, final String id) {
+		try {
+			String query = "UPDATE CLIENTS SET PHOTO_URL = '" + photoURL + "' WHERE CLIENTS.ID = '" + id + "';";
+			Statement st = c.prepareStatement(query);
+			st.execute(query);
+			if (ServerMain.DEBUG)
+				System.out.println(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }
