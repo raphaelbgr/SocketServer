@@ -14,7 +14,8 @@ import app.control.services.receiver.ReceiverInterface;
 public class RegistrationMessageReceiver implements ReceiverInterface {
 
 	@Override
-	public void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable {
+	public void receive(Object o, Client localClient, Socket sock) throws
+			IOException, ServerException, SQLException, Exception {
 
 		DAO.registerUser((Client) o);
 		ServerMessage regResponse = new ServerMessage();

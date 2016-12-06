@@ -78,7 +78,7 @@ public class ClientCenter {
 		return onlineUserList.contains(s);
 	}
 
-	public synchronized void addClient(Socket sock, Client c) throws Throwable {
+	public synchronized void addClient(Socket sock, Client c) throws Exception {
 		if (!onlineUserList.contains(c.toString())) {
 			onlineUserList.add(c.toString());
 		}
@@ -89,7 +89,7 @@ public class ClientCenter {
 		namestToSocket.put(c.getLogin() + c.getPlatform() + c.getLocalPort(), sock);
 	}
 
-	public synchronized void removeClientByClassAndSocket(Client c,Socket sock) throws Throwable {
+	public synchronized void removeClientByClassAndSocket(Client c,Socket sock) throws Exception {
 		socketToPorts.remove(c.getLocalPort());
 		sockets.remove(sock);
 		userNames.remove(c);

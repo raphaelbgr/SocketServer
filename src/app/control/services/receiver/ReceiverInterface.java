@@ -9,5 +9,6 @@ import net.sytes.surfael.api.model.exceptions.ServerException;
 
 public interface ReceiverInterface {
 
-	public void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable;
+	void receive(Object o, Client localClient, Socket sock)
+			throws IOException, ServerException, SQLException, Exception;
 }

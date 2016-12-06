@@ -26,7 +26,13 @@
 	<groupId>mysql</groupId>
 	<artifactId>mysql-connector-java</artifactId>
 	<version>5.1.36</version>
-</dependency>
-  	
+    </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+          <version>5.2.5.Final</version>
+      </dependency>
   </dependencies>
 </project>

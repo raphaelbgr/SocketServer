@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import app.ServerMain;
+import app.control.helpers.Logger;
 
 public class ConnectionListenerThread extends Thread {
 
@@ -21,9 +22,14 @@ public class ConnectionListenerThread extends Thread {
 					jsock.close();
 				}
 				jsock = new ServerSocket(ServerMain.PORT);
-				
+
 				// ACCEPTS THE INCOMING CONNECTION AND CREATES A SOCKET
 				Socket sock = jsock.accept();
+
+				String type = sock.getInetAddress().isSiteLocalAddress() ? " (LAN)" : " (WAN)";
+				Logger.log("SERVER> Received Connection from IP "
+						+ sock.getInetAddress().getHostAddress()
+						+ type);
 				
 				// ISOLATES THIS SOCKET TO A SEPARATE THREAD
 				ReceiverManager rc = new ReceiverManager(sock);
@@ -42,7 +48,7 @@ public class ConnectionListenerThread extends Thread {
 	
 	private void takeABreak(int duration) {
 		try {
-			System.err.println("Taking a break from port " + ServerMain.PORT + " of " + duration + " secs...");
+			Logger.log("Taking a break from port " + ServerMain.PORT + " of " + duration + " secs...");
 			Thread.sleep(duration);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();

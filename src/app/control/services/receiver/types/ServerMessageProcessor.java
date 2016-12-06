@@ -16,7 +16,7 @@ public class ServerMessageProcessor implements ReceiverInterface {
 
 	@Override
 	public void receive(Object o, Client localClient, Socket sock)
-			throws IOException, ServerException, SQLException, Throwable {
+			throws IOException, ServerException, SQLException, Exception {
 		ServerMessage sm = (ServerMessage)o;
 		
 		History data = null;

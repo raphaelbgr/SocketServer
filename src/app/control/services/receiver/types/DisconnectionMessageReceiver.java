@@ -14,7 +14,7 @@ import net.sytes.surfael.api.model.messages.ServerMessage;
 public class DisconnectionMessageReceiver implements ReceiverInterface {
 
 	@Override
-	public void receive(Object o, Client localClient, Socket sock) throws Throwable {
+	public void receive(Object o, Client localClient, Socket sock) throws Exception {
 		
 		BroadCastMessage bcm = new BroadCastMessage();
 		if (localClient != null) {

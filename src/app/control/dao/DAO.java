@@ -13,6 +13,7 @@ import java.util.List;
 
 import app.ServerMain;
 import app.control.helpers.H_DAO;
+import app.control.helpers.Logger;
 import net.sytes.surfael.api.control.classes.MD5;
 import net.sytes.surfael.api.model.clients.Client;
 import net.sytes.surfael.api.model.exceptions.LocalException;
@@ -35,6 +36,7 @@ public class DAO {
 	public static synchronized void connect() throws SQLException {
 		if (ServerMain.DB) {
 			c = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWD);
+			System.out.println(ServerMain.getTimestamp() + " Connected to the Database.");
 		}
 	}
 	
@@ -305,6 +307,9 @@ public class DAO {
                 }
 			} catch (SQLException e) {
 				e.printStackTrace();
+				c = null;
+			} finally {
+				Logger.log("Disconnected from the Database.");
 			}
 		}
 	}
@@ -559,10 +564,10 @@ public class DAO {
 			}
 			if (cl.getLogin() == null) {
 				credential = cl.getEmail();
-				query = "SELECT EMAIL FROM CLIENTS WHERE EMAIL='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+				query = "SELECT EMAIL FROM clients WHERE EMAIL='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
 			} else {
 				credential = cl.getLogin();
-				query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+				query = "SELECT LOGIN FROM clients WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
 			}
 
 			//DEBUG

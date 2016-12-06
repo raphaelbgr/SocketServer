@@ -20,7 +20,8 @@ public class ClientReceiver implements ReceiverInterface {
 	private boolean desktopDuplicatta = false;
 
 	@Override
-	public synchronized void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException, Throwable {
+	public synchronized void receive(Object o, Client localClient, Socket sock)
+			throws IOException, ServerException, SQLException, Exception {
 
 		ClientCenter cc	= ClientCenter.getInstance();
 		String cLogin = localClient.getLogin();
@@ -72,7 +73,7 @@ public class ClientReceiver implements ReceiverInterface {
 							//Sends the login confirmation to client
 							so.send(sock, smConnect);
 							so.send(sock, localClient);
-						} catch (ServerException e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					} else {

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import app.control.helpers.Logger;
 import app.control.services.ConnectionListenerThread;
 import app.control.sync.MessageCenter;
 
@@ -27,7 +28,8 @@ public class ServerMain {
 	public static String DATABASE_SCHEMA 		= null;
 	public static String DATABASE_FULL_URL		= null;
 	
-	public static boolean RECEIVE_CONN			= true; 
+	public static boolean RECEIVE_CONN			= true;
+	public static boolean VERBOSE				= true;
 	
 	public static String COMPILATION_KEY 		= null;
 
@@ -64,7 +66,7 @@ public class ServerMain {
 					DEBUG = true;
 				}
 			} else if (args[i].equalsIgnoreCase("-wanawstest")) {
-				DATABASE_ADDR = "54.232.241.237";
+				DATABASE_ADDR = "vickysprds.cigpl9dbf0as.sa-east-1.rds.amazonaws.com";
 				DATABASE_LOGIN = "test";
 				DATABASE_PASS = "test";
 				DATABASE_PORT = "3306";
@@ -81,7 +83,7 @@ public class ServerMain {
 			ConnectionListenerThread ch = new ConnectionListenerThread();
 			Thread t1 = new Thread(ch);
 			t1.start();
-			System.out.println(getTimestamp() + " " + "SERVER> Attepting to open port " + PORT);
+			Logger.log("SERVER> Attepting to open port " + PORT);
 			DATABASE_FULL_URL = "jdbc:mysql://"+ ServerMain.DATABASE_ADDR + ":" + ServerMain.DATABASE_PORT + "/" + ServerMain.DATABASE_SCHEMA;
 		} else {
 			System.out.println("Missing or invalid arguments, usage:\n-port xxxx\n"

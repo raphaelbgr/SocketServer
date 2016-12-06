@@ -88,17 +88,24 @@ public class ReceiverManager implements Runnable {
 				if (e.isToDisconnect()) {
 					ClientCenter.getInstance().disconnectClient(port, e, bc, sock);
 					break;
-				} else
-					try {
-						new SendObject().send(sock, e);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-			} catch (Throwable e) {
+				} else {
+					tryResponse(e);
+				}
+
+			} catch (Exception e) {
 				e.printStackTrace();
 				ClientCenter.getInstance().disconnectClient(port, e, bc, sock);
+				tryResponse(e);
 				break;
 			}
+		}
+	}
+
+	public void tryResponse(Exception e) {
+		try {
+			new SendObject().send(sock, e);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 
