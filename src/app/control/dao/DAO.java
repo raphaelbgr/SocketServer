@@ -260,9 +260,8 @@ public class DAO {
 
 
 				//DEBUG
-				if (ServerMain.DEBUG) {
-					System.out.println(query);
-				}
+				Logger.logDb(query);
+
 				DAO.disconnect();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -292,9 +291,7 @@ public class DAO {
 			}
 			
 			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
+			Logger.logDb(query);
 		} else throw new ServerException("DB option is set to -off, server is not authorized to perform a conenction to the Datababse Server.");
 		return count;
 	}
@@ -309,7 +306,7 @@ public class DAO {
 				e.printStackTrace();
 				c = null;
 			} finally {
-				Logger.log("Disconnected from the Database.");
+				Logger.logServer("Disconnected from the Database.");
 			}
 		}
 	}
@@ -389,9 +386,7 @@ public class DAO {
 			DAO.disconnect();
 
 			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
+			Logger.logDb(query);
 		}
 		return result;
 	}
@@ -408,9 +403,7 @@ public class DAO {
 			DAO.disconnect();
 
 			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
+			Logger.logDb(query);
 		}
 		return result;
 	}
@@ -467,9 +460,8 @@ public class DAO {
 			if (disconnectTwice) DAO.disconnect();
 
 			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
+			Logger.logDb(query);
+
 		} else throw new ServerException(ServerMain.getTimestamp() + " SERVER> The option -db off is set, unable to access de database.");
 		return result;
 	}
@@ -521,10 +513,9 @@ public class DAO {
 							st2.execute(updateClientMessageCount);
 							
 							//DEBUG
-							if (ServerMain.DEBUG) {
-								System.out.println(insertMessageQuery);
-								System.out.println(updateClientMessageCount);
-							}
+							Logger.logDb(insertMessageQuery);
+							Logger.logDb(updateClientMessageCount);
+
 							updateSentMsgs(m);
 							DAO.disconnect();
 						}
@@ -564,16 +555,14 @@ public class DAO {
 			}
 			if (cl.getLogin() == null) {
 				credential = cl.getEmail();
-				query = "SELECT EMAIL FROM clients WHERE EMAIL='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+				query = "SELECT EMAIL FROM CLIENTS WHERE EMAIL='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
 			} else {
 				credential = cl.getLogin();
-				query = "SELECT LOGIN FROM clients WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+				query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
 			}
 
 			//DEBUG
-			if (ServerMain.DEBUG) {
-				System.out.println(query);
-			}
+			Logger.logDb(query);
 
 			Statement st = c.prepareStatement(query);
 			rs = st.executeQuery(query);
@@ -593,8 +582,7 @@ public class DAO {
 			String query = "UPDATE CLIENTS SET PHOTO_URL = '" + photoURL + "' WHERE CLIENTS.ID = '" + id + "';";
 			Statement st = c.prepareStatement(query);
 			st.execute(query);
-			if (ServerMain.DEBUG)
-				System.out.println(query);
+			Logger.logDb(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

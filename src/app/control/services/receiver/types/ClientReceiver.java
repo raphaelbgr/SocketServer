@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import app.ServerMain;
 import app.control.communication.SendObject;
 import app.control.dao.DAO;
+import app.control.helpers.Logger;
 import app.control.services.receiver.ReceiverInterface;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
@@ -63,7 +64,7 @@ public class ClientReceiver implements ReceiverInterface {
 							ServerMessage sm = new ServerMessage(ClientCenter.getInstance().getUsersNames());
 							sm.setOnlineUserList(ClientCenter.getInstance().getOnlineUserList());
 							bc.broadCastMessage(sm);
-							System.out.println(ServerMain.getTimestamp() + " " + localClient.toString() + " -> Connected");
+							Logger.logServer(localClient.toString() + " -> Connected");
 
 							// Authorizes the client to enter local online mode
 							ServerMessage smConnect = new ServerMessage();
