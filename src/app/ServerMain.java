@@ -1,5 +1,7 @@
 package app;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +9,8 @@ import java.util.Date;
 import app.control.helpers.Logger;
 import app.control.services.ConnectionListenerThread;
 import app.control.sync.MessageCenter;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 
 public class ServerMain {
 	public static int PORT 						= 2000;
@@ -34,6 +38,17 @@ public class ServerMain {
 	public static String COMPILATION_KEY 		= null;
 
 	public static void main(String[] args) {
+
+		FirebaseOptions options = null;
+		try {
+			options = new FirebaseOptions.Builder()
+                    .setServiceAccount(new FileInputStream("/home/raphaelbernardo/AndroidChat-03afb67dd3f8.json"))
+                    .setDatabaseUrl("https://boreal-rain-87818.firebaseio.com/")
+                    .build();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		FirebaseApp.initializeApp(options);
 
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equalsIgnoreCase("-port") && Integer.valueOf(args[i + 1]) > 0 && Integer.valueOf(args[i + 1]) <= 65535) {

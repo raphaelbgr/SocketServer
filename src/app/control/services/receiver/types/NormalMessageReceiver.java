@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import app.ServerMain;
 import app.control.dao.DAO;
+import app.control.helpers.Logger;
 import app.control.services.receiver.ReceiverInterface;
 import app.control.sync.Broadcaster;
 import app.control.sync.ClientCenter;
@@ -18,7 +19,7 @@ public class NormalMessageReceiver implements ReceiverInterface {
 	@Override
 	public void receive(Object o, Client localClient, Socket sock) throws IOException, ServerException, SQLException {
 		NormalMessage nm = (NormalMessage) o;
-		if (nm.getText().length() < 1001) {
+		if (nm.getText().length() < 1001 && localClient != null) {
 			
 			//BUILD DE MESSAGE RESPONSE
 			nm.setServresponse("SERVER> Received");
@@ -43,7 +44,9 @@ public class NormalMessageReceiver implements ReceiverInterface {
 			//ATTEMPS TO STORE THE MESSAGE ON THE DB
 			DAO.aSyncStoreMessage(nm);
 		} else {
-			throw new ServerException(ServerMain.getTimestamp() + " SERVER> Message greater than 1000 characters.");
+			Logger.logServer("Pending server data or message greater than 1000 bytes..");
+			throw new ServerException(ServerMain.getTimestamp()
+					+ " SERVER> Pending server data or message greater than 1000 bytes..");
 		}
 	}
 }

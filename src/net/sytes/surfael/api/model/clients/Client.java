@@ -257,6 +257,10 @@ public class Client implements Serializable {
 			toString = toString + " " + college;
 		}
 
+		if (!isNullString(platform)) {
+			toString = toString + " (" + platform + ")";
+		}
+
 		return toString;
 	}
 

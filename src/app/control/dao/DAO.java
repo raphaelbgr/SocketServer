@@ -234,7 +234,7 @@ public class DAO {
 				if (cl.getFbToken() == null) {
 					cl.setFbToken(rs.getString("FACEBOOK_TOKEN"));
 				}
-				if (cl.getPhotoUrl() != null || !(cl.getPhotoUrl().equalsIgnoreCase(rs.getString("PHOTO_URL")))) {
+				if (cl.getPhotoUrl() != null) {
 					cl.setPhotoUrl(cl.getPhotoUrl());
 					updateClientPhotoURLAsync(cl.getPhotoUrl(), rs.getString("ID"));
 				}
