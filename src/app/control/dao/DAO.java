@@ -395,7 +395,7 @@ public class DAO {
 		String result = null;
 		if (ServerMain.DB) {
 			DAO.connect();
-			String query = "SELECT LOGIN FROM CLIENTS WHERE EMAIL='"+ email +"'";
+			String query = "SELECT LOGIN FROM `CLIENTS` WHERE EMAIL='"+ email +"'";
 			Statement st = c.prepareStatement(query);
 			ResultSet rs = st.executeQuery(query);
 			rs.next();
@@ -438,7 +438,7 @@ public class DAO {
 			}
 			
 			DAO.connect();
-			String query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='"+ login +"'"
+			String query = "SELECT LOGIN FROM `CLIENTS` WHERE LOGIN='"+ login +"'"
 					+ "AND CRYPTPASSWORD='"+ MD5Password + "';";
 			Statement st = c.prepareStatement(query);
 			ResultSet rs = st.executeQuery(query);
@@ -555,10 +555,10 @@ public class DAO {
 			}
 			if (cl.getLogin() == null) {
 				credential = cl.getEmail();
-				query = "SELECT EMAIL FROM CLIENTS WHERE EMAIL='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+				query = "SELECT EMAIL FROM `CLIENTS` WHERE EMAIL='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
 			} else {
 				credential = cl.getLogin();
-				query = "SELECT LOGIN FROM CLIENTS WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
+				query = "SELECT LOGIN FROM `CLIENTS` WHERE LOGIN='" + credential + "' AND CRYPTPASSWORD='" + MD5Password + "' LIMIT 1;";
 			}
 
 			//DEBUG

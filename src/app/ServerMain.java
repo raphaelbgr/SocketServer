@@ -39,16 +39,16 @@ public class ServerMain {
 
 	public static void main(String[] args) {
 
-		FirebaseOptions options = null;
-		try {
-			options = new FirebaseOptions.Builder()
-                    .setServiceAccount(new FileInputStream("/home/raphaelbernardo/AndroidChat-03afb67dd3f8.json"))
-                    .setDatabaseUrl("https://boreal-rain-87818.firebaseio.com/")
-                    .build();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		FirebaseApp.initializeApp(options);
+//		try {
+//			FirebaseOptions options = null;
+//			options = new FirebaseOptions.Builder()
+//                    .setServiceAccount(new FileInputStream("~/AndroidChat-03afb67dd3f8.json"))
+//                    .setDatabaseUrl("https://boreal-rain-87818.firebaseio.com/")
+//                    .build();
+//			FirebaseApp.initializeApp(options);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equalsIgnoreCase("-port") && Integer.valueOf(args[i + 1]) > 0 && Integer.valueOf(args[i + 1]) <= 65535) {
@@ -98,7 +98,7 @@ public class ServerMain {
 			ConnectionListenerThread ch = new ConnectionListenerThread();
 			Thread t1 = new Thread(ch);
 			t1.start();
-			Logger.log("SERVER> Attepting to open port " + PORT);
+			Logger.log("SERVER> Listening on port " + PORT + "...");
 			DATABASE_FULL_URL = "jdbc:mysql://"+ ServerMain.DATABASE_ADDR + ":" + ServerMain.DATABASE_PORT + "/" + ServerMain.DATABASE_SCHEMA;
 		} else {
 			System.out.println("Missing or invalid arguments, usage:\n-port xxxx\n"

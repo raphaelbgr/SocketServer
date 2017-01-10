@@ -313,7 +313,7 @@ public class Client implements Serializable {
 		this.college = college;
 	}
 	public String getStartTrimester() {
-		return startTrimester.substring(0, 4);
+		return startTrimester != null ? startTrimester.substring(0, 4) : "";
 	}
 	public void setStartTrimester(String startTrimester) {
 		this.startTrimester = startTrimester;
