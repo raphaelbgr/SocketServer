@@ -35,11 +35,7 @@ public class ConnectionListenerThread extends Thread {
 				ReceiverManager rc = new ReceiverManager(sock);
 				Thread t2 = new Thread(rc);
 				t2.start();
-			} catch (BindException e) {
-				e.printStackTrace();
-				takeABreak(5000);
 			} catch (IOException e) {
-				// DUMP THE SOCKETLISTENER
 				e.printStackTrace();
 				takeABreak(5000);
 			}
@@ -48,7 +44,7 @@ public class ConnectionListenerThread extends Thread {
 	
 	private void takeABreak(int duration) {
 		try {
-			Logger.log("Taking a break from port " + ServerMain.PORT + " of " + duration + " secs...");
+			Logger.log("Taking a break from port " + ServerMain.PORT + " of " + duration + "ms...");
 			Thread.sleep(duration);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
